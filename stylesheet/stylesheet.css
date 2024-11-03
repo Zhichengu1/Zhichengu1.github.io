@@ -1,8 +1,32 @@
-html
-{
-    background-color: #171717;
-    overflow: scroll;
+/* Set the base background properties for the HTML element */
+html {
+    background-color: #222; /* A very dark gray */
+    background-image: url('../logos/background-6824_512.gif'); /* Replace with your image path */
+    background-size: cover; /* Optional: cover the entire element */
+    background-repeat: no-repeat; /* Optional: prevent the background from repeating */
+    overflow: scroll; /* Allows scrolling if needed */
+    position: relative; /* Set position for the pseudo-element */
 }
+
+/* Create a pseudo-element for the blur effect */
+html::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../logos/background-6824_512.gif'); /* Same background image */
+    background-size: cover; /* Cover the entire pseudo-element */
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+    filter: blur(100px); /* Set a very strong blur effect */
+    z-index: -100; /* Position it behind other content */
+    opacity: 1; /* Full opacity */
+}
+
+
+
+
 
 header {
     padding: 40px 40px;
@@ -83,6 +107,7 @@ header:first-of-type nav ul li a:hover {
 .middle_img {
     width: 200px;
     height: 200px;
+    margin-right: 200px;
 }
 .middle_img img {
     width: 200px;
@@ -146,7 +171,8 @@ header:first-of-type nav ul li a:hover {
     animation: typing 10s steps(10) infinite alternate, randomfontcolor 4s infinite; /* Loop typing effect */
 }
 
-/* Keyframes for typing animation */
+
+
 @keyframes typing {
     0% {
         width: 0; /* Start with no width */
@@ -168,6 +194,11 @@ header:first-of-type nav ul li a:hover {
     }
 }
 
+footer ul li {
+    list-style-type: none;
+    width: auto;
+    height: auto;
+}
 /*animation*/
 @keyframes word_light {
     0% { transform: translate(0, 0); color: #FF5733; } /* Bright Red */
