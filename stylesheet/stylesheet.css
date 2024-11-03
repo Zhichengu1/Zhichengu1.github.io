@@ -1,0 +1,235 @@
+html
+{
+    background-color: #171717;
+    overflow: scroll;
+}
+
+header {
+    padding: 40px 40px;
+    color: white;
+    position: relative; /* Ensure positioning context */
+    width: 100%; /* Full width for header */
+}
+/* Target only the first header element */
+header:first-of-type {
+    width: auto;
+    float: right;
+    padding-right: 100px;
+    overflow: hidden;
+    margin: 0;
+}
+
+/* Target only the first nav element and its child elements */
+header:first-of-type nav ul {
+    display: flex;
+    list-style-type: none;
+    gap: 100px;
+    margin: 0;
+    padding: 0;
+}
+
+header:first-of-type nav ul li {
+    position: relative; /* Ensure the pseudo-element is positioned correctly */
+    padding: 0;
+}
+
+header:first-of-type nav ul li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 10%; /* Adjust top position */
+    right: -50px; /* Move the line slightly to the left */
+    height: 80%; /* Adjust height to fit better */
+    width: 2px; /* Thickness of the line */
+    background-color: white; /* Color of the line */
+}
+header:first-of-type nav ul li a {
+    text-decoration: none; /* Remove underline */
+    font-size: large; /* Increase font size */
+    color: antiquewhite;
+}
+/* Hover effect */
+header:first-of-type nav ul li a:hover {
+    animation: word_light 4s infinite;
+    box-shadow:  0px -25px 20px -20px lightblue inset;
+}
+
+/* box */
+.box{
+    border: solid 1px white;
+    width: 30px;
+    height: 30px;    
+    animation: moveBox 4s infinite; /* Apply the animation */
+}
+.box:hover{
+    animation: spin 1s linear infinite;
+}
+.matrix {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 5 columns */
+    grid-template-rows: repeat(3, 1fr); /* 5 rows */
+    color: white;
+    font-size: x-large;
+    width: 200px; /* Adjust width as needed */
+    height: 200px; /* Adjust height as needed */
+    padding-top: 30px;
+    padding-left: 30px;
+}
+.box.animate {
+    animation: moveBoxForward 2s forwards;
+}
+.box.animate-reverse {
+    animation:  box_movement 2s infinite;
+}
+.middle_img {
+    width: 200px;
+    height: 200px;
+}
+.middle_img img {
+    width: 200px;
+    height: 200px;
+    cursor: grab; /* Indicates draggable image */
+    transition: transform 0.2s ease; /* Smooth effect on drag */
+}
+
+.middle_img img:hover {
+    animation: img_shake 4s infinite, fadeInOut 4s infinite;
+}
+
+.middle_img img:active {
+    cursor: grabbing; /* Change cursor on click */
+    animation: bounce 0.5s ease; /* Adjust duration and easing as needed */
+}
+
+.top_left {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 9%;
+}
+
+.main_content {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    max-width: 600px; /* Limit the maximum width */
+    margin: 0 auto; /* Center the container within its parent */
+    padding: 20px; /* Optional: Add padding for spacing */
+}
+.main_content h1 {
+    color: #F0E68C;
+    font-family: cursive;
+    font-size: 50px; /* Set a larger font size */
+    text-shadow: 2px 2px 2px #F0E68C; /* Keep your text shadow for effect */
+    animation: bounce 1s infinite; /* Keep your animation */
+}
+
+.main_content p {
+    color: white; /* Example color for the paragraph */
+    font-family: cursive;
+    font-size: 20px; /* Set a suitable font size for the paragraph */
+    margin-top: 80px; /* Add some spacing between the heading and the paragraph */
+    text-indent: 50px; /* Indent the first line of the paragraph */
+}
+
+.text-container {
+    font-size: 36px; /* Adjust the font size as needed */
+    font-family: Arial, sans-serif; /* Font family */
+    overflow: hidden; /* Hide overflow for smooth animation */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.animated-text {
+    display: inline-block; /* Allow animation effects */
+    margin-top: 80px;
+    margin-bottom: 40px;
+    animation: typing 10s steps(10) infinite alternate, randomfontcolor 4s infinite; /* Loop typing effect */
+}
+
+/* Keyframes for typing animation */
+@keyframes typing {
+    0% {
+        width: 0; /* Start with no width */
+    }
+    25% 
+    {
+        width: 25;
+    }
+    50% 
+    {
+        width: 50;
+    }
+    75% 
+    {
+        width: 75;
+    }
+    100% {
+        width: 100%; /* Expand to full width */
+    }
+}
+
+/*animation*/
+@keyframes word_light {
+    0% { transform: translate(0, 0); color: #FF5733; } /* Bright Red */
+    25% { transform: translate(100px, 100px); color: #FFC300; } /* Vivid Yellow */
+    50% { transform: translate(200px, 200px); color: #DAF7A6; } /* Soft Green */
+    100% { transform: translate(300px, 300px); color: #33FF57; } /* Fresh Green */
+    100% { transform: translate(400px, 400px); color: #33FFF5; } /* Bright Cyan */
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    75% { opacity: 1; }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes randomfontcolor{
+    0%  { color: #FFB6C1; } /* Light Pink */
+    10% { color: #FFE4E1; } /* Misty Rose */
+    20% { color: #FFFACD; } /* Lemon Chiffon */
+    30% { color: #E6E6FA; } /* Lavender */
+    40% { color: #ADD8E6; } /* Light Blue */
+    50% { color: #F0E68C; } /* Khaki */
+    60% { color: #FFF0F5; } /* Lavender Blush */
+    70% { color: #D8BFD8; } /* Thistle */
+    80% { color: #B0E0E6; } /* Powder Blue */
+    90% { color: #AFEEEE; } /* Pale Turquoise */
+    100%{ color: #FFB6C1; } /* Light Pink */
+}
+@keyframes randomizeDotsColor {
+    0% { background-color: #FFB6C1; } /* Light Pink */
+    10% { background-color: #FFE4E1; } /* Misty Rose */
+    20% { background-color: #FFFACD; } /* Lemon Chiffon */
+    30% { background-color: #E6E6FA; } /* Lavender */
+    40% { background-color: #ADD8E6; } /* Light Blue */
+    50% { background-color: #F0E68C; } /* Khaki */
+    60% { background-color: #FFF0F5; } /* Lavender Blush */
+    70% { background-color: #D8BFD8; } /* Thistle */
+    80% { background-color: #B0E0E6; } /* Powder Blue */
+    90% { background-color: #AFEEEE; } /* Pale Turquoise */
+    100% { background-color: #FFB6C1; } /* Light Pink */
+}
+@keyframes moveBoxForward {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(20px, 20px); /* Example movement */ }
+}
+@keyframes moveBoxBackward {
+    0% { transform: translate(20px, 20px); }
+    100% { transform: translate(0, 0); /* Example movement */ }
+}
+@keyframes img_shake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(10px, 0); }
+    50% { transform: translate(-10px, 0); }
+    75% { transform: translate(10px, 0); }
+   100% { transform: translate(0, 0); }
+}
+@keyframes bounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.1); }
+    60% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
