@@ -8,6 +8,24 @@ html {
     position: relative; /* Set position for the pseudo-element */
 }
 
+/* Create a pseudo-element for the blur effect */
+html::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../logos/background-6824_512.gif'); /* Same background image */
+    background-size: cover; /* Cover the entire pseudo-element */
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+    filter: blur(100px); /* Set a very strong blur effect */
+    z-index: -100; /* Position it behind other content */
+    opacity: 1; /* Full opacity */
+}
+
+
+
 
 
 header {
@@ -31,7 +49,7 @@ header:first-of-type nav ul {
     list-style-type: none;
     gap: 100px;
     margin: 0;
-    padding: 0;
+    padding: 10px;
 }
 
 header:first-of-type nav ul li {
@@ -55,8 +73,11 @@ header:first-of-type nav ul li a {
 }
 /* Hover effect */
 header:first-of-type nav ul li a:hover {
-    animation: word_light 4s infinite;
+    animation: word_light 4s infinite, keybounce 4s infinite;
     box-shadow:  0px -25px 20px -20px lightblue inset;
+    border: solid 1px white;
+    border-radius: 15%;
+    
 }
 
 /* box */
@@ -104,7 +125,8 @@ header:first-of-type nav ul li a:hover {
 
 .middle_img img:active {
     cursor: grabbing; /* Change cursor on click */
-    animation: bounce 0.5s ease; /* Adjust duration and easing as needed */
+    overflow: hidden;
+    animation: bounce 0.5s ease, spin 4s infinite; /* Adjust duration and easing as needed */
 }
 
 .top_left {
@@ -134,21 +156,22 @@ header:first-of-type nav ul li a:hover {
 .main_content p {
     color: white; /* Example color for the paragraph */
     font-family: cursive;
+    font-size: x-large;
     font-size: 20px; /* Set a suitable font size for the paragraph */
-    margin-top: 80px; /* Add some spacing between the heading and the paragraph */
-    text-indent: 50px; /* Indent the first line of the paragraph */
+    margin-top: 50px; /* Add some spacing between the heading and the paragraph */
+    text-indent: 20px; /* Indent the first line of the paragraph */
 }
 
 .text-container {
     font-size: 36px; /* Adjust the font size as needed */
-    font-family: Arial, sans-serif; /* Font family */
+    font-family: cursive; /* Font family */
     overflow: hidden; /* Hide overflow for smooth animation */
     white-space: nowrap; /* Prevent text wrapping */
 }
 
 .animated-text {
     display: inline-block; /* Allow animation effects */
-    margin-top: 80px;
+    margin-top: 50px;
     margin-bottom: 40px;
     animation: typing 10s steps(10) infinite alternate, randomfontcolor 4s infinite; /* Loop typing effect */
 }
@@ -245,4 +268,11 @@ footer ul li {
     30% { transform: scale(1.1); }
     60% { transform: scale(0.95); }
     100% { transform: scale(1); }
+}
+
+@keyframes keybounce {
+    0% { transform: scale(2); }
+    30% { transform: scale(2.1); }
+    60% { transform: scale(1.95); }
+    100% { transform: scale(2); }
 }
