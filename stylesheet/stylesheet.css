@@ -171,7 +171,7 @@ header nav ul li a:hover {
 
 .text-container {
     font-size: 36px; /* Adjust the font size as needed */
-    font-family: cursive; /* Font family */
+    font-family: 'Times New Roman', Times, serif; /* Font family */
     overflow: hidden; /* Hide overflow for smooth animation */
     white-space: nowrap; /* Prevent text wrapping */
 }
