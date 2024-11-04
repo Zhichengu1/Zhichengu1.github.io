@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="stylesheet/header.css">
+    <link rel="stylesheet" href="stylesheet/skill.css">
+    <script>
+        function loadHeader() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                });
+        }
+        window.onload = loadHeader;
+    </script>
+</head>
+
+<body>
+    <div id="header"></div> <!-- Placeholder for header -->
+    <div class="about-name"> <!-- Specific class for About content -->
+        <h1 style="color:rgb(220, 226, 34)">SKILLS</h1>  
+        <div class="open_braces">&#123;</div>
+        <p style="color: white;">I am proficient in various popular libraries and frameworks, which I continually explore to deepen my understanding and expertise. My approach to skill enhancement is rooted in productivity, allowing me to efficiently integrate new knowledge and techniques into my work. I believe in the importance of consistent growth and am always eager to learn more to improve my capabilities as a developer.</p>
+        <div class="close_braces">&#125;</div>
+    </div>
+    <div class="languages">
+        <ul>
+            <li><img src="icons/js.png"> JavaScript</li>
+            <li><img src= "icons/python.png">Python</li>
+            <li><img src="icons/HTML5.png">HTML</li>
+            <li><img src="icons/java.png">Java</li>
+            <li><img src="icons/cplusplus.png">C++</li>
+        </ul>
+    </div>
+    <div class="vertical_line"> </div>
+
+    <div class="frame_work">
+        <ul>
+            <li><img src="icons/PyTorch.png">Pytorch</li>
+            <li><img src="icons/Flask.png">Flask</li>
+            <li><img src= "icons/Vue.js.png">Vue.js</li>
+            <li><img src="icons/CSS3.png">CSS</li>
+            <li><img src="icons/cplusplus.png">C</li>
+        </ul>
+    </div>
+</body>
+</html>

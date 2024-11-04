@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="stylesheet/header.css">
+    <link rel="stylesheet" href="stylesheet/about.css">
+    <script>
+        function loadHeader() {
+            fetch('header.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('header').innerHTML = data;
+                });
+        }
+        window.onload = loadHeader;
+    </script>
+</head>
+
+<body>
+    <div id="header"></div> <!-- Placeholder for header -->
+    <div class="about-name"> <!-- Specific class for About content -->
+        <h1 >About Me</h1>  
+        <div class="open_braces">&#123;</div>
+        <p>I'm currently a sophomore majoring in Computer Science at Hunter College.</p>
+        <div class="line"><div class="dot"></div>
+        <p style="padding-top:50px; padding-bottom: 50px;">I'm passionate about coding and eager exploring the intricacies of machine learning and software development.</p>
+        <div class="line"><div class="reverse_dot"></div>
+        <p style="padding-top: 50px;">I love working on projects that challenge my creativity and innovation, although I sometimes find myself writing bugs along the way. Each challenge is an opportunity to learn and grow, and I strive to turn ideas into reality through programming.</p>
+        <div class="close_braces">&#125;</div>
+    </div>
+    <div class="about-matrix">
+        <div class="matrix">
+            <div class="box"></div>
+        </div>
+    </div>
+</body>
+</html>
