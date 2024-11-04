@@ -7,19 +7,20 @@ html{
     position: fixed;
     display: flex;
     flex-direction: column;
-    transform: translateY(100px);
     justify-content: left;
+    transform: translateY(45px);
     left: 0;
     right: 0;
     font-family: 'Times New Roman', Times, serif;
     font-size: 1.8rem;
     padding-top: 15px;
     padding-left: 100px;
-    color: rgb(157, 149, 149);
+    color:  rgb(157, 149, 149);
     width: 50%;
 }
 .about-name p {
     padding-left: 100px;
+    color: aliceblue;
     font-weight: bold;
 }
 .line {
@@ -154,7 +155,7 @@ html{
     70% { background-color: #D8BFD8; } /* Thistle */
     80% { background-color: #B0E0E6; } /* Powder Blue */
     90% { background-color: #AFEEEE; } /* Pale Turquoise */
-    100% { background-color: #FFB6C1; } /* Light Pink */
+    100%{ background-color: #FFB6C1; } /* Light Pink */
 }
 
 /* Animation for forward-moving dot */

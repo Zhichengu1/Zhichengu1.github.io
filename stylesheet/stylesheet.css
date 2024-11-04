@@ -215,6 +215,7 @@ footer ul li a img:hover {
     grid-template-rows: repeat(3, 1fr); /* 5 rows */
     color: white;
     font-size: x-large;
+    font-family: 'Times New Roman', Times, serif;
     width: 200px; /* Adjust width as needed */
     height: 200px; /* Adjust height as needed */
     padding-top: 30px;
