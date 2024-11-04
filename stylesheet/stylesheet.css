@@ -19,7 +19,7 @@ html::before {
     background-image: url('../logos/background-6824_512.gif'); /* Same background image */
     background-size: cover; /* Cover the entire pseudo-element */
     background-repeat: no-repeat; /* Prevent the background from repeating */
-    filter: blur(100px); /* Set a very strong blur effect */
+    filter: blur(50px); /* Set a very strong blur effect */
     z-index: -100; /* Position it behind other content */
     opacity: 1; /* Full opacity */
 }
@@ -187,16 +187,26 @@ header nav ul li a:hover {
     display: flex;
     font-size: larger;
 }
-footer ul{
-    transform: translateY(70px);
+footer {
+    height: auto;
+    width: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    right: 0;
+    padding-top: 50px;
+    margin: 0;
 }
 footer ul li {
     list-style-type: none;
-    
 }
+footer ul li a img:hover {
+    animation: bounce 4s infinite;
+}
+
 .bottom-right {
     float:right;
-    transform: translateY(-200px);
+    transform: translateY(-250px);
 }
 
 .matrix2{
