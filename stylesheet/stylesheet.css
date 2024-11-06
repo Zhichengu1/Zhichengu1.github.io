@@ -4,7 +4,7 @@ html {
     background-image: url('../logos/background-6824_512.gif'); /* Replace with your image path */
     background-size: cover; /* Optional: cover the entire element */
     background-repeat: no-repeat; /* Optional: prevent the background from repeating */
-    overflow: hidden; /* Allows scrolling if needed */
+    overflow: scroll; /* Allows scrolling if needed */
     position: relative; /* Set position for the pseudo-element */
 }
 
