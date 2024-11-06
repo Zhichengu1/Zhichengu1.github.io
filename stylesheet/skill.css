@@ -130,18 +130,3 @@ html{
     }
 }
 
-@media (max-width: 768px) {
-    .languages {
-        flex-direction: column; /* Stack items on smaller screens */
-        width: 100%; /* Full width */
-        padding-right: 0; /* Remove padding */
-    }
-    .frame_work {
-        flex-direction: column; /* Stack items on smaller screens */
-        width: 100%; /* Full width */
-        padding-right: 0;
-    }
-    .vertical_line {
-        display: none; 
-    }
-}

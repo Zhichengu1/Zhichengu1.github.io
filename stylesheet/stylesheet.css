@@ -240,32 +240,6 @@ footer ul li a img:hover {
 .box8 { animation: wave 1s 0.7s infinite, colorfulShadow 4s infinite;}
 .box9 { animation: wave 1s 0.8s infinite, colorfulShadow 4s infinite; }
 
-
-@media (max-width: 767px) {
-    header nav ul {
-        flex-direction: column; /* Stack navigation items vertically */
-        align-items: center; /* Center items */
-    }
-    
-    .top_left {
-        flex-direction: column; /* Stack items vertically */
-        align-items: center; /* Center items */
-    }
-    
-    .main_content {
-        padding: 20px; /* Add padding for better readability */
-    }
-    
-    .matrix2 {
-        display: grid; /* Use grid for boxes */
-        grid-template-columns: repeat(3, 1fr); /* 3 columns */
-        gap: 10px; /* Spacing between boxes */
-    }
-}
-
-
-
-
 @keyframes typing {
     0% {
         width: 0; /* Start with no width */
