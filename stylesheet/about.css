@@ -4,13 +4,10 @@ html{
 
 }
 .about-name{
-    position: fixed;
     display: flex;
     flex-direction: column;
     justify-content: left;
     transform: translateY(45px);
-    left: 0;
-    right: 0;
     font-family: 'Times New Roman', Times, serif;
     font-size: 1.8rem;
     padding-top: 15px;
