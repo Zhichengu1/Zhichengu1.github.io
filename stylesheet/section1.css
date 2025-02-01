@@ -8,7 +8,7 @@ html, body {
     display: block;
     width: 100%;
     background-color: rgb(24, 24, 26);
-    font-family: 'Lobster', cursive;
+    font-family: 'Arial', sans-serif;
     height: fit-content;
     justify-content: center;
     align-items: center;
@@ -39,7 +39,7 @@ html, body {
 }
 
 #project {
-    font-family: 'Lobster', cursive;
+    font-family: 'Arial', sans-serif;
     font-size: x-large;
     background: linear-gradient(135deg, #f0f0f0, #dcdcdc);  /* Light grey gradient */
     background-image: url('https://www.transparenttextures.com/patterns/asfalt.png');  /* Subtle texture */
@@ -313,7 +313,7 @@ html, body {
     width: 50%;
     text-align: center;
     gap: 5px;
-    font-family: 'Lobster', cursive;
+    font-family: 'Arial', sans-serif;
     font-size: large;
     color: #F0F0F0;
     transform: translateY(-100px);
@@ -432,7 +432,7 @@ html, body {
     display: flex;
     flex-direction: row;
     gap: 50px;
-    font-family: 'Lobster', cursive;
+    font-family: 'Arial', sans-serif;
     padding-top: 50px;
     width: 35%;
     border-radius: 15%;
@@ -448,7 +448,7 @@ html, body {
 .bottom_right {
     display: flex;
     flex-direction: column;
-    font-family: 'Lobster', cursive;
+    font-family: 'Arial', sans-serif;
     padding-top: 50px;
     font-size: large;
     width: 1000px;
