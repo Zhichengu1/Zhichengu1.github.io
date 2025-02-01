@@ -434,7 +434,7 @@ html, body {
     gap: 50px;
     font-family: 'Arial', sans-serif;
     padding-top: 50px;
-    width: 35%;
+    width: fit-content;
     border-radius: 15%;
     padding: 40px; /* Internal padding adds space inside the border */
     margin: 20px; /* Adds space outside the border to move the section away from other elements */
@@ -468,11 +468,14 @@ html, body {
 
 .bottom_left ul {
     list-style: none;
+    width: fit-content;
+
 }
 
 .bottom_left ul li {
     padding-top: 10px;
     cursor: pointer;
+    width: fit-content;
     border-bottom: solid 4px black;
     border-radius: 15%;
 }
@@ -501,6 +504,7 @@ html, body {
     border-radius: 20%;
     padding: 10px;
     height: fit-content;
+    width: fit-content;
 }
 .horizontal-timeline::before {
     content: '';
