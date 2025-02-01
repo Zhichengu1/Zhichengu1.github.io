@@ -1,30 +1,36 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const boxes = document.querySelectorAll('.box');
-    const duration = 2000; // Duration of the animation in ms
-
-    function animateBoxes(forward = true) {
-        boxes.forEach((box, index) => {
-            setTimeout(() => {
-                box.classList.add('animate');
-                
-                // Remove the class after the animation duration to allow reapplying
-                setTimeout(() => {
-                    box.classList.remove('animate');
-                }, duration);
-            }, index * 200); // Adjust timing as needed
-        });
-
-        // Re-run the function after the last animation completes
-        setTimeout(() => {
-            animateBoxes(!forward); // Switch direction
-        }, boxes.length * 200 + duration);
+window.addEventListener('scroll', function() {
+    const line = document.querySelector('.horizontal-line');
+    
+    // Get the position of the element relative to the viewport
+    const linePosition = line.getBoundingClientRect();
+    
+    // Check if the element is in the viewport
+    if (linePosition.top <= window.innerHeight && linePosition.bottom >= 0) {
+        // Add the animation class when it's in the viewport
+        if (!line.classList.contains('animate')) {
+            line.classList.add('animate');
+        }
+    } else {
+        // Optionally, remove the animation to allow it to trigger again on scroll
+        line.classList.remove('animate');
     }
-
-    animateBoxes(); // Start the initial animation
-
-    boxes.forEach((box) => {
-        box.addEventListener('mouseover', () => {
-            animateBoxes();
-        }); // Restart animation on hover
-    });
 });
+
+window.addEventListener('scroll', function() {
+    const title = document.querySelector('.title');
+    
+    // Get the position of the element relative to the viewport
+    const titlePosition = title.getBoundingClientRect();
+    
+    // Check if the element is in the viewport
+    if (titlePosition.top <= window.innerHeight && titlePosition.bottom >= 0) {
+        // Add the 'animate' class when the element is in the viewport
+        if (!title.classList.contains('animate')) {
+            title.classList.add('animate');
+        }
+    } else {
+        // Optionally, remove the animation class to reset the animation when the element goes out of view
+        title.classList.remove('animate');
+    }
+});
+

@@ -1,370 +1,62 @@
-/* Set the base background properties for the HTML element */
-html {
-    background-color: #222; /* A very dark gray */
-    background-image: url('../logos/background-6824_512.gif'); /* Replace with your image path */
-    background-size: cover; /* Optional: cover the entire element */
-    background-repeat: no-repeat; /* Optional: prevent the background from repeating */
-    overflow: scroll; /* Allows scrolling if needed */
-    position: relative; /* Set position for the pseudo-element */
-}
-
-/* Create a pseudo-element for the blur effect */
-html::before {
-    content: "";
-    position: absolute;
+header {
+    padding: 10px;
+    position: fixed; /* Makes the header stay on top while scrolling */
+    font-family: 'Lobster', cursive;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../logos/background-6824_512.gif'); /* Same background image */
-    background-size: cover; /* Cover the entire pseudo-element */
-    background-repeat: no-repeat; /* Prevent the background from repeating */
-    filter: blur(50px); /* Set a very strong blur effect */
-    z-index: -100; /* Position it behind other content */
-    opacity: 1; /* Full opacity */
+    background-color: #333333;
+    width: 100%;
+    height: 70px;
+    box-shadow: 
+        0px 1px 2px rgba(255, 255, 255, 0.04),
+        0px 1px 2px rgba(255, 255, 255, 0.06),
+        0px 2px 4px rgba(0, 0, 0, 0.08),
+        0px 4px 6px rgba(0, 0, 0, 0.18);
+    z-index: 1000; /* Ensures it's above other elements */
 }
-header {
-    padding: 20px; /* Space within the header */
-    position: fixed; /* Keeps the header at the top of the screen */
-    top: 0; /* Aligns to the top of the viewport */
-    left: 0; /* Aligns to the left edge */
-    width: 100%; /* Full width */
-    z-index: 1000; /* Ensures header stays above other content */
-    
+
+body {
+    padding-top: 80px; /* Adds space so content doesn't overlap with the fixed header */
 }
 
 header:hover {
     box-shadow: 
-    0px 5px 5px rgba(255, 255, 255, 0.2), /* Light white shadow */
-    0px 2px 4px rgba(255, 255, 255, 0.1), /* Softer white shadow */
-    0px 4px 8px rgba(255, 255, 255, 0.05), /* Very soft white shadow */
-    0px 8px 16px rgba(255, 255, 255, 0.01); /* Faint white shadow */
+        0px 4px 6px rgba(255, 255, 255, 0.2), /* Softer white shadow with more glow */
+        0px 2px 4px rgba(255, 255, 255, 0.3), /* Light white shadow with glow */
+        0px 6px 8px rgba(0, 0, 0, 0.1), /* Subtle dark shadow */
+        0px 8px 12px rgba(0, 0, 0, 0.25); /* Slightly darker shadow for more contrast */
 }
 
 header nav ul {
     display: flex;
     list-style-type: none;
-    gap: 100px;
-    margin: 0;
+    gap: 50px;
+    margin-right: 40px;
     padding: 10px;
     padding-top: 20px;
-    justify-content: center; /* Center align navigation items */
+    justify-content: right; /* Center align navigation items */
     transform: translateX(-20px);
-
 }
-
+header nav ul div {
+    color: antiquewhite;
+    position: relative;
+    left: -50%;
+    font-size: x-large;
+}
 header nav ul li {
     position: relative;
-    padding: 0;
 }
-
-header nav ul li:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    top: 10%; /* Adjust top position */
-    right: -50px; /* Move the line slightly to the left */
-    height: 100%; /* Adjust height to fit better */
-    width: 1px; /* Thickness of the line */
-    background-color: white; /* Color of the line */
-}
-
 header nav ul li a {
     text-decoration: none;
-    font-size: large;
+    font-size: medium;
     color: antiquewhite;
-    padding: 5px 5px;
-    border-radius: 10%;
-    animation: colorfulShadow 1s 0s;
+    padding: 10px 10px;
 }
-
 /* Hover effect */
 header nav ul li a:hover {
     animation: word_light 4s infinite, keybounce 4s infinite;
     box-shadow:  0px -25px 20px -20px lightblue inset;
-    border: solid 3px white;
-    width:"20px";
+    border: solid 3px #888888; /* Light gray */
+    width:"30px";
     border-radius: 15%;
-}
-/* box */
-.box{
-    border: solid 1px white;
-    width: 30px;
-    height: 30px;    
-    animation: moveBox 4s infinite; /* Apply the animation */
-}
-.box:hover{
-    animation: spin 1s linear infinite;
-}
-.matrix {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 5 columns */
-    grid-template-rows: repeat(3, 1fr); /* 5 rows */
-    color: white;
-    font-size: x-large;
-    width: 200px; /* Adjust width as needed */
-    height: 200px; /* Adjust height as needed */
-    padding-top: 30px;
-    padding-left: 30px;
-}
-.box.animate {
-    animation: moveBoxForward 2s forwards;
-}
-.box.animate-reverse {
-    animation:  box_movement 2s infinite;
-}
-.middle_img {
-    width: 200px;
-    height: 200px;
-    margin-right: 200px;
-}
-.middle_img img {
-    width: 200px;
-    height: 200px;
-    cursor: grab; /* Indicates draggable image */
-    transition: transform 0.2s ease; /* Smooth effect on drag */
-}
-
-.middle_img img:hover {
-    animation: img_shake 4s infinite, fadeInOut 4s infinite;
-}
-
-.middle_img img:active {
-    cursor: grabbing; /* Change cursor on click */
-    overflow: hidden;
-    animation: bounce 0.5s ease, img_shake 4s infinite; /* Adjust duration and easing as needed */
-}
-
-.top_left {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    transform: translateY(100px); /* Moves it down by 100px */
-    height: 9%;
-}
-
-
-.main_content {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    justify-content: center; /* Center items vertically */
-    align-items: center; /* Center items horizontally */
-    max-width: 600px; /* Limit the maximum width */
-    margin: 0 auto; /* Center the container within its parent */
-    padding: 20px; /* Optional: Add padding for spacing */
-}
-.main_content h1 {
-    color: #F0E68C;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 50px; /* Set a larger font size */
-    text-shadow: 2px 2px 2px #F0E68C; /* Keep your text shadow for effect */
-    animation: bounce 1s infinite; /* Keep your animation */
-}
-
-.main_content p {
-    color: white; /* Example color for the paragraph */
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: bold;
-    font-size: x-large;
-    font-size: 20px; /* Set a suitable font size for the paragraph */
-    margin-top: 50px; /* Add some spacing between the heading and the paragraph */
-}
-
-.text-container {
-    font-size: 36px; /* Adjust the font size as needed */
-    font-family: 'Times New Roman', Times, serif; /* Font family */
-    overflow: hidden; /* Hide overflow for smooth animation */
-    white-space: nowrap; /* Prevent text wrapping */
-}
-
-.animated-text {
-    display: inline-block; /* Allow animation effects */
-    margin-top: 50px;
-    margin-bottom: 40px;
-    animation: typing 10s steps(10) infinite alternate, randomfontcolor 4s infinite; /* Loop typing effect */
-}
-
-.about {
-    display: flex;
-    font-size: larger;
-}
-footer {
-    height: auto;
-    width: auto;
-    left: 0;
-    right: 0;
-    top: 0;
-    right: 0;
-    padding-top: 50px;
-    margin: 0;
-}
-footer ul li {
-    list-style-type: none;
-}
-footer ul li a img:hover {
-    animation: bounce 4s infinite;
-}
-
-.bottom-right {
-    float:right;
-    transform: translateY(-250px);
-}
-
-.matrix2{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 5 columns */
-    grid-template-rows: repeat(3, 1fr); /* 5 rows */
-    color: white;
-    font-size: x-large;
-    font-family: 'Times New Roman', Times, serif;
-    width: 200px; /* Adjust width as needed */
-    height: 200px; /* Adjust height as needed */
-    padding-top: 30px;
-    padding-left: 30px;
-}
-.box1, .box2, .box3, .box4, .box5, .box6, .box7, .box8, .box9 {
-    border: solid 1px white;
-    width: 30px;
-    height: 30px;
-    display: inline-block;
-    margin: 5px;
-    transition: transform 0.5s ease;
-}
-/* Trigger animations with a class */
-.box1 { animation: wave 1s 0s infinite, colorfulShadow 4s infinite;}
-.box2 { animation: wave 1s 0.1s infinite, colorfulShadow 4s infinite; }
-.box3 { animation: wave 1s 0.2s infinite, colorfulShadow 4s infinite;}
-.box4 { animation: wave 1s 0.3s infinite, colorfulShadow 4s infinite;}
-.box5 { animation: wave 1s 0.4s infinite, colorfulShadow 4s infinite;}
-.box6 { animation: wave 1s 0.5s infinite, colorfulShadow 4s infinite;}
-.box7 { animation: wave 1s 0.6s infinite, colorfulShadow 4s infinite;}
-.box8 { animation: wave 1s 0.7s infinite, colorfulShadow 4s infinite;}
-.box9 { animation: wave 1s 0.8s infinite, colorfulShadow 4s infinite; }
-
-@keyframes typing {
-    0% {
-        width: 0; /* Start with no width */
-    }
-    25% 
-    {
-        width: 25;
-    }
-    50% 
-    {
-        width: 50;
-    }
-    75% 
-    {
-        width: 75;
-    }
-    100% {
-        width: 100%; /* Expand to full width */
-    }
-}
-/* Keyframes for colorful box shadow */
-@keyframes colorfulShadow {
-    0% { box-shadow: 0 0 5px red, 0 0 10px blue; }
-    25% { box-shadow: 0 0 10px green, 0 0 20px orange; }
-    50% { box-shadow: 0 0 15px purple, 0 0 30px yellow; }
-    75% { box-shadow: 0 0 20px cyan, 0 0 40px magenta; }
-    100% { box-shadow: 0 0 5px red, 0 0 10px blue; }
-}
-/* Keyframes for wave motion */
-@keyframes wave {
-    0%, 100% { transform: translateY(0); }
-    25% { transform: translate(15px,-15px); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(30px); }
-}
-
-
-/*animation*/
-@keyframes word_light {
-    0% { transform: translate(0, 0); color: #FF5733; } /* Bright Red */
-    25% { transform: translate(100px, 100px); color: #FFC300; } /* Vivid Yellow */
-    50% { transform: translate(200px, 200px); color: #DAF7A6; } /* Soft Green */
-    100% { transform: translate(300px, 300px); color: #33FF57; } /* Fresh Green */
-    100% { transform: translate(400px, 400px); color: #33FFF5; } /* Bright Cyan */
-}
-
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0; }
-    75% { opacity: 1; }
-}
-
-@keyframes reverse_spin {
-    0% { transform: rotate(360deg); }
-    100% { transform: rotate(0deg); }
-}
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-@keyframes move_box {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(0, 60px); }
-    50% { transform: translate(0, -30px); }
-    75% { transform: translate(0, -60px); }
-    100% { transform: translate(0, 0); }
-}
-@keyframes randomfontcolor{
-    0%  { color: #FFB6C1; } /* Light Pink */
-    10% { color: #FFE4E1; } /* Misty Rose */
-    20% { color: #FFFACD; } /* Lemon Chiffon */
-    30% { color: #E6E6FA; } /* Lavender */
-    40% { color: #ADD8E6; } /* Light Blue */
-    50% { color: #F0E68C; } /* Khaki */
-    60% { color: #FFF0F5; } /* Lavender Blush */
-    70% { color: #D8BFD8; } /* Thistle */
-    80% { color: #B0E0E6; } /* Powder Blue */
-    90% { color: #AFEEEE; } /* Pale Turquoise */
-    100%{ color: #FFB6C1; } /* Light Pink */
-}
-@keyframes randomizeDotsColor {
-    0% { background-color: #FFB6C1; } /* Light Pink */
-    10% { background-color: #FFE4E1; } /* Misty Rose */
-    20% { background-color: #FFFACD; } /* Lemon Chiffon */
-    30% { background-color: #E6E6FA; } /* Lavender */
-    40% { background-color: #ADD8E6; } /* Light Blue */
-    50% { background-color: #F0E68C; } /* Khaki */
-    60% { background-color: #FFF0F5; } /* Lavender Blush */
-    70% { background-color: #D8BFD8; } /* Thistle */
-    80% { background-color: #B0E0E6; } /* Powder Blue */
-    90% { background-color: #AFEEEE; } /* Pale Turquoise */
-    100% { background-color: #FFB6C1; } /* Light Pink */
-}
-@keyframes moveBoxForward {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(20px, 20px); /* Example movement */ }
-}
-@keyframes moveBoxBackward {
-    0% { transform: translate(20px, 20px); }
-    100% { transform: translate(0, 0); /* Example movement */ }
-}
-@keyframes img_shake {
-    0% { transform: translate(0, 0); }
-    25% { transform: translate(0, 30px); }
-    50% { transform: translate(0, -30px); }
-    75% { transform: translate(0, -30px); }
-    100% { transform: translate(0, 0); }
-}
-@keyframes bounce {
-    0% { transform: scale(1); }
-    30% { transform: scale(1.1); }
-    60% { transform: scale(0.95); }
-    100% { transform: scale(1); }
-}
-@keyframes box_bounce {
-    0% { transform: scale(2); }
-    30% { transform: scale(5); }
-    60% { transform: scale(6); }
-    100% { transform: scale(1); }
-}
-@keyframes box_move1 {
-    
-}
-@keyframes keybounce {
-    0% { transform: scale(2); }
-    30% { transform: scale(2.1); }
-    60% { transform: scale(1.95); }
-    100% { transform: scale(2); }
 }
