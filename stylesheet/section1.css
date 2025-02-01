@@ -40,6 +40,7 @@ html, body {
 
 #project {
     font-family: 'Lobster', cursive;
+    font-size: x-large;
     background: linear-gradient(135deg, #f0f0f0, #dcdcdc);  /* Light grey gradient */
     background-image: url('https://www.transparenttextures.com/patterns/asfalt.png');  /* Subtle texture */
     background-size: cover;
@@ -434,6 +435,14 @@ html, body {
     font-family: 'Lobster', cursive;
     padding-top: 50px;
     width: 35%;
+    border-radius: 15%;
+    padding: 40px; /* Internal padding adds space inside the border */
+    margin: 20px; /* Adds space outside the border to move the section away from other elements */
+}
+
+.bottom_left:hover {
+    background-color: transparent;
+    transform: scale(1.05);
 }
 
 .bottom_right {
@@ -484,7 +493,15 @@ html, body {
     padding: 20px 0;
     position: relative;
 }
-
+.techstack-title {
+    border: solid 3px transparent;
+    background: linear-gradient(135deg, #bddad3, #9b8e8e);
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border-radius: 20%;
+    padding: 10px;
+    height: fit-content;
+}
 .horizontal-timeline::before {
     content: '';
     position: absolute;
