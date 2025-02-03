@@ -347,7 +347,7 @@ html, body {
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.home-buttom a {
+.introtext a {
     text-decoration-line: none;
     color: white;
 }
