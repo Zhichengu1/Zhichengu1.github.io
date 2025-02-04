@@ -242,22 +242,30 @@ html, body {
     padding-top: 100px;
     margin-left: 70px;
     width: 100%;
+    height: fit-content;
 }
 
 .layout2 {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    flex-direction: row;
+    position: relative;
+    width: 100%; /* Ensure it spans the full container width */
+    gap: 30vw; /* Use a percentage-based gap for responsiveness */
     height: fit-content;
+    justify-content: center; /* Centers the content horizontally */
+    margin: 0 auto; /* Ensures the layout is centered */
 }
+
+
 
 .in {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    height: fit-content;
     width: fit-content;
     margin-left: 370px;
-    margin-top: 170px;
+    margin-top: 8%;
 }
 
 .in a {
