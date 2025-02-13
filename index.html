@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Update your existing meta viewport tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <link rel="icon" href="logos/polygonal-letter-z-of-small-triangles.png">
     <title>Portfolio</title>
     <link rel="stylesheet" href="stylesheet/section1.css">
+    <link rel="stylesheet" href="stylesheet/home.css">
     <link rel="stylesheet" href="stylesheet/stylesheet.css">
 </head>
 <body>
@@ -35,56 +37,30 @@
         </nav>
     </header>
 
-    <!-- Home Section -->
-    <section id="Home">
-        <div class="layout1">
-            <div style="font-size: xx-large; color: antiquewhite;">
-                <strong>Welcome To My Portfolio 👋</strong>
-            </div>
-            <div>
-                <img src="icons/IMG_7371.jpg" alt="Profile Image">
-            </div>
+<!-- Home Section -->
+<section id="Home">
+    <div class="home-container">
+        <!-- Profile Image First -->
+        <div class="profile-image-wrapper">
+            <img src="icons/IMG_7371.jpg" alt="Profile Image" class="profile-image">
+        </div>
+        <div class="middle-text">
+            Full-Stack Developer | Machine-Learning Engineer | Software Engineer
         </div>
         
+        <!-- Intro Text -->
         <div class="introtext">
-            <div>
-                I am currently an undergraduate student studying <strong>Computer Science.</strong>
-            </div> 
-            <div>
-                I have a strong passion for <strong>Software Development, Machine Learning, and Systems Design.</strong>
-            </div>
-            <div>
-                My past project encompass <strong>Frontend, Backend, and Machine Learning</strong> development, with a focus on building: 
-            </div>
-            <div><span style="color:#F0F0F0;"> <strong><em>Efficient and Impactful Applications..</em></strong></span></div>
-            <a href="#project">
-            <div class="home-buttom">
-                <em>~ View My Work </em>
-            </div>
-            </a>
+            <h1 class="welcome-heading" style="color: rgb(146, 168, 105);">Welcome To My Portfolio 👋</h1>
+            <p class="intro-line">I am currently an undergraduate student studying <strong>Computer Science.</strong></p>
+            <p class="intro-line">I have a strong passion for <strong>Software Development, Machine Learning, and Systems Design.</strong></p>
+            <p class="intro-line">My past projects encompass <strong>Frontend, Backend, and Machine Learning</strong> development, with a focus on building:</p>
+            <p class="highlight-line"><strong><em>Efficient and Impactful Applications...</em></strong></p>
+            <a href="#project" class="cta-button">~ View My Work</a>
         </div>
-        <div class="layout2">
-            <div class="in">
-                <a href="https://www.projectbasta.com/gswep-code2career">
-                    <div class="in2">
-                        <img src="logos/basta.png">
-                        <div>Google Software Engineer Program</div>
-                        <div>Code2Career Challenge Fellow</div>
-                        <div>Cohort 2024 Fall</div>
-                        <div>Mentor: Tony</div>
-                    </div>
-                </a>
-            </div>
-            <div class="snake-position">
-                <div class="snake-head">
-                    <div class="snake-eye right-eye" style="transform: translateX(15px);"></div> <!-- Right eye -->
-                    <div class="snake-mouth"></div>
-                    <div class="snake-eye left-eye" style="transform: translateX(-10px);"></div> <!-- Left eye -->
-                </div>
-            </div> 
-           
-        </div>
-    </section>
+
+    </div>
+</section>
+
 
     <!-- Skills Section -->
     <section id="skill">
@@ -92,7 +68,7 @@
             <div class="Tech-stack">
             <div class="techstack-title">My Skills Stack</div>
             <div>
-                <ul class="framework-lang-text">
+                <ul class="framework-lang-text">    
                     <li>PyTorch</li>
                     <li>Flask</li>
                     <li>Vue.js</li>

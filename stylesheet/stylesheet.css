@@ -1,57 +1,72 @@
-header {
-    padding: 1px;
-    position: fixed; /* Makes the header stay on top while scrolling */
+/* General Reset */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
     font-family: 'Lobster', cursive;
+}
+
+/* Header */
+header {
+    position: fixed;
     top: 0;
     left: 0;
-    background-color: #333333;
     width: 100%;
-    height: fit-content;
-    box-shadow: 
-        0px 1px 2px rgba(255, 255, 255, 0.04),
-        0px 1px 2px rgba(255, 255, 255, 0.06),
-        0px 2px 4px rgba(0, 0, 0, 0.08),
-        0px 4px 6px rgba(0, 0, 0, 0.18);
-    z-index: 1; /* Ensures it's above other elements */
+    background-color: rgba(21, 20, 20, 0.8);
+    padding: 10px 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
+
 header:hover {
-    box-shadow: 
-        0px 4px 6px rgba(255, 255, 255, 0.2), /* Softer white shadow with more glow */
-        0px 2px 4px rgba(255, 255, 255, 0.3), /* Light white shadow with glow */
-        0px 6px 8px rgba(0, 0, 0, 0.1), /* Subtle dark shadow */
-        0px 8px 12px rgba(0, 0, 0, 0.25); /* Slightly darker shadow for more contrast */
+    box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.2), 
+                0px 2px 4px rgba(255, 255, 255, 0.3), 
+                0px 6px 8px rgba(0, 0, 0, 0.1), 
+                0px 8px 12px rgba(0, 0, 0, 0.25);
 }
 
 header nav ul {
     display: flex;
-    list-style-type: none;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
     gap: 50px;
-    margin-right: 40px;
-    padding: 10px;
-    padding-top: 20px;
-    justify-content: flex-end; /* Align navigation items to the right */
-    transform: translateX(-20px);
 }
-header nav ul div {
-    color: antiquewhite;
-    position: relative;
-    left: -50%;
-    font-size: x-large;
-    width: fit-content;
-    position: relative;
-}
+
 header nav ul li {
     position: relative;
 }
+
 header nav ul li a {
     text-decoration: none;
-    font-size: medium;
+    font-size: 1rem;
     color: antiquewhite;
-    padding: 10px 10px;
+    padding: 10px;
+    transition: all 0.3s ease;
 }
-/* Hover effect */
+
 header nav ul li a:hover {
-    box-shadow:  0px -25px 20px -20px lightblue inset;
-    border: solid 3px #888888; /* Light gray */
+    box-shadow: 0px -25px 20px -20px lightblue inset;
+    border: solid 3px #888888;
     border-radius: 15%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+    
+    header nav ul {
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 20px;
+    }
+    
+    header nav ul li {
+        margin: 5px 0;
+    }
 }

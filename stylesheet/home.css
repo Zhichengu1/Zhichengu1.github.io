@@ -1,0 +1,233 @@
+/* Root Variables */
+:root {
+    --spacing-unit: 1rem;
+    --max-width: 900px;
+}
+/* Ensure Home Section is Below Header */
+#Home {
+    background-color: #030303; /* Light gray as background */
+    background-image: url("https://www.transparenttextures.com/patterns/vintage-speckles.png");
+    padding: clamp(10rem, 10vw, 7rem) 1rem 2rem; /* Ensures space below fixed header */
+    min-height: auto; /* Allows content to dictate height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Centered Home Container */
+.home-container {
+    max-width: var(--max-width);
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Profile Image Styling */
+.profile-image-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.profile-image {
+    width: min(200px, 60vw);
+    border-radius: 10%;
+    border: 8px dotted transparent;
+    background-image: linear-gradient(45deg, #555555, #6e6e6e, #8e8e8e, #a7a7a7);
+    background-size: 400% 400%;
+    animation: borderAnimation 2s ease-in-out infinite;
+}
+.profile-image:hover {
+    transform: scale(1.05);
+}
+
+/* Intro Text */
+.introtext {
+    max-width: 700px;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    color: #F0F0F0;
+    padding: 2rem;
+    text-align: center;
+    border-top: 3px solid transparent; /* Create a transparent border */
+    border-bottom: 3px solid transparent; /* Create a transparent border */
+    border-radius: 10px; /* Rounded corners */
+    background-clip: padding-box; /* Ensures the gradient only appears on the border */
+    border-image: linear-gradient(135deg, #6c7d8b, #3a3a3a) 1; /* Gradient applied to the border */
+    position: relative; /* To make sure the border effect is contained */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle box-shadow for depth */
+}
+
+/* Hover Effects: Border Animation & Box Shadow */
+.introtext:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+    animation: borderAnimation 0.5s ease-in-out forwards; /* Apply border animation */
+}
+
+
+/* Individual Intro Line Styling */
+.intro-line {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    line-height: 1.8; /* Increased line height for more readable text */
+    margin: 1.5rem 0; /* Increased margin between lines for more space */
+}
+
+/* Highlighted Line Styling */
+.highlight-line {
+    color: #F0F0F0;
+    margin: 2.5rem 0; /* Increased space between the highlighted line */
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+}
+
+
+.cta-button {
+    position: relative;
+    font-family: 'Lobster', cursive;
+    display: inline-block;
+    padding: clamp(0.5rem, 1.2vw, 0.8rem) clamp(1rem, 2.5vw, 1.6rem);
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    border: solid 1px #E0E0E0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #282f2d, #292929);
+    color: rgb(146, 168, 105);
+    text-decoration: none;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+    overflow: hidden;
+    width: fit-content;
+    min-width: 130px; /* Slightly reduced */
+    max-width: 60%; /* Prevents excessive width */
+    z-index: 1;
+}
+
+/* Background Expansion Effect */
+.cta-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(135deg, #040709, #3a3a3a);
+    transition: width 0.4s ease-in-out;
+    z-index: -1;
+}
+
+/* On Hover: Expand Background & Scale Button */
+.cta-button:hover::before {
+    width: 100%;
+}
+
+.cta-button:hover {
+    transform: scale(1.05);
+}
+
+/* Ensure Text Stays Above Background */
+.cta-button span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Middle Text Styling */
+.middle-text {
+    font-size: clamp(1rem, 2vw, 1.4rem); /* Responsive font size */
+    font-family: 'Lobster', cursive;
+    color: rgb(0, 0, 0);
+    font-weight: 600; /* Professional weight */
+    text-align: center;
+    background: linear-gradient(135deg, #4C4C6C, #2A3A59); /* Cool Gray to Deep Blue */
+    padding: 8px 18px;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden; /* Ensures smooth animation */
+    transition: color 0.3s ease-in-out;
+}
+
+/* Left-to-Right Animation */
+.middle-text::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* Hover Effect: Subtle Color Change */
+.middle-text:hover {
+    color: #fff; /* Lighter text color on hover */
+}
+
+/* Animation on Hover: Text reveals left to right */
+.middle-text:hover::before {
+    left: 0%; /* Moves the background gradient from left to right */
+}
+
+/* Ensure Text is Above the Animation */
+.middle-text span {
+    position: relative;
+    z-index: 1; /* Ensures text stays above the animated background */
+}
+
+/* Border Animation Keyframes */
+@keyframes borderAnimation {
+    0% {
+        border-image: linear-gradient(135deg, #6c7d8b, #3a3a3a) 1;
+    }
+    50% {
+        border-image: linear-gradient(135deg, #a0a0a0, #5a5a5a) 1; /* Lighter gradient on hover */
+    }
+    100% {
+        border-image: linear-gradient(135deg, #6c7d8b, #3a3a3a) 1; /* Returns to original gradient */
+    }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #Home {
+        padding-top: clamp(6rem, 12vw, 9rem); /* Ensures proper spacing below header */
+    }
+
+    .cta-button {
+        width: 90%; /* Make button full width on smaller screens */
+        max-width: 290px; /* Prevent excessive stretching */
+        font-size: clamp(0.9rem, 1.2vw, 1rem);
+    }
+
+    .middle-text {
+        font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+        padding: 8px 16px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .profile-image {
+        width: 70vw;
+    }
+
+    .cta-button {
+        width: 85%;
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+    }
+
+    .middle-text {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+}
+
+/* Border animation */
+@keyframes borderAnimation {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+}

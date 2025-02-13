@@ -4,27 +4,7 @@ html, body {
     overflow-x: hidden;
 }
 
-#Home {
-    display: block;
-    width: 100%;
-    background-color: rgb(24, 24, 26);
-    font-family: 'Arial', sans-serif;
-    height: fit-content;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
-#Home .layout1 img {
-    width: 250px;
-    border-radius: 10%;
-    border: 8px dotted transparent;
-    background-image: linear-gradient(45deg, #555555, #6e6e6e, #8e8e8e, #a7a7a7);
-    background-size: 400% 400%;
-    -webkit-background-clip: border-box;
-    transform: translateY(120px);
-    animation: borderAnimation 2s ease-in-out infinite;
-}
 
 #skill, #project {
     display: block;
@@ -51,85 +31,7 @@ html, body {
     border-radius: 10px;
 }
 
-/* Snake appearance */
-/* Style for the snake head */
-.snake-position {
-    width: fit-content;
-    margin-right: 300px;
-    height: fit-content;
-}
 
-.snake-head {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, antiquewhite, #4a4a4a); /* Soft pastel blue with a warm dark grey */
-    position: relative;
-    border-radius: 50%;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    margin: 50px auto;
-}
-
-.snake-head:hover {
-    transform: scale(1.50);
-}
-
-/* Style for the eyes */
-.snake-eye {
-    width: 30px;
-    height: 30px;
-    background-color: white;  /* Eye color */
-    border-radius: 50%;
-    position: absolute;
-    top: 20px;
-}
-
-/* Right eye */
-.snake-eye.right-eye {
-    right: 25px;  /* Position the right eye */
-}
-
-/* Left eye */
-.snake-eye.left-eye {
-    left: 25px;  /* Position the left eye symmetrically */
-}
-
-/* Highlight for the eye */
-.snake-eye::after {
-    content: "";
-    width: 15px;
-    height: 15px;
-    background-color: black; /* Highlight color */
-    border-radius: 50%;
-    position: absolute;
-    top: 5px;  /* Adjusted for better highlight positioning */
-    left: 12px;
-}
-
-/* Second pupil for the eye */
-.snake-eye::before {
-    content: "";
-    width: 5px;
-    height: 4px;
-    background-color: rgb(254, 252, 252); /* Pupil color */
-    border-radius: 50%;
-    position: absolute;
-    top: 8px;  /* Adjusted for position inside the eye */
-    right: 5px;
-    z-index: 10;
-}
-
-/* Snake mouth */
-.snake-mouth {
-    width: 20px;  /* Set the width of the mouth */
-    height: 20px;  /* Set the height of the mouth */
-    background-color: rgb(255, 255, 255);  /* Mouth color */
-    position: absolute;
-    bottom: 15px;  /* Position it near the bottom of the snake's head */
-    left: calc(50% - 10px);  /* Move it slightly to the right */
-    animation: mouthAnimation 1s infinite; /* Apply animation to the mouth */
-    border-radius: 100%;  /* Make it a circle */
-}
 
 .horizontal-line {
     width: 80%; /* Control line width */
@@ -233,160 +135,6 @@ html, body {
 .project-holder img:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 24px rgba(0, 1, 1, 1.4); /* Adds a more prominent shadow for depth */
-}
-
-.layout1 {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding-top: 100px;
-    margin-left: 70px;
-    width: 100%;
-    height: fit-content;
-}
-
-.layout2 {
-    display: flex;
-    flex-direction: row;
-    position: relative;
-    width: 100%; /* Ensure it spans the full container width */
-    gap: 30vw; /* Use a percentage-based gap for responsiveness */
-    height: fit-content;
-    justify-content: center; /* Centers the content horizontally */
-    margin: 0 auto; /* Ensures the layout is centered */
-}
-
-
-
-.in {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: fit-content;
-    width: fit-content;
-    margin-left: 370px;
-    margin-top: 8%;
-}
-
-.in a {
-    text-decoration: none !important;
-    color: inherit; /* Keeps the default text color */
-}
-
-.in a:hover {
-    text-decoration: none;
-}
-
-.in2 {
-    border-radius: 12px; /* Rounded corners */
-    display: flex; /* Use flex to arrange content properly */
-    flex-direction: column; /* Stack text and image vertically */
-    align-items: center; /* Center everything */
-    width: fit-content;
-    height: fit-content;
-    padding: 15px; /* Space inside the border */
-    color: #E0E0E0;  /* Soft white */ 
-    font-size: 1.2em; /* Slightly larger font */
-    letter-spacing: 2px;
-    transition: transform 0.3s ease-in-out;
-    position: relative;
-    background: linear-gradient(135deg, #6c7d8b, #3a3a3a); /* Stylish gradient */
-    margin-right: 150px;
-    top: -90px;
-}
-
-/* Hover effect */
-.in2:hover {
-    transform: scale(1.10);
-    cursor: pointer;
-    color: antiquewhite;
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.5);
-}
-
-/* Individual div styles */
-.in2 div {
-    margin: 5px 0;
-    text-align: center;
-}
-
-/* Image inside .in2 */
-.in2 img {
-    width: 60%; /* Adjust size */
-    max-width: 200px; /* Prevent image from becoming too big */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 30px; /* Soft rounded corners */
-    display: block; /* Ensures proper alignment */
-    margin: 10px auto; /* Center the image and add spacing */
-}
-
-.introtext {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-    margin-left: 100px;
-    width: 50%;
-    text-align: center;
-    gap: 5px;
-    font-family: 'Arial', sans-serif;
-    font-size: large;
-    color: #F0F0F0;
-    transform: translateY(-100px);
-}
-
-.introtext div {
-    width: 100%;
-    max-width: fit-content;
-    padding: 12px;
-}
-
-.home-buttom {
-    position: relative;
-    border: solid 1px #E0E0E0;
-    font-size: medium;
-    background: linear-gradient(135deg, #494d4c, #292929);
-    cursor: pointer;
-    padding: 12px 20px;
-    border-radius: 10px;
-    margin-top: 30px;
-    overflow: hidden; /* Prevents overflow */
-    width: fit-content;
-    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.introtext a {
-    text-decoration-line: none;
-    color: white;
-}
-
-.home-buttom a:hover {
-    color: antiquewhite;
-}
-
-.home-buttom::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0%; /* Start with 0 width */
-    height: 100%;
-    background: linear-gradient(135deg, #6c7d8b, #3a3a3a);
-    transition: width 0.4s ease-in-out; /* Animate width instead of left */
-    z-index: -1;
-}
-
-.home-buttom:hover::before {
-    width: 100%; /* Expands from left to right */
-}
-
-.home-buttom:hover {
-    transform: scale(1.10);
-}
-
-.home-buttom span {
-    position: relative;
-    z-index: 1; /* Ensures text remains above the background animation */
 }
 
 .project-button {
@@ -599,15 +347,6 @@ html, body {
     100% { background-position: 0% 0%; }
 }
 
-/* Keyframes for mouth opening and closing */
-@keyframes mouthAnimation {
-    0%, 100% {
-        transform: scale(1); /* No scaling at the start and end */
-    }
-    50% {
-        transform: scale(1.2); /* Slightly bigger scale for the mouth */
-    }
-}
 
 /* Animation for line dropping from the top */
 @keyframes drop-in {
@@ -644,5 +383,3 @@ html, body {
         background-color: transparent; /* Make the background disappear */
     }
 }
-
-
