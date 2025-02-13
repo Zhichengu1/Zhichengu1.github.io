@@ -64,7 +64,7 @@
 
 /* Hover Effects: Border Animation & Box Shadow */
 .introtext:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+    box-shadow: 0 8px 20px rgba(78, 101, 96, 0.5); /* Increased shadow on hover */
     animation: borderAnimation 0.5s ease-in-out forwards; /* Apply border animation */
 }
 
