@@ -78,7 +78,7 @@
 
 /* Highlighted Line Styling */
 .highlight-line {
-    color: #F0F0F0;
+    color: rgb(146, 168, 105);
     margin: 2.5rem 0; /* Increased space between the highlighted line */
     font-size: clamp(1.1rem, 2vw, 1.4rem);
 }
@@ -86,14 +86,14 @@
 
 .cta-button {
     position: relative;
-    font-family: 'Lobster', cursive;
+    font-family: 'Inter', sans-serif;
     display: inline-block;
     padding: clamp(0.5rem, 1.2vw, 0.8rem) clamp(1rem, 2.5vw, 1.6rem);
     font-size: clamp(0.9rem, 1.2vw, 1rem);
     border: solid 1px #E0E0E0;
     border-radius: 12px;
     background: linear-gradient(135deg, #282f2d, #292929);
-    color: rgb(146, 168, 105);
+    color: aliceblue;
     text-decoration: none;
     text-align: center;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -135,7 +135,7 @@
 /* Middle Text Styling */
 .middle-text {
     font-size: clamp(1rem, 2vw, 1.4rem); /* Responsive font size */
-    font-family: 'Lobster', cursive;
+    font-family: 'Inter', sans-serif;
     color: rgb(0, 0, 0);
     font-weight: 600; /* Professional weight */
     text-align: center;

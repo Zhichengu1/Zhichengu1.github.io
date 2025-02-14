@@ -3,7 +3,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    font-family: 'Lobster', cursive;
+    font-family: 'Inter', sans-serif;
 }
 
 /* Header */
@@ -43,7 +43,6 @@ header nav ul li a {
     font-size: 1rem;
     color: antiquewhite;
     padding: 10px;
-    transition: all 0.3s ease;
 }
 
 header nav ul li a:hover {
@@ -59,14 +58,18 @@ header nav ul li a:hover {
         top: 0;
         width: 100%;
     }
-    
+
     header nav ul {
-        flex-direction: column;
-        align-items: center;
-        padding: 10px 20px;
+        display: flex;
+        flex-wrap: wrap; /* Allows items to wrap if they don't fit */
+        justify-content: center; /* Centers items in the row */
+        padding: 10px;
     }
-    
+
     header nav ul li {
-        margin: 5px 0;
+        margin: 0;
+        padding: 5px 10px;
+        white-space: nowrap; /* Prevents text from breaking into multiple lines */
     }
 }
+

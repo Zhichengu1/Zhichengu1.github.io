@@ -1,0 +1,204 @@
+/* Root Variables */
+:root {
+    --spacing-unit: 1rem;
+    --max-width: 900px;
+}
+
+/* Global Styles */
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f0f0f0, #dcdcdc);
+    background-image: url('https://www.transparenttextures.com/patterns/asfalt.png');
+}
+
+/* Experience Section */
+#experience {
+    width: 100%;
+    padding: 50px;
+    color: black;
+    font-size: x-large;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+/* Sticky Break Line */
+.break-line {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    margin-top: 40px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Title Styling */
+.title {
+    font-size: 2.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Horizontal Line */
+.horizontal-line {
+    width: 80%;
+    background-color: #292929;
+    height: 3px;
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: opacity 0.3s ease;
+}
+
+.horizontal-line.animate {
+    animation: drop-in 1s forwards;
+}
+
+/* Experience Container */
+.experience-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+
+/* Inside Box */
+.inside-box {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 40px;
+    margin: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.inside-box:hover {
+    background: rgba(20, 20, 20, 0.6);
+    color: white;
+    transform: scale(1.02);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background: linear-gradient(135deg, #6c7777, #50555a); /* Modern blue gradient */
+    color: rgb(240, 240, 240); /* White text for contrast */
+    border: none; /* Removes default border */
+    padding: 12px 20px; /* Comfortable size */
+    font-size: 1rem; /* Readable text */
+    font-weight: bold;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor for usability */
+    transition: all 0.3s ease-in-out; /* Smooth effects */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    outline: none; /* Removes focus outline */
+}
+
+/* Hover Effect */
+button:hover {
+    background: linear-gradient(135deg, #202122, #36475d);
+    transform: scale(1.05); /* Slight zoom-in */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+}
+
+/* Active/Click Effect */
+button:active {
+    transform: scale(0.98); /* Slightly shrink on click */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Inside Row: Places List & Image Side by Side */
+.inside-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Text List */
+.inside-row ul {
+    padding: 0;
+    margin: 0;
+}
+.inside-row ul li {
+    padding-top: 20px;
+}
+.inside-row li {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+/* Image Styling */
+.inside-row img {
+    max-width: 200px;
+    border: 2px solid transparent;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 1.05);
+    height: auto;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.inside-row img:hover {
+    transform: scale(1.1);
+}
+
+
+/* Responsive Design for Tablets & Smaller Screens */
+@media (max-width: 1024px) {
+    .break-line {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .inside-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .inside-box {
+        width: 90%;
+        max-width: 600px; /* Prevents it from stretching too wide */
+        padding: 30px;
+    }
+
+    .inside-row img {
+        max-width: 100px;
+    }
+
+    .experience-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%; /* Fix: Takes full width */
+        max-width: 800px; /* Prevents stretching */
+        gap: 15px;
+        flex-wrap: wrap; /* Allows items to wrap if needed */
+    }
+}
+
+/* Responsive Design for Mobile Screens */
+@media (max-width: 768px) {
+    .inside-box {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .experience-container {
+        width: 100%; /* Fix: Takes full width */
+        max-width: 600px;
+        flex-wrap: wrap;
+    }
+}

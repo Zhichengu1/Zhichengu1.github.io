@@ -1,0 +1,194 @@
+:root {
+    --spacing-unit: 1rem;
+    --max-width: 900px;
+}
+
+#skill {
+    display: block;
+    padding: clamp(10rem, 10vw, 7rem) 1rem 2rem; /* Ensures space below fixed header */
+    min-height: auto; /* Allows content to dictate height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #030303; /* Light gray as background */
+    background-image: url("https://www.transparenttextures.com/patterns/vintage-speckles.png");
+    color: rgb(213, 229, 248);
+    font-size: xx-large;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    height: fit-content;
+}
+
+.bottom div {
+    margin-top: 50px;
+}
+
+.Tech-stack {
+    margin-bottom: 150px;
+}
+
+.Tech-stack div {
+    padding: 5px;
+}
+
+.Tech-stack div:hover {
+    background: linear-gradient(rgba(42, 55, 51, 0.6), rgba(82, 104, 104, 0.6));
+    border-radius: 5%;
+    transform: scale(1.15); /* Scales the list item to 110% of its original size */
+}
+
+.framework-lang {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+    justify-content: center;
+    gap: 100px; /* Reduced gap to prevent overflow */
+}
+
+.framework-lang li {
+    list-style: none; /* Removes bullets */
+    padding: 10px; /* Adds padding for better spacing */
+    margin: 5px; /* Adds margin for spacing between items */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    border: 2px solid #413737; /* Light gray border */
+    border-radius: 10px; /* Rounded corners */
+    background: linear-gradient(135deg, #6b81ac, #121d20); /* Matching gradient background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.framework-lang li:hover {
+    transform: scale(1.1); /* Scales the list item on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Adds a shadow on hover */
+}
+
+/* Framework Lang Text */
+.framework-lang-text {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.framework-lang-text :nth-child(1) {
+    margin-right: 40px; /* Moves first element slightly right */
+}
+
+.framework-lang-text :nth-child(n+2) {
+    margin-right: 60px; /* Moves all elements except the first slightly left */
+}
+
+.framework-lang-text li {
+    list-style: none;
+    padding: 8px 12px;
+    margin: 6px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 4px solid #6c7d8b;
+    border-radius: 8px;
+}
+
+.framework-lang-text li:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(10, 1, 18, 0.4);
+}
+
+/* Image Styles */
+.framework-lang img {
+    width: 100px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Techstack Title */
+.techstack-title {
+    padding: 8px 12px;
+    margin: 6px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-bottom: 2px solid #6c7d8b;
+    border-left: 2px solid #6c7d8b;
+    border-right: 2px solid #6c7d8b;
+    border-radius: 8px;
+    height: fit-content;
+    width: fit-content;
+    color: rgb(146, 168, 105);
+    align-items: center;
+    justify-self: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .framework-lang {
+        gap: 70px; /* Adjusts spacing */
+    }
+
+    .framework-lang-text {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    #skill {
+        padding: 5rem 1rem;
+        font-size: clamp(1rem, 2.5vw, x-large);
+    }
+
+    .bottom div {
+        margin-top: 30px;
+    }
+
+    .Tech-stack {
+        margin-bottom: 80px;
+    }
+
+    .framework-lang {
+        gap: 50px;
+    }
+
+    .framework-lang li {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .framework-lang-text {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .framework-lang img {
+        width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    #skill {
+        padding: 3rem 0.5rem;
+    }
+
+    .framework-lang {
+        gap: 30px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .framework-lang li {
+        padding: 6px;
+        font-size: 0.8rem;
+    }
+
+    .framework-lang-text {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .framework-lang img {
+        width: 70px;
+    }
+
+    .techstack-title {
+        font-size: 0.9rem;
+    }
+}
