@@ -82,6 +82,7 @@ html, body {
 
 .project-container:hover {
     background-color: rgb(165, 210, 254);
+    transform: scale(1.05);
 }
 
 /* Group Section */
@@ -133,7 +134,7 @@ html, body {
 /* Project Button */
 .project-button {
     border: solid 1px black;
-    font-size: medium;
+    font-size: small;
     background: transparent;
     cursor: pointer;
     padding: 12px 20px;
