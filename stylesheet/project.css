@@ -81,7 +81,7 @@ html, body {
 }
 
 .project-container:hover {
-    background-color: rgb(165, 210, 254);
+    background-color: rgb(213, 229, 248);
     transform: scale(1.05);
 }
 
@@ -109,14 +109,17 @@ html, body {
 .tool-container {
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    gap: 10px;
 }
 
 .tool-container div {
     border-radius: 15%;
+    padding: 5px;
     border: solid 3px black;
 }
-
+.tool-container div:hover {
+    transform: scale(1.05);
+}
 /* Project Image */
 .project-holder img {
     width: 100%;
@@ -323,14 +326,12 @@ html, body {
         opacity: 0;
         width: 0%;
         border-radius: 5%;
-        background-color: #626262;
     }
     50% {
         transform: translateX(0);
         opacity: 1;
         width: fit-content;
         border-radius: 10%;
-        background: linear-gradient(135deg, rgba(180, 200, 220, 0.6), rgba(100, 110, 120, 0.4));
     }
     100% {
         transform: translateX(0);

@@ -107,13 +107,13 @@
     padding: 8px 12px;
     margin: 6px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-bottom: 2px solid #6c7d8b;
-    border-left: 2px solid #6c7d8b;
-    border-right: 2px solid #6c7d8b;
-    border-radius: 8px;
+    border-bottom: 4px solid #6c7d8b;
+    border-left: 4px solid #6c7d8b;
+    border-right: 4px solid #6c7d8b;
+    border-radius: 15px;
     height: fit-content;
     width: fit-content;
-    color: rgb(146, 168, 105);
+    color: rgb(213, 229, 248);
     align-items: center;
     justify-self: center;
 }

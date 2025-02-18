@@ -7,7 +7,7 @@
 #Home {
     background-color: #030303; /* Light gray as background */
     background-image: url("https://www.transparenttextures.com/patterns/vintage-speckles.png");
-    padding: clamp(10rem, 10vw, 7rem) 1rem 2rem; /* Ensures space below fixed header */
+    padding: clamp(1rem, 3vw, 3em) 1rem 2rem; /* Ensures space below fixed header */
     min-height: auto; /* Allows content to dictate height */
     display: flex;
     flex-direction: column;
