@@ -129,7 +129,7 @@ export default function Home() {
               
               {/* Development Tools */}
               <div>
-                <div className="text-center font-medium mb-6">Development Tools</div>
+                <div className="text-center font-medium mb-6">Development Tools </div>
                 <div className="grid grid-row-1 md:grid-row-3 gap-6 max-w-3xl mx-auto">
                   <div className="space-y-4">
                     <div>
