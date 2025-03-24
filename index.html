@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zhicheng - Portfolio</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="animations.js" defer></script>
 </head>
 <body class="bg-black text-white flex flex-col min-h-screen">
-    <div class="bg-black text-white flex flex-col min-h-screen">
+    <div >
         <!-- Main content container -->
         <div class="w-full">
           <div class="max-w-7xl mx-auto p-2 sm:p-4 md:p-6">
@@ -37,13 +42,13 @@
               <div class="mb-4">Schools</div>
               <div>
                 <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <li class="p-4 border border-gray-700 rounded">
+                  <li class="p-4 border border-gray-700 rounded transform hover:scale-105">
                     <div class="font-medium">City University Of New York: Hunter College</div>
                     <div>Bachelor Of Arts in Computer Science</div>
                     <div>Date: 2024 - 2027</div>
                     <div>GPA: 3.40</div>
                   </li>
-                  <li class="p-4 border border-gray-700 rounded">
+                  <li class="p-4 border border-gray-700 rounded transform hover:scale-105">
                     <div class="font-medium">State University Of New York</div>
                     <div>Department of Engineering: Computer Engineering</div>
                     <div>Date: 2023 - 2024</div>
@@ -180,8 +185,7 @@
             <section class="py-8">
               <div class="flex flex-col gap-8">
                 <div class="text-center font-medium text-xl mb-6">Experience</div>
-                <div class="flex justify-center">
-        
+                <div class="flex flex-col justify-center">
                 </div>
               </div>
             </section>
