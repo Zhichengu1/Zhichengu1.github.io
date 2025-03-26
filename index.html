@@ -48,7 +48,7 @@
                     <div>Date: 2024 - 2027</div>
                   </li>
                   <li class="p-4 border border-gray-700 rounded transform hover:scale-105">
-                    <div class="font-medium">State University Of New York</div>
+                    <div class="font-medium">State University Of New York: Stony Brook</div>
                     <div>Department of Engineering: Computer Engineering</div>
                     <div>Date: 2023 - 2024</div>
                     <div>GPA: 3.70</div>
@@ -56,9 +56,7 @@
                 </ul>
               </div>
             </section>
-            
             <hr class="border-t border-gray-300 my-4" />
-            
             <!-- Skills section -->
             <section class="py-8">
               <div class="flex flex-col gap-8">
@@ -133,8 +131,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
-                
+                </div>  
                 <!-- Development Tools -->
                 <div>
                   <div class="text-center font-medium mb-6">Development Tools </div>
@@ -181,11 +178,72 @@
             <hr class="border-t border-gray-300 my-4" />
             
             <!-- Experience section -->
-            <section class="py-8">
-              <div class="flex flex-col gap-8">
-                <div class="text-center font-medium text-xl mb-6">Experience</div>
-                <div class="flex flex-col justify-center">
+            <section class="relative py-8 min-h-screen mx-auto">
+              <div class="text-center font-medium text-xl mb-6">Experience</div>
+              <div class="absolute w-1 h-full min-h-screen bg-white sm:left-1/2 sm:transform sm:-translate-x-1/2 lg:transform-none min-h-screen-with-offset"></div>
+              <div class="timeline-container ">
+                <div class="flex relative ">
+                  <div class="timeline-item element_list shadow-lg border-l-4 border-blue-500 lg:pl-4">
+                    <div class="flex flex-col gap-5 flex-wrap">
+                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap">
+                        <div class="tech-tag">React</div>
+                        <div class="tech-tag">TypeScript</div>
+                        <div class="tech-tag">Python</div>
+                        <div class="tech-tag">Pytorch</div>
+                        <div class="tech-tag">Flask</div>
+                      </div>
+                      <div class="left-0 text-center p-2">Torch_Bot</div>
+                      <div class="mx-auto ">
+                        <ul class="text-list list-disc pl-4 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
+                          <li>Designed a chatbot for real-time interactions.</li>
+                          <li>Enabled the bot to do simple sentence pattern recognition.</li>
+                          <li>Engineered a PyTorch model to improve the bot's response.</li>
+                          <li>Connected the UI and server to enable dynamic interactions.</li>
+                        </ul>
+                      </div>
+                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
+                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
+                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                          
+                          <!-- Image with technical overlay -->
+                          <img 
+                            src="bot.png" 
+                            alt="TorchBot Interface" 
+                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
+                          >
+                          
+                          <!-- Technical HUD overlay -->
+                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
+                            <div class="flex justify-between">
+                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
+                              <span>v2.1.5</span>
+                            </div>
+                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
+                              <span>PYTORCH 1.13.1</span>
+                              <span>|</span>
+                              <span>WEBSOCKET</span>
+                              <span>|</span>
+                              <span>REACT 18.2</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
+                          [ TorchBot Interface - Production Version ]
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="absolute sm:left-1/2 sm:transform sm:-translate-x-2 w-5 h-10 bg-green-500 rounded-full border-4 border-white shadow-md  lg:none"></span>
                 </div>
+                
+                <!-- Add 'relative' class to the flex container -->
+                <div class="flex items-center relative "> <!-- Added 'relative' and padding-left -->
+                  <span class="absolute left-1/2 transform -translate-x-2 w-5 h-10 bg-green-500 rounded-full border-4 border-white shadow-md"></span>
+                  <div class="timeline-item bg-white shadow-md border-l-4 border-green-500">
+
+                  </div>
+                </div>
+              </div>
               </div>
             </section>
           </div>

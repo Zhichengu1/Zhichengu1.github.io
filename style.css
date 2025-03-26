@@ -1,0 +1,65 @@
+.timeline-container {
+    position: relative;
+    margin: 0 auto;
+    height: auto;
+}
+.timeline-item {
+    position: relative;
+    border: 1px solid white;
+    border-radius: 10px;
+    width: 45%;
+    padding: 10px 40px;
+    transition: all 0.6s ease-out;
+    color: black;
+}
+.timeline-item:nth-child(odd) {
+    left: 0;
+    text-align: right;
+}
+.timeline-item:nth-child(even) {
+    left: 55%;
+    text-align: left;
+    padding-left: 20px;
+
+}
+.element_list {
+    background-color: #0f0f0f; /* Dark background to enhance the neon colors */
+    border-radius: 10px; /* Rounded corners for smooth, futuristic feel */
+    box-shadow: 0 4px 8px rgba(0, 255, 255, 0.3); /* Subtle glowing shadow */
+    padding: 1rem;
+    color: #fff; /* White text for contrast */
+    font-family: 'Roboto', sans-serif; /* Clean and modern font */
+}
+
+.tech-tag {
+    background-color: #1c1c1c; /* Darker background for tags */
+    color: white; /* Neon green for futuristic tech feel */
+    border: 1px solid #00FF00; /* Neon border */
+    border-radius: 50;
+    font-size: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease; /* Smooth transition on hover */
+}
+.tech-tag:hover {
+    background-color: #00FF00; /* Neon green background on hover */
+    color: #0f0f0f; /* Dark text color when hovered */
+    border: 2px solid #00FF00; /* Keep neon border on hover */
+    box-shadow: 0 0 10px #00FF00, 0 0 15px #00FF00; /* Glowing effect */
+}
+.text-list {
+    text-align: left;
+    justify-items: center;
+}
+ul li:hover{
+    background-color: #00FF00;
+    color:black;
+    box-shadow: 0 0 10px #00FF00, 0 0 15px #00FF00; /* Glowing effect */
+    scale: 1.1;
+}
+.min-h-screen-with-offset {
+    min-height: calc(100vh - 4rem); /* Adjust 4rem to match your header height */
+  }
+
+
