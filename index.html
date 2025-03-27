@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="animations.js" defer></script>
@@ -178,29 +179,54 @@
             <hr class="border-t border-gray-300 my-4" />
             
             <!-- Experience section -->
-            <section class="relative py-8 min-h-screen mx-auto">
-              <div class="text-center font-medium text-xl mb-6">Experience</div>
+            <section class="relative py-8 mx-auto font-mono">
+              <div class="relative text-center font-light text-white p-2 pb-20 text-6xl font-bold tracking-[0.3em] 
+                      bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent 
+                      animate-gradient-shift
+                      shadow-[0_0_15px_#00ffff,0_0_30px_#00ffff,0_0_45px_#ff00ff,0_0_60px_#ff00ff]
+                      transform hover:scale-105 hover:translate-y-[-2px] 
+                      transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]
+                      before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggMHY4aDh2LTh6TTggMTZoOHYtOGgtOHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] before:opacity-20
+                      after:absolute after:inset-0 after:bg-gradient-to-r after:from-cyan-500 after:to-pink-500 after:blur-xl after:opacity-30 after:animate-pulse
+                      glitch-effect">
+                      <span class="glitch-layers" aria-hidden="true">PROJECT TIMELINE</span>
+                      PROJECT TIMELINE
+                </div>
+
               <div class="absolute w-1 h-full min-h-screen bg-white sm:left-1/2 sm:transform sm:-translate-x-1/2 lg:transform-none min-h-screen-with-offset"></div>
-              <div class="timeline-container ">
-                <div class="flex relative ">
-                  <div class="timeline-item element_list shadow-lg border-l-4 border-blue-500 lg:pl-4">
+              <div class="timeline-container">
+                <div class="flex relative pb-8">
+                  <div class="timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
                     <div class="flex flex-col gap-5 flex-wrap">
-                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap">
-                        <div class="tech-tag">React</div>
-                        <div class="tech-tag">TypeScript</div>
+
+                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
                         <div class="tech-tag">Python</div>
-                        <div class="tech-tag">Pytorch</div>
                         <div class="tech-tag">Flask</div>
+                        <div class="tech-tag">beautifulsoup</div>
+                        <div class="tech-tag">SQL</div>
+                        <div class="tech-tag">Firebase</div>
                       </div>
-                      <div class="left-0 text-center p-2">Torch_Bot</div>
-                      <div class="mx-auto ">
+
+                      <div class="relative text-center text-white p-2 text-6xl font-bold tracking-[0.3em] 
+                      bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent 
+                      animate-gradient-shift
+                      shadow-[0_0_15px_#00ffff,0_0_30px_#00ffff,0_0_45px_#ff00ff,0_0_60px_#ff00ff]
+                      transform hover:scale-105 hover:translate-y-[-2px] 
+                      transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]
+                      before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggMHY4aDh2LTh6TTggMTZoOHYtOGgtOHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] before:opacity-20
+                      after:absolute after:inset-0 after:bg-gradient-to-r after:from-cyan-500 after:to-pink-500 after:blur-xl after:opacity-30 after:animate-pulse
+                      glitch-effect">
+                      <span class="glitch-layers" aria-hidden="true">INTERNSHIP TRACKER</span>
+                      INTERNSHIP TRACKER
+                      </div>
+                    
+                    <div class="mx-auto ">
                         <ul class="text-list list-disc pl-4 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
-                          <li>Designed a chatbot for real-time interactions.</li>
-                          <li>Enabled the bot to do simple sentence pattern recognition.</li>
-                          <li>Engineered a PyTorch model to improve the bot's response.</li>
-                          <li>Connected the UI and server to enable dynamic interactions.</li>
+                          <li>Designed a web app for real-time internship tracking.</li>
+                          <li>THE PROJECT IS UNDER DEVELOPMENT!</li>
                         </ul>
                       </div>
+
                       <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
                         <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
                           <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
@@ -211,7 +237,6 @@
                             alt="TorchBot Interface" 
                             class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
                           >
-                          
                           <!-- Technical HUD overlay -->
                           <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
                             <div class="flex justify-between">
@@ -228,21 +253,194 @@
                           </div>
                         </div>
                         <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
-                          [ TorchBot Interface - Production Version ]
+                          [ Timeline: 2025-Present ]
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <span class="min-width-span absolute sm:left-1/2 sm:transform sm:-translate-x-2 z-50 w-5 h-10 bg-green-500  border-4 border-white shadow-md "></span>
+                </div>
+                <div class="flex relative pb-8"> <!-- Added 'relative' and padding-left -->
+                  <span class="absolute min-width-span  sm:left-1/2 sm:transform sm:-translate-x-2 w-5 h-10 bg-green-500 border-4 border-white shadow-md"></span>
+                  <div class="timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
+                    <div class="flex flex-col gap-5 flex-wrap">
+                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
+                        <div class="tech-tag">React</div>
+                        <div class="tech-tag">JavaScript</div>
+                        <div class="tech-tag">HTML</div>
+                        <div class="tech-tag">Tailwind</div>
+                      </div>
+                      <div class="relative text-center text-white p-2 text-6xl font-bold tracking-[0.3em] 
+                      bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent 
+                      animate-gradient-shift
+                      shadow-[0_0_15px_#00ffff,0_0_30px_#00ffff,0_0_45px_#ff00ff,0_0_60px_#ff00ff]
+                      transform hover:scale-105 hover:translate-y-[-2px] 
+                      transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]
+                      before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggMHY4aDh2LTh6TTggMTZoOHYtOGgtOHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] before:opacity-20
+                      after:absolute after:inset-0 after:bg-gradient-to-r after:from-cyan-500 after:to-pink-500 after:blur-xl after:opacity-30 after:animate-pulse
+                      glitch-effect">
+                      <span class="glitch-layers" aria-hidden="true">Brain Flow</span>
+                      Brain Flow
+                      </div>
+                      <div class="mx-auto ">
+                        <ul class="text-list list-disc pl-6 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
+                          <li>Designed a multi-section gaming web app focus on brain and physical remote exercises.</li>
+                          <li>Implemented multi-section gaming interface for people to interact and play with.</li>
+                          <li>Designed the styles of different interactive games and a final games analysis.</li>
+                        </ul>
+                      </div>
+                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
+                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
+                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                          <!-- Image with technical overlay -->
+                          <img 
+                            src="bot.png" 
+                            alt="TorchBot Interface" 
+                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
+                          >
+                          <!-- Technical HUD overlay -->
+                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
+                            <div class="flex justify-between">
+                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
+                              <span>v2.1.5</span>
+                            </div>
+                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
+                              <span>PYTORCH 1.13.1</span>
+                              <span>|</span>
+                              <span>WEBSOCKET</span>
+                              <span>|</span>
+                              <span>REACT 18.2</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
+                          [ Timeline: 2025-Present ]
                         </div>
                       </div>
                     </div>
                   </div>
-                  <span class="absolute sm:left-1/2 sm:transform sm:-translate-x-2 w-5 h-10 bg-green-500 rounded-full border-4 border-white shadow-md  lg:none"></span>
+                </div>
+
+                <div class="flex relative pb-8">
+                  <div class="timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
+                    <div class="flex flex-col gap-5 flex-wrap">
+
+                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
+                        <div class="tech-tag">React</div>
+                        <div class="tech-tag">TypeScript</div>
+                        <div class="tech-tag">Python</div>
+                        <div class="tech-tag">Pytorch</div>
+                        <div class="tech-tag">Flask</div>
+                      </div>
+
+                      <div class="left-0 text-center p-2 ">Torch_Bot</div>
+                      <div class="mx-auto ">
+                        <ul class="text-list list-disc pl-4 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
+                          <li>Designed a chatbot for real-time interactions.</li>
+                          <li>Enabled the bot to do simple sentence pattern recognition.</li>
+                          <li>Engineered a PyTorch model to improve the bot's response.</li>
+                          <li>Connected the UI and server to enable dynamic interactions.</li>
+                        </ul>
+                      </div>
+
+                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
+                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
+                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                          
+                          <!-- Image with technical overlay -->
+                          <img 
+                            src="bot.png" 
+                            alt="TorchBot Interface" 
+                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
+                          >
+                          <!-- Technical HUD overlay -->
+                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
+                            <div class="flex justify-between">
+                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
+                              <span>v2.1.5</span>
+                            </div>
+                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
+                              <span>PYTORCH 1.13.1</span>
+                              <span>|</span>
+                              <span>WEBSOCKET</span>
+                              <span>|</span>
+                              <span>REACT 18.2</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
+                          [ Timeline: 2025-Present ]
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <span class="min-width-span absolute sm:left-1/2 sm:transform sm:-translate-x-2 z-50 w-5 h-10 bg-green-500  border-4 border-white shadow-md "></span>
                 </div>
                 
-                <!-- Add 'relative' class to the flex container -->
-                <div class="flex items-center relative "> <!-- Added 'relative' and padding-left -->
-                  <span class="absolute left-1/2 transform -translate-x-2 w-5 h-10 bg-green-500 rounded-full border-4 border-white shadow-md"></span>
-                  <div class="timeline-item bg-white shadow-md border-l-4 border-green-500">
-
+                
+                
+                <!-- Section 2 -->
+                <div class="flex relative pb-8"> <!-- Added 'relative' and padding-left -->
+                  <span class="absolute min-width-span  sm:left-1/2 sm:transform sm:-translate-x-2 w-5 h-10 bg-green-500 border-4 border-white shadow-md"></span>
+                  <div class="timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
+                    <div class="flex flex-col gap-5 flex-wrap">
+                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
+                        <div class="tech-tag">Vue.js</div>
+                        <div class="tech-tag">JavaScript</div>
+                        <div class="tech-tag">HTML</div>
+                        <div class="tech-tag">CSS</div>
+                      </div>
+                      <div class="left-0 text-center p-2 ">GPA Calculator</div>
+                      <div class="mx-auto ">
+                        <ul class="text-list list-disc pl-6 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
+                          <li>Designed a two-section interface for students to calculate current and projected GPAs.</li>
+                          <li>Implemented future-section calculator, enhancing user experience through various layouts</li>
+                          <li>Created basic JavaScript functions to efficiently calculate grades, credits, transfer credits, and total earned credits,
+                            streamlining the GPA calculation process.</li>
+                        </ul>
+                      </div>
+                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
+                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
+                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                          <!-- Image with technical overlay -->
+                          <img 
+                            src="bot.png" 
+                            alt="TorchBot Interface" 
+                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
+                          >
+                          <!-- Technical HUD overlay -->
+                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
+                            <div class="flex justify-between">
+                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
+                              <span>v2.1.5</span>
+                            </div>
+                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
+                              <span>PYTORCH 1.13.1</span>
+                              <span>|</span>
+                              <span>WEBSOCKET</span>
+                              <span>|</span>
+                              <span>REACT 18.2</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
+                          [ Timeline: 06-2024 -- 07-2024 ]
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+                
+
+                
+
+
+
+
+
+
               </div>
               </div>
             </section>

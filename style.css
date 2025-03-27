@@ -19,7 +19,6 @@
 .timeline-item:nth-child(even) {
     left: 55%;
     text-align: left;
-    padding-left: 20px;
 
 }
 .element_list {
@@ -31,12 +30,14 @@
     font-family: 'Roboto', sans-serif; /* Clean and modern font */
 }
 
+
 .tech-tag {
     background-color: #1c1c1c; /* Darker background for tags */
     color: white; /* Neon green for futuristic tech feel */
     border: 1px solid #00FF00; /* Neon border */
     border-radius: 50;
     font-size: 1rem;
+    padding: 5px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -60,6 +61,74 @@ ul li:hover{
 }
 .min-h-screen-with-offset {
     min-height: calc(100vh - 4rem); /* Adjust 4rem to match your header height */
+}
+.min-width-span{
+
+}
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes glitch {
+    0% { clip-path: inset(10% 0 90% 0); }
+    20% { clip-path: inset(80% 0 5% 0); }
+    100% { clip-path: inset(0); }
+  }
+  .animate-gradient-shift {
+    background-size: 300% 300%;
+    animation: gradient-shift 8s ease infinite;
+  }
+  .glitch-effect {
+    position: relative;
+    text-shadow: 3px 3px 0 #000;
+  }
+  .glitch-layers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    clip-path: inset(0);
+    animation: glitch 2s infinite linear alternate-reverse;
+    opacity: 0.8;
+    mix-blend-mode: difference;
+  }
+  .glitch-layers::before,
+  .glitch-layers::after {
+    content: attr(aria-label);
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  .glitch-layers::before {
+    left: -2px;
+    text-shadow: 2px 0 #ff00ff;
+  }
+  .glitch-layers::after {
+    left: 2px;
+    text-shadow: -2px 0 #00ffff;
   }
 
-
+@media (max-width: 640px) {
+    .element_list {
+        margin-left: 30px;
+        margin-right: 0;
+        position: relative; /* Ensures it follows the normal flow */
+        width: fit-content;
+    }
+    .tech-tag{
+        font-size: xx-small;
+    }
+    .min-width-span{
+        transform: translateX(-7.5px);
+        z-index: 50;
+    }
+    .timeline-item:nth-child(even){
+        left:0;
+    }
+    .timeline-item{
+    }
+    
+}
