@@ -12,6 +12,9 @@
     transition: all 0.6s ease-out;
     color: black;
 }
+.timeline-item:hover{
+  scale: 1.05;
+}
 .timeline-item:nth-child(odd) {
     left: 0;
     text-align: right;
@@ -110,7 +113,30 @@ ul li:hover{
     left: 2px;
     text-shadow: -2px 0 #00ffff;
   }
+  .main_title {
 
+  }
+  .animate-from-left {
+    opacity: 0;
+    transform: translateX(-50px);  /* Move left before appearing */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  
+  .fade-in-left {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .animate-from-right{
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+  .fade-in-right{
+    opacity: 1;
+    transform: translateX(0);
+
+  }
+  
 @media (max-width: 640px) {
     .element_list {
         margin-left: 30px;
@@ -129,6 +155,10 @@ ul li:hover{
         left:0;
     }
     .timeline-item{
+    }
+    .main_title {
+      font-size: auto;
+    
     }
     
 }

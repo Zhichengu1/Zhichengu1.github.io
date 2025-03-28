@@ -22,3 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(item);
     });
 });
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("fade-in-left");
+      } else {
+        entry.target.classList.remove("fade-in-left"); // Remove for re-triggering animation
+      }
+    });
+  }, { threshold: 0.3 });
+  
+  document.querySelectorAll(".animate-from-left").forEach(el => observer.observe(el));
+
+  const observer_right = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("fade-in-right");
+      } else {
+        entry.target.classList.remove("fade-in-right"); // Remove for re-triggering animation
+      }
+    });
+  }, { threshold: 0.3 });
+  
+  document.querySelectorAll(".animate-from-right").forEach(el => observer_right.observe(el));
+  
