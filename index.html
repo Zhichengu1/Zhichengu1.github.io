@@ -1,430 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zhicheng - Portfolio</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="animations.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zhicheng - Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel ="stylesheet" href ="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-black text-white flex flex-col min-h-screen">
-    <div >
-        <!-- Main content container -->
-        <div class="w-full">
-          <div class="max-w-7xl mx-auto p-2 sm:p-4 md:p-6">
-            <!-- Header -->
-            <div class="flex flex-wrap items-center justify-between gap-4">
-              <div class="font-bold text-xl md:text-2xl tracking-wider">Hey there!</div>
-              <div>Projects</div>
-            </div>
-            <hr class="border-t border-gray-300 my-4" />
-            
-            <!-- Profile section -->
-            <div class="text-center font-serif">
-              <h1 class="font-bold text-xl md:text-2xl tracking-wider">ZHICHENG</h1>
-              <h2 class="font-medium text-base md:text-xl tracking-wider">
-                student
-                <br />
-                fullstack / machine learning
-                <br />
-                engineer
-              </h2>
-            </div>
-            <hr class="border-t border-gray-300 my-4" />
-            
-            <!-- Education section -->
-            <section class="py-8">
-              <div class="text-center font-medium mb-4">Education</div>
-              <div class="mb-4">Schools</div>
-              <div>
-                <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <li class="p-4 border border-gray-700 rounded transform hover:scale-105">
-                    <div class="font-medium">City University Of New York: Hunter College</div>
-                    <div>Bachelor Of Arts in Computer Science</div>
-                    <div>Date: 2024 - 2027</div>
-                  </li>
-                  <li class="p-4 border border-gray-700 rounded transform hover:scale-105">
-                    <div class="font-medium">State University Of New York: Stony Brook</div>
-                    <div>Department of Engineering: Computer Engineering</div>
-                    <div>Date: 2023 - 2024</div>
-                    <div>GPA: 3.70</div>
-                  </li>
-                </ul>
-              </div>
-            </section>
-            <hr class="border-t border-gray-300 my-4" />
-            <!-- Skills section -->
-            <section class="py-8">
-              <div class="flex flex-col gap-8">
-                <!-- Tech Stack -->
-                <div>
-                  <div class="text-center font-medium mb-6">My Tech Stack</div>
-                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>Python</span>
-                          <span>80%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-500 h-3 rounded-full" style="width: 80%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>C++</span>
-                          <span>70%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-400 h-3 rounded-full" style="width: 70%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>JavaScript</span>
-                          <span>30%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-red-600 h-3 rounded-full" style="width: 30%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>Go</span>
-                          <span>30%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-red-500 h-3 rounded-full" style="width: 30%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>CSS</span>
-                          <span>60%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-500 h-3 rounded-full" style="width: 60%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>HTML</span>
-                          <span>60%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-500 h-3 rounded-full" style="width: 60%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>  
-                <!-- Development Tools -->
-                <div>
-                  <div class="text-center font-medium mb-6">Development Tools </div>
-                  <div class="grid grid-row-1 md:grid-row-3 gap-6 max-w-3xl mx-auto">
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>Flask</span>
-                          <span>50%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-500 h-3 rounded-full" style="width: 50%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>React</span>
-                          <span>50%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-500 h-3 rounded-full" style="width: 50%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="space-y-4">
-                      <div>
-                        <div class="flex justify-between text-sm font-medium">
-                          <span>Next.js</span>
-                          <span>50%</span>
-                        </div>
-                        <div class="w-full bg-gray-700 rounded-full h-3">
-                          <div class="bg-green-500 h-3 rounded-full" style="width: 50%;"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="text-center p-12 italic">....More to Learn</div>
-            </section>
-            
-            <hr class="border-t border-gray-300 my-4" />
-            
-            <!-- Experience section -->
-            <section class="relative py-8 mx-auto font-mono">
-              <div class="relative text-center font-light text-white p-2 pb-20 text-6xl font-bold tracking-[0.3em] 
-                      bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent 
-                      animate-gradient-shift
-                      shadow-[0_0_15px_#00ffff,0_0_30px_#00ffff,0_0_45px_#ff00ff,0_0_60px_#ff00ff]
-                      transform hover:scale-105 hover:translate-y-[-2px] 
-                      transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.27,1.55)]
-                      before:absolute before:inset-0 before:bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTggMHY4aDh2LTh6TTggMTZoOHYtOGgtOHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')] before:opacity-20
-                      after:absolute after:inset-0 after:bg-gradient-to-r after:from-cyan-500 after:to-pink-500 after:blur-xl after:opacity-30 after:animate-pulse
-                      glitch-effect">
-                      <span class="glitch-layers" aria-hidden="true">PROJECT TIMELINE</span>
-                      PROJECT TIMELINE
-                </div>
-
-              <div class=" absolute w-1 h-full min-h-screen bg-white sm:left-1/2 sm:transform sm:-translate-x-1/2 lg:transform-none min-h-screen-with-offset"></div>
-              <div class="timeline-container">
-                <div class="flex relative pb-8">
-                  <div class="animate-from-left timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
-                    <div class="flex flex-col gap-5 flex-wrap">
-
-                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
-                        <div class="tech-tag">Python</div>
-                        <div class="tech-tag">Flask</div>
-                        <div class="tech-tag">beautifulsoup</div>
-                        <div class="tech-tag">SQL</div>
-                        <div class="tech-tag">Firebase</div>
-                      </div>
-
-                      <div class="left-0 text-center p-2 ">Torch_Bot</div>
-                    
-                    <div class="mx-auto ">
-                        <ul class="text-list list-disc pl-4 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
-                          <li>Designing a web app for real-time internship tracking.</li>
-                          <li>Designing database for users and internship.</li>
-                          <li>THE PROJECT IS UNDER DEVELOPMENT!</li>
-                        </ul>
-                      </div>
-
-                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
-                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
-                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                          
-                          <!-- Image with technical overlay -->
-                          <img 
-                            src="bot.png" 
-                            alt="TorchBot Interface" 
-                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
-                          >
-                          <!-- Technical HUD overlay -->
-                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
-                            <div class="flex justify-between">
-                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
-                              <span>v2.1.5</span>
-                            </div>
-                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
-                              <span>PYTORCH 1.13.1</span>
-                              <span>|</span>
-                              <span>WEBSOCKET</span>
-                              <span>|</span>
-                              <span>REACT 18.2</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
-                          [ Timeline: 2025-Present ]
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                  <span class="min-width-span absolute sm:left-1/2 sm:transform sm:-translate-x-2 z-50 w-5 h-10 bg-green-500  border-4 border-white shadow-md "></span>
-                </div>
-                <div class="flex relative pb-8"> <!-- Added 'relative' and padding-left -->
-                  <span class="absolute min-width-span  sm:left-1/2 sm:transform sm:-translate-x-2 w-5 h-10 bg-green-500 border-4 border-white shadow-md"></span>
-                  <div class=" animate-from-right timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
-                    <div class="flex flex-col gap-5 flex-wrap">
-                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
-                        <div class="tech-tag">React</div>
-                        <div class="tech-tag">JavaScript</div>
-                        <div class="tech-tag">HTML</div>
-                        <div class="tech-tag">Tailwind</div>
-                      </div>
-                      <div class="left-0 text-center p-2 ">Brain Flow</div>
-                      <div class="mx-auto ">
-                        <ul class="text-list list-disc pl-6 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
-                          <li>Designed a multi-section gaming web app that focus on remote brain and physical exercises.</li>
-                          <li>Implemented multi-section gaming interface for people to interact and play with.</li>
-                          <li>Designed the styles of different interactive games and the ultimate games analysis.</li>
-                        </ul>
-                      </div>
-                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
-                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
-                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                          <!-- Image with technical overlay -->
-                          <img 
-                            src="bot.png" 
-                            alt="TorchBot Interface" 
-                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
-                          >
-                          <!-- Technical HUD overlay -->
-                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
-                            <div class="flex justify-between">
-                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
-                              <span>v2.1.5</span>
-                            </div>
-                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
-                              <span>PYTORCH 1.13.1</span>
-                              <span>|</span>
-                              <span>WEBSOCKET</span>
-                              <span>|</span>
-                              <span>REACT 18.2</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
-                          [ Timeline: 2025-Present ]
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="flex relative pb-8">
-                  <div class=" animate-from-left timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
-                    <div class="flex flex-col gap-5 flex-wrap">
-
-                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
-                        <div class="tech-tag">React</div>
-                        <div class="tech-tag">TypeScript</div>
-                        <div class="tech-tag">Python</div>
-                        <div class="tech-tag">Pytorch</div>
-                        <div class="tech-tag">Flask</div>
-                      </div>
-
-                      <div class="left-0 text-center p-2 ">Torch_Bot</div>
-                      <div class="mx-auto ">
-                        <ul class="text-list list-disc pl-4 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
-                          <li>Designed a chatbot for real-time interactions.</li>
-                          <li>Enabled the bot to do simple sentence pattern recognition.</li>
-                          <li>Engineered a PyTorch model to improve the bot's response.</li>
-                          <li>Connected the UI and server to enable dynamic interactions.</li>
-                        </ul>
-                      </div>
-
-                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
-                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
-                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                          
-                          <!-- Image with technical overlay -->
-                          <img 
-                            src="bot.png" 
-                            alt="TorchBot Interface" 
-                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
-                          >
-                          <!-- Technical HUD overlay -->
-                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
-                            <div class="flex justify-between">
-                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
-                              <span>v2.1.5</span>
-                            </div>
-                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
-                              <span>PYTORCH 1.13.1</span>
-                              <span>|</span>
-                              <span>WEBSOCKET</span>
-                              <span>|</span>
-                              <span>REACT 18.2</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
-                          [ Timeline: 2025-Present ]
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-                  <span class="min-width-span absolute sm:left-1/2 sm:transform sm:-translate-x-2 z-50 w-5 h-10 bg-green-500  border-4 border-white shadow-md "></span>
-                </div>
-                
-                
-                
-                <!-- Section 2 -->
-                <div class="flex relative pb-8"> <!-- Added 'relative' and padding-left -->
-                  <span class="absolute min-width-span  sm:left-1/2 sm:transform sm:-translate-x-2 w-5 h-10 bg-green-500 border-4 border-white shadow-md"></span>
-                  <div class="animate-from-right timeline-item element_list shadow-lg border-l-4 border-blue-500 ">
-                    <div class="flex flex-col gap-5 flex-wrap">
-                      <div class="flex flex-row justify-center gap-2 w-full flex-wrap ">
-                        <div class="tech-tag">Vue.js</div>
-                        <div class="tech-tag">JavaScript</div>
-                        <div class="tech-tag">HTML</div>
-                        <div class="tech-tag">CSS</div>
-                      </div>
-                      <div class="left-0 text-center p-2 ">GPA Calculator</div>
-                      <div class="mx-auto ">
-                        <ul class="text-list list-disc pl-6 border-l-4 border-r-4 border-green-500 bg-lime-900 text-gray-200 break-words leading-snug text-xs font-mono shadow-lg space-y-3">
-                          <li>Designed a two-section interface for students to calculate current and projected GPAs.</li>
-                          <li>Implemented future-section calculator, enhancing user experience through various layouts</li>
-                          <li>Created basic JavaScript functions to efficiently calculate grades, credits, transfer credits, and total earned credits,
-                            streamlining the GPA calculation process.</li>
-                        </ul>
-                      </div>
-                      <div class="group relative mx-auto max-w-2xl p-4 transition-all duration-300 hover:p-2">
-                        <div class="relative overflow-hidden rounded-lg border-2 border-green-500/30 bg-black/20 shadow-xl transition-all duration-500 hover:border-green-500/50 hover:shadow-[0_0_30px_#00FF0033]">
-                          <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-                          <!-- Image with technical overlay -->
-                          <img 
-                            src="bot.png" 
-                            alt="TorchBot Interface" 
-                            class="relative z-10 h-auto w-full object-contain grayscale-[25%] transition-all duration-500 group-hover:grayscale-0"
-                          >
-                          <!-- Technical HUD overlay -->
-                          <div class="absolute bottom-0 left-0 right-0 bg-black/80 p-3 font-mono text-xs text-green-400 backdrop-blur-sm">
-                            <div class="flex justify-between">
-                              <span>STATUS: <span class="text-green-500">ONLINE</span></span>
-                              <span>v2.1.5</span>
-                            </div>
-                            <div class="mt-1 flex gap-2 text-[0.6rem] opacity-75">
-                              <span>PYTORCH 1.13.1</span>
-                              <span>|</span>
-                              <span>WEBSOCKET</span>
-                              <span>|</span>
-                              <span>REACT 18.2</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mt-2 text-center font-mono text-xs text-gray-400 transition-all group-hover:text-green-400">
-                          [ Timeline: 06-2024 -- 07-2024 ]
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-
-                
-
-
-
-
-
-
-              </div>
-              </div>
-            </section>
+<body class="antialiased">
+  <div class="flex flex-col lg:flex-row max-w-screen-xl min-h-screen mx-auto">
+    <!-- Fixed Header -->
+    <header class="lg:fixed lg:top-0 lg:left-0 lg:w-2/5 lg:h-screen lg:py-24 lg:px-16 p-8 z-10">
+      <div class="header-container flex flex-col justify-between h-full lg:ml-auto">
+        <div>
+          <h1 class="text-4xl font-bold sm:text-5xl text-[#64ffda] pb-4 gradient-border fade-in futuristic-header">
+            ZHICHENG YU
+          </h1>
+          <div class="mt-4 fade-in delay-100">
+            <h2 class="text-lg font-medium text-slate-200 sm:text-xl">
+              FULLSTACK SOFTWARE ENGINEER
+            </h2>
+            <p class="mt-3 leading-normal text-[#8892b0] sm:text-lg max-w-md futuristic-text">
+              Crafting immersive digital experiences with precision and innovation
+            </p>
+            <!-- Navigation -->
+            <nav class="mt-10 flex flex-col flex-wrap gap-5 fade-in delay-200" aria-label="Main Navigation">
+              <a href="#about" class="text-[#64ffda] hover:text-[#64ffda] transition-colors flex items-center group">
+                <span class="w-8 h-px bg-[#64ffda] mr-4 transition-all group-hover:w-12"></span>
+                <span class="futuristic-text group-hover:tracking-widest transition-all">ABOUT</span>
+              </a>
+              <a href="#technologies" class="text-[#8892b0] hover:text-[#e6f1ff] transition-colors flex items-center group">
+                <span class="w-8 h-px bg-[#8892b0] mr-4 transition-all group-hover:w-12 group-hover:bg-[#64ffda]"></span>
+                <span class="futuristic-text group-hover:tracking-widest transition-all">TECHNOLOGIES</span>
+              </a>
+              <a href="#experience" class="text-[#8892b0] hover:text-[#e6f1ff] transition-colors flex items-center group">
+                <span class="w-8 h-px bg-[#8892b0] mr-4 transition-all group-hover:w-12 group-hover:bg-[#64ffda]"></span>
+                <span class="futuristic-text group-hover:tracking-widest transition-all">EXPERIENCE</span>
+              </a>
+              <a href="#projects" class="text-[#8892b0] hover:text-[#e6f1ff] transition-colors flex items-center group">
+                <span class="w-8 h-px bg-[#8892b0] mr-4 transition-all group-hover:w-12 group-hover:bg-[#64ffda]"></span>
+                <span class="futuristic-text group-hover:tracking-widest transition-all">PROJECTS</span>
+              </a>
+              <a href="#pathway" class="text-[#8892b0] hover:text-[#e6f1ff] transition-colors flex items-center group">
+                <span class="w-8 h-px bg-[#8892b0] mr-4 transition-all group-hover:w-12 group-hover:bg-[#64ffda]"></span>
+                <span class="futuristic-text group-hover:tracking-widest transition-all">PATHWAY</span>
+              </a>
+            </nav>
           </div>
         </div>
+        <!-- Social Links -->
+        <div class="mt-12 flex space-x-6 fade-in delay-300">
+          <a href="https://github.com/Zhichengu1" class="text-[#8892b0] hover:text-[#64ffda] transition-colors text-xl" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/zhichengyu369" class="text-[#8892b0] hover:text-[#64ffda] transition-colors text-xl" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://twitter.com/" class="text-[#8892b0] hover:text-[#64ffda] transition-colors text-xl" target="_blank" rel="noopener" aria-label="Twitter">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="https://codepen.io/" class="text-[#8892b0] hover:text-[#64ffda] transition-colors text-xl" target="_blank" rel="noopener" aria-label="CodePen">
+            <i class="fab fa-codepen"></i>
+          </a>
+        </div>
       </div>
+    </header>
+
+    <main class="lg:px-2 lg:ml-[40%] lg:w-[60%]">
+      <div class="px-6 lg:px-10 py-24">
+
+        <!-- About Section -->
+        <section id="about" class="mb-24">
+          <h2 class="text-2xl font-bold text-[#64ffda] mb-10 flex items-center section-divider fade-in futuristic-header">
+            ABOUT ME
+          </h2>
+          <div class="space-y-5 text-[#ccd6f6] fade-in delay-100 futuristic-text">
+            <p>Hi, I’m <strong>Zhicheng Yu</strong>, a <strong>sophomore</strong> studying <em>Computer Science</em> at <strong>Hunter College</strong>. I’m <strong>passionate</strong> about <em>coding</em> and love working on <strong>projects</strong> that help me <em>learn new skills</em> and <strong>solve real problems</strong>.</p>
+            <p>I enjoy programming in Python, C++, and JavaScript, and I’m always open to feedback and eager to grow in challenging environments.</p>
+            <p>When I’m not coding, I like collaborating with others, exploring new ideas, and constantly challenging myself to grow both personally and professionally.</p>
+          </div>
+        </section>
+        
+        <!-- Technologies Section -->
+        <section id="technologies" class="mb-24">
+          <h2 class="text-2xl font-bold text-[#64ffda] mb-10 flex items-center section-divider fade-in futuristic-header">
+            TECHNOLOGIES
+          </h2>
+
+          <p class="mb-8 text-[#ccd6f6] fade-in delay-100 futuristic-text">
+            Technologies I've learned and currently work with:
+          </p>
+
+          <!-- Frontend Section -->
+          <div class="mb-4 text-[#ccd6f6] fade-in delay-100 futuristic-text font-semibold">
+            Frontend
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-5 fade-in delay-200">
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">JavaScript (ES6+)</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">React</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">Typescript</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">Next.js</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">Tailwind CSS</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Backend Section -->
+          <div class="mt-10 mb-4 text-[#ccd6f6] fade-in delay-100 futuristic-text font-semibold">
+            Backend | Other Technologies
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-5 fade-in delay-200">
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">Flask</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">Python</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">SQL</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">Django</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">AWS</span>
+              </div>
+            </div>
+            <div class="tech-badge px-5 py-4 rounded-lg">
+              <div class="flex items-center">
+                <span class="text-[#64ffda] mr-3 text-lg">▹</span>
+                <span class="futuristic-text">C++</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Experience Section -->
+        <section id="experience" class="mb-24">
+          <h2 class="text-2xl font-bold text-[#64ffda] mb-10 flex items-center section-divider fade-in futuristic-header">
+            EXPERIENCE
+          </h2>
+          <div class="space-y-12 fade-in delay-100">
+            <div class="border-l-2 border-[#64ffda] pl-8 py-2">
+              <div class="flex justify-between flex-wrap">
+                <h3 class="text-xl font-semibold ">Frontend Web Developer Intern</h3>
+                <span class="text-[#64ffda] futuristic-text">Mar. 2025 - May. 2025</span>
+              </div>
+              <p class="text-[#64ffda] font-medium mt-2 futuristic-text">Kontaktsource LLC</p>
+              <ul class="mt-4 text-[#ccd6f6] futuristic-text list-disc list-inside space-y-5">
+                <li>Enhanced user experience by collaborating with design and content teams, managing the community page to highlight members, events, and press coverage.</li>
+                <li>Optimized website performance, implemented new features, and ensured content alignment with Kontaktsource’s brand.</li>
+              </ul>
+            </div>
+            
+            <div class="border-l-2 border-[#64ffda] pl-8 py-2">
+              <div class="flex justify-between flex-wrap">
+                <h3 class="text-xl font-semibold "> Software Engineer Fellow</h3>
+                <span class="text-[#64ffda] futuristic-text">Oct. 2024 - Jan. 2025</span>
+              </div>
+              <p class="text-[#64ffda] font-medium mt-2 futuristic-text">Google Inc.</p>
+              <ul class="mt-4 text-[#ccd6f6] futuristic-text list-disc list-inside space-y-5">
+                <li>Selected as one of 80 interns from a competitive pool of 900+ applicants for the Google Software Engineering
+ Program (G-SWEP), showcasing proficiency in advanced programming concepts and problem-solving abilities.</li>
+              </ul>
+            </div>
+            <div class="border-l-2 border-[#64ffda] pl-8 py-2">
+              <div class="flex justify-between flex-wrap">
+                <h3 class="text-xl font-semibold ">Undergraduate Teaching Assistant</h3>
+                <span class="text-[#64ffda] futuristic-text">Mar. 2024 - May. 2024</span>
+              </div>
+              <p class="text-[#64ffda] font-medium mt-2 futuristic-text">Stony Brook University</p>
+              <ul class="mt-4 text-[#ccd6f6] futuristic-text list-disc list-inside space-y-5">
+                <li>Engineered a support systems for 50+ incoming freshmen in Python programming, improving average course scores
+ by 15% through hands-on coding workshops.</li>
+                <li> Conducted 1:1 tutoring sessions on core CS concepts including algorithms and version control (Git), resolving 95%
+ of student technical blockers.</li>
+              </ul>
+
+          </div>
+        </section>
+        
+        <!-- Projects Section -->
+        <section id="projects" class="mb-24">
+          <h2 class="text-2xl font-bold text-[#64ffda] mb-10 flex items-center section-divider fade-in futuristic-header">
+            PROJECTS
+          </h2>
+          <div class="grid grid-cols-1 gap-8 fade-in delay-100">
+            <div class="project-card p-8 rounded-xl ">
+              <div class="flex justify-between items-start mb-5">
+                <h3 class="text-xl font-semibold text-[#64ffda] futuristic-header glow">GoodHub PLATFORM</h3>
+                <a href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" rel="noopener noreferrer">
+                  <i class="fas fa-external-link-alt text-[#8892b0] hover:text-[#64ffda] cursor-pointer text-lg"></i>
+                </a>
+              </div>
+              <p class="text-[#8892b0] mb-5 futuristic-text">GoodHub is a web application designed to connect environmentally conscious individuals with local and global volunteer opportunities. The platform empowers users to discover, join, and create sustainability-focused events through an intuitive, interactive map interface.</p>
+              <div class="flex flex-wrap gap-3">
+                <span class="text-xs bg-[#64ffda]/10 text-[#64ffda] px-4 py-2 rounded-full futuristic-text">REACT</span>
+                <span class="text-xs bg-[#64ffda]/10 text-[#64ffda] px-4 py-2 rounded-full futuristic-text">Python</span>
+                <span class="text-xs bg-[#64ffda]/10 text-[#64ffda] px-4 py-2 rounded-full futuristic-text">Tailwind</span>
+                <span class="text-xs bg-[#64ffda]/10 text-[#64ffda] px-4 py-2 rounded-full futuristic-text">Leaflet API</span>
+              </div>
+              <p class="text-medium font-semibold text-[#64ffda] futuristic-header my-5 text-center">May. 2025 (Hackathon)</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Pathway Section -->
+        <section id="pathway" class="mb-24">
+          <h2 class="text-2xl font-bold text-[#64ffda] mb-10 flex items-center section-divider fade-in futuristic-header">
+            PATHWAY PROGRAM
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 fade-in delay-100">
+            <div class="pathway-card p-8">
+              <div class="pathway-icon floating" style="font-size: 24px; font-weight: bold;">
+                <span style="color: #e53238;">e</span><span style="color: #0064d2;">B</span><span style="color: #f5af02;">a</span><span style="color: #86b817;">y</span>
+              </div>
+              <h3 class="text-xl font-semibold text-[#64ffda] mb-4 ">
+                <a href="https://app.ripplematch.com/v2/public/company/ebay">
+                  Ebay Pathway Program
+                </a></h3>
+              <p class="text-[#ccd6f6] futuristic-text">I participated in the eBay Pathway Program, collaborating on real-world projects while gaining mentorship and hands-on experience in tech and professional development.</p>
+            </div>
+        </section>
+        
+        <section class="text-center py-16 text-[#8892b0] text-sm fade-in delay-200 futuristic-text">
+          <p>DESIGNED & ENGINEERED BY ZHICHENG YU</p>
+          <p class="mt-2">© 2025 ALL RIGHTS RESERVED</p>
+          <div class="mt-4 flex justify-center">
+            <div class="w-24 h-px bg-[#64ffda]"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  
+  <script>
+    // Add active class to navigation based on scroll position
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('nav a');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          
+          if(pageYOffset >= (sectionTop - 300)) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navLinks.forEach(link => {
+          link.classList.remove('text-[#64ffda]');
+          link.classList.add('text-[#8892b0]');
+          link.querySelector('span:last-child').classList.remove('tracking-widest');
+          
+          if(link.getAttribute('href').substring(1) === current) {
+            link.classList.remove('text-[#8892b0]');
+            link.classList.add('text-[#64ffda]');
+            link.querySelector('span:first-child').style.backgroundColor = '#64ffda';
+            link.querySelector('span:last-child').classList.add('tracking-widest');
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
