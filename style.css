@@ -167,6 +167,38 @@ body::before {
       transform: translateX(0);
 }
 
+.decode-text {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  position: relative;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+}
+
+.decode-text::before {
+  content: "";
+  animation: decode 2s infinite alternate;
+  font-family: 'Courier New', monospace;
+  font-size: inherit;
+}
+
+.glitch-text {
+  animation: glitch 1s infinite;
+}
+@keyframes glitch {
+  0% { text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00fff9; }
+  14% { text-shadow: 0.05em 0 0 #ff00c1, -0.05em -0.025em 0 #00fff9; }
+  15% { text-shadow: -0.05em -0.025em 0 #ff00c1, 0.025em 0.025em 0 #00fff9; }
+  49% { text-shadow: -0.05em -0.025em 0 #ff00c1, 0.025em 0.025em 0 #00fff9; }
+  50% { text-shadow: 0.025em 0.05em 0 #ff00c1, 0.05em 0 0 #00fff9; }
+  99% { text-shadow: 0.025em 0.05em 0 #ff00c1, 0.05em 0 0 #00fff9; }
+  100% { text-shadow: -0.025em 0 0 #ff00c1, -0.025em -0.025em 0 #00fff9; }
+}
+@keyframes decode {
+  0% { content: "▚⍓⋏☍⌇⍀"; }
+  50% { content: "H⍜W⎅⋉!"; }
+  100% { content: "Hello!"; }
+}
 @keyframes float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
