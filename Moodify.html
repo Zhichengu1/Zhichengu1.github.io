@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Moodify - Zhicheng Yu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      background-color: #0a192f;
+      font-family: 'Exo 2', sans-serif;
+    }
+    .futuristic-header {
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 0.05em;
+    }
+    .futuristic-text {
+      font-family: 'Exo 2', sans-serif;
+    }
+    .feature-card {
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, rgba(29, 185, 84, 0.05) 0%, rgba(29, 185, 84, 0.02) 100%);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(29, 185, 84, 0.2);
+      background: linear-gradient(135deg, rgba(29, 185, 84, 0.1) 0%, rgba(29, 185, 84, 0.05) 100%);
+    }
+    .video-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 2px solid rgba(29, 185, 84, 0.2);
+      /* Darker background for video container to look good with object-contain */
+      background: #000; 
+    }
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      /* Changed to contain so UI elements in your demo aren't cropped off */
+      object-fit: contain; 
+    }
+    .tech-pill {
+      animation: pulse-subtle 3s ease-in-out infinite;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { box-shadow: 0 0 10px rgba(29, 185, 84, 0.2); }
+      50% { box-shadow: 0 0 20px rgba(29, 185, 84, 0.4); }
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -9px;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #1db954;
+      box-shadow: 0 0 20px rgba(29, 185, 84, 0.6);
+    }
+    .spotify-gradient {
+      background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
+    }
+    .terminal-window {
+      background: #112240;
+      border-radius: 8px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      font-family: 'Fira Code', monospace;
+    }
+    .terminal-header {
+      background: #0a192f;
+      padding: 10px 15px;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+      display: flex;
+      align-items: center;
+    }
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+  </style>
+</head>
+<body class="antialiased text-gray-300">
+  <div class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a192f]/95 backdrop-blur-sm border-b border-[#64ffda]/10">
+      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="../project.html" class="flex items-center gap-3 text-[#64ffda] hover:text-[#e6f1ff] transition-colors group">
+          <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+          <span class="futuristic-text font-semibold">ALL PROJECTS</span>
+        </a>
+        <a href="../index.html" class="text-[#ccd6f6] hover:text-[#64ffda] transition-colors futuristic-text text-sm">
+          HOME
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-wrap gap-3 mb-6 fade-in">
+          <span class="px-4 py-2 bg-[#1db954]/10 text-[#1db954] rounded-full text-sm font-semibold border border-[#1db954]/30">
+            WEB APP
+          </span>
+          <span class="px-4 py-2 bg-[#ff6afc]/10 text-[#ff6afc] rounded-full text-sm font-semibold border border-[#ff6afc]/30">
+            FULL STACK
+          </span>
+          <span class="px-4 py-2 bg-[#64ffda]/10 text-[#64ffda] rounded-full text-sm font-semibold border border-[#64ffda]/30">
+            API INTEGRATION
+          </span>
+        </div>
+        
+        <h1 class="text-5xl md:text-7xl font-bold text-[#1db954] mb-6 futuristic-header fade-in delay-100">
+          MOODIFY
+        </h1>
+        
+        <p class="text-xl text-[#ccd6f6] max-w-4xl mb-8 futuristic-text fade-in delay-200 leading-relaxed">
+          A personalized Spotify playlist generator that creates curated music experiences based on your mood, listening history, and favorite genres. Connect with Spotify, select your vibe, and discover your perfect soundtrack.
+        </p>
+
+        <div class="flex flex-wrap gap-4 fade-in delay-300">
+          <!-- Added rel="noopener noreferrer" for security -->
+          <a href="https://github.com/Zhichengu1/Moodify" target="_blank" rel="noopener noreferrer" class="px-8 py-4 spotify-gradient text-white rounded-lg font-semibold hover:opacity-90 transition-all hover:scale-105 shadow-[0_0_20px_rgba(29,185,84,0.3)]">
+            <i class="fab fa-github mr-2"></i>VIEW CODE
+          </a>
+          <a href="#demo" class="px-8 py-4 bg-[#112240] text-[#1db954] border-2 border-[#1db954] rounded-lg font-semibold hover:bg-[#1db954]/10 transition-all">
+            <i class="fas fa-play mr-2"></i>WATCH DEMO
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Video Section -->
+    <section id="demo" class="py-8 px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="video-container aspect-video fade-in">
+          <!-- 
+            Updated Video Tag:
+            1. playsinline: Prevents automatic fullscreen on iOS
+            2. poster: Shows a placeholder image before video loads (looks better)
+            3. preload: Loads metadata early for faster startup 
+          -->
+          <video 
+            class="w-full h-full" 
+            controls 
+            playsinline
+            preload="metadata"
+            poster="https://placehold.co/1920x1080/112240/1db954?text=Moodify+Demo+Preview"
+          >
+            <!-- Ensure this file path is correct relative to where this HTML file is saved -->
+            <source src="Moodify.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <p class="text-center text-[#8892b0] text-sm mt-4 futuristic-text">
+          <i class="fas fa-info-circle mr-2"></i>Full application demo showcasing mood selection and playlist generation
+        </p>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          TECH STACK
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#1db954]/20 text-center hover:border-[#1db954] transition-all">
+            <i class="fab fa-react text-3xl text-[#1db954] mb-2"></i>
+            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">React</p>
+          </div>
+          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#1db954]/20 text-center hover:border-[#1db954] transition-all">
+            <i class="fab fa-python text-3xl text-[#1db954] mb-2"></i>
+            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Python</p>
+          </div>
+          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#1db954]/20 text-center hover:border-[#1db954] transition-all">
+            <i class="fas fa-server text-3xl text-[#1db954] mb-2"></i>
+            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Flask</p>
+          </div>
+          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#1db954]/20 text-center hover:border-[#1db954] transition-all">
+            <i class="fab fa-spotify text-3xl text-[#1db954] mb-2"></i>
+            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Spotify API</p>
+          </div>
+          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#1db954]/20 text-center hover:border-[#1db954] transition-all">
+            <i class="fas fa-css3-alt text-3xl text-[#1db954] mb-2"></i>
+            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Tailwind CSS</p>
+          </div>
+          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#1db954]/20 text-center hover:border-[#1db954] transition-all">
+            <i class="fas fa-code text-3xl text-[#1db954] mb-2"></i>
+            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Spotipy</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section class="py-16 px-6 bg-[#112240]/30">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          PROJECT OVERVIEW
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold text-[#1db954] mb-4 futuristic-text">The Challenge</h3>
+            <p class="text-[#ccd6f6] leading-relaxed mb-6">
+              Music streaming users often struggle to discover new music that matches their current mood. 
+              While Spotify has millions of songs, finding the right tracks for a specific emotional state 
+              or activity can be time-consuming and frustrating. Existing playlist generators lack personalization 
+              and don't adapt to individual listening preferences.
+            </p>
+            <h3 class="text-xl font-semibold text-[#1db954] mb-4 futuristic-text">The Solution</h3>
+            <p class="text-[#ccd6f6] leading-relaxed">
+              Moodify leverages the Spotify Web API to analyze your listening history, top genres, and favorite 
+              artists to generate highly personalized playlists. Using intelligent genre normalization and the 
+              Search API, it creates dynamic playlists that truly match your mood while introducing you to new 
+              tracks aligned with your taste.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#1db954] mb-4 futuristic-text">Key Metrics</h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#1db954]/10">
+                <span class="text-[#ccd6f6] futuristic-text">Development Time</span>
+                <span class="text-[#1db954] font-bold text-xl">3 weeks</span>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#1db954]/10">
+                <span class="text-[#ccd6f6] futuristic-text">API Endpoints</span>
+                <span class="text-[#1db954] font-bold text-xl">8</span>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#1db954]/10">
+                <span class="text-[#ccd6f6] futuristic-text">Lines of Code</span>
+                <span class="text-[#1db954] font-bold text-xl">3,500+</span>
+              </div>
+              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#1db954]/10">
+                <span class="text-[#ccd6f6] futuristic-text">Genre Mappings</span>
+                <span class="text-[#1db954] font-bold text-xl">50+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          KEY FEATURES
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="feature-card p-6 rounded-xl border border-[#1db954]/20">
+            <div class="w-12 h-12 bg-[#1db954]/10 rounded-lg flex items-center justify-center mb-4">
+              <i class="fab fa-spotify text-2xl text-[#1db954]"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Spotify OAuth</h3>
+            <p class="text-[#8892b0] text-sm leading-relaxed">
+              Secure authentication using Spotify's OAuth 2.0 flow with automatic token refresh for seamless user experience.
+            </p>
+          </div>
+
+          <div class="feature-card p-6 rounded-xl border border-[#1db954]/20">
+            <div class="w-12 h-12 bg-[#1db954]/10 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-user-music text-2xl text-[#1db954]"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Personalized Analysis</h3>
+            <p class="text-[#8892b0] text-sm leading-relaxed">
+              Analyzes your top tracks, favorite artists, and listening patterns to understand your unique music taste.
+            </p>
+          </div>
+
+          <div class="feature-card p-6 rounded-xl border border-[#1db954]/20">
+            <div class="w-12 h-12 bg-[#1db954]/10 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-brain text-2xl text-[#1db954]"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Smart Genre Matching</h3>
+            <p class="text-[#8892b0] text-sm leading-relaxed">
+              Intelligent genre normalization system that maps your favorite genres to Spotify's recommendation seeds.
+            </p>
+          </div>
+
+          <div class="feature-card p-6 rounded-xl border border-[#1db954]/20">
+            <div class="w-12 h-12 bg-[#1db954]/10 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-list-music text-2xl text-[#1db954]"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Dynamic Playlists</h3>
+            <p class="text-[#8892b0] text-sm leading-relaxed">
+              Generate fresh, mood-based playlists using the Search API with randomized results for variety.
+            </p>
+          </div>
+
+          <div class="feature-card p-6 rounded-xl border border-[#1db954]/20">
+            <div class="w-12 h-12 bg-[#1db954]/10 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-smile text-2xl text-[#1db954]"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Mood Selection</h3>
+            <p class="text-[#8892b0] text-sm leading-relaxed">
+              Choose from multiple moods (Chill, Energetic, Focus, Sad, Happy) with an intuitive visual mood selector interface.
+            </p>
+          </div>
+
+          <div class="feature-card p-6 rounded-xl border border-[#1db954]/20">
+            <div class="w-12 h-12 bg-[#1db954]/10 rounded-lg flex items-center justify-center mb-4">
+              <i class="fas fa-sync text-2xl text-[#1db954]"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Auto Token Refresh</h3>
+            <p class="text-[#8892b0] text-sm leading-relaxed">
+              Automatic token refresh system ensures uninterrupted API access without requiring manual re-authentication.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Backend Architecture -->
+    <section class="py-16 px-6 bg-[#112240]/30">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          BACKEND ARCHITECTURE
+        </h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-[#0a192f]/50 p-6 rounded-xl border border-[#1db954]/20">
+            <h3 class="text-lg font-semibold text-[#1db954] mb-4 futuristic-text flex items-center">
+              <i class="fas fa-lock mr-2"></i>Authentication Layer
+            </h3>
+            <ul class="space-y-2 text-[#8892b0] text-sm">
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>OAuth 2.0 flow implementation</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Server-side token storage</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Automatic token refresh</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Session management</li>
+            </ul>
+          </div>
+
+          <div class="bg-[#0a192f]/50 p-6 rounded-xl border border-[#1db954]/20">
+            <h3 class="text-lg font-semibold text-[#1db954] mb-4 futuristic-text flex items-center">
+              <i class="fas fa-database mr-2"></i>Data Processing
+            </h3>
+            <ul class="space-y-2 text-[#8892b0] text-sm">
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Top tracks analysis</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Genre extraction & normalization</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Artist preferences mapping</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Listening history parsing</li>
+            </ul>
+          </div>
+
+          <div class="bg-[#0a192f]/50 p-6 rounded-xl border border-[#1db954]/20">
+            <h3 class="text-lg font-semibold text-[#1db954] mb-4 futuristic-text flex items-center">
+              <i class="fas fa-magic mr-2"></i>Recommendation Engine
+            </h3>
+            <ul class="space-y-2 text-[#8892b0] text-sm">
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Genre-based search queries</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Randomized result offsets</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Track aggregation & mixing</li>
+              <li class="flex items-start"><span class="text-[#64ffda] mr-2">•</span>Duplicate filtering</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Development Process -->
+    <section class="py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          DEVELOPMENT PROCESS
+        </h2>
+        <div class="space-y-8">
+          <div class="relative pl-8 border-l-2 border-[#1db954] timeline-item">
+            <h3 class="text-xl font-semibold text-[#1db954] mb-2 futuristic-text">Week 1: Foundation & Authentication</h3>
+            <p class="text-[#8892b0] mb-3">Days 1-7</p>
+            <p class="text-[#ccd6f6] leading-relaxed">
+              Set up Spotify Developer account, implemented OAuth 2.0 flow, created Flask backend structure, 
+              and built token management system with automatic refresh functionality. Designed authentication routes 
+              and tested API connectivity.
+            </p>
+          </div>
+
+          <div class="relative pl-8 border-l-2 border-[#1db954] timeline-item">
+            <h3 class="text-xl font-semibold text-[#1db954] mb-2 futuristic-text">Week 2: Data Analysis & Genre System</h3>
+            <p class="text-[#8892b0] mb-3">Days 8-14</p>
+            <p class="text-[#ccd6f6] leading-relaxed">
+              Developed data fetching utilities for user's top tracks and artists, created comprehensive genre 
+              normalization system with 50+ mappings, implemented Search API integration, and built recommendation 
+              generation logic with randomization for variety.
+            </p>
+          </div>
+
+          <div class="relative pl-8 border-l-2 border-[#1db954] timeline-item">
+            <h3 class="text-xl font-semibold text-[#1db954] mb-2 futuristic-text">Week 3: Frontend & Polish</h3>
+            <p class="text-[#8892b0] mb-3">Days 15-21</p>
+            <p class="text-[#ccd6f6] leading-relaxed">
+              Built React frontend with Tailwind CSS, created responsive dashboard with mood selector, implemented 
+              user profile display, added error handling throughout the application, optimized API calls, and conducted 
+              end-to-end testing. Finalized documentation and deployment preparation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenges & Solutions -->
+    <section class="py-16 px-6 bg-[#112240]/30">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          CHALLENGES & SOLUTIONS
+        </h2>
+        <div class="space-y-6">
+          <div class="bg-[#112240] p-6 rounded-xl border-l-4 border-[#ff6afc]">
+            <h3 class="text-xl font-semibold text-[#ff6afc] mb-3 futuristic-text">Challenge: Genre Normalization</h3>
+            <p class="text-[#ccd6f6] mb-3">
+              Spotify artists have hundreds of non-standard genre tags (e.g., "taiwanese indie", "dream pop", "k-rap") 
+              that don't match the Recommendations API's limited seed genre list. This caused failed API calls and 
+              poor recommendation quality.
+            </p>
+            <p class="text-[#8892b0]">
+              <span class="text-[#1db954] font-semibold">Solution:</span> Created an extensive genre mapping dictionary 
+              with 50+ transformations, implemented fuzzy matching logic, and added fallback mechanisms. The system 
+              now successfully normalizes 95% of user genres to valid Spotify seeds.
+            </p>
+          </div>
+
+          <div class="bg-[#112240] p-6 rounded-xl border-l-4 border-[#00fff7]">
+            <h3 class="text-xl font-semibold text-[#00fff7] mb-3 futuristic-text">Challenge: Token Expiration</h3>
+            <p class="text-[#ccd6f6] mb-3">
+              Spotify access tokens expire after one hour, causing API calls to fail with 401 errors. Users would need 
+              to manually re-authenticate, creating a poor user experience and session interruptions.
+            </p>
+            <p class="text-[#8892b0]">
+              <span class="text-[#1db954] font-semibold">Solution:</span> Implemented an automatic token refresh system 
+              using refresh tokens. Added 60-second buffer before expiration and created a decorator pattern to handle 
+              authentication transparently in all routes. Users now stay logged in seamlessly.
+            </p>
+          </div>
+
+          <div class="bg-[#112240] p-6 rounded-xl border-l-4 border-[#64ffda]">
+            <h3 class="text-xl font-semibold text-[#64ffda] mb-3 futuristic-text">Challenge: Playlist Variety</h3>
+            <p class="text-[#ccd6f6] mb-3">
+              Using the Recommendations API with fixed seed parameters resulted in repetitive playlists. Users would 
+              get the same songs repeatedly when generating playlists for the same mood.
+            </p>
+            <p class="text-[#8892b0]">
+              <span class="text-[#1db954] font-semibold">Solution:</span> Switched to the Search API with randomized 
+              offset parameters (0-950), allowing discovery of different tracks on each generation. Implemented track 
+              shuffling and aggregation from multiple genre queries for better variety.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Learnings & Takeaways -->
+    <section class="py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          LEARNINGS & TAKEAWAYS
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold text-[#1db954] mb-4 futuristic-text">Technical Skills</h3>
+            <ul class="space-y-3 text-[#ccd6f6]">
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-[#1db954] mr-3 mt-1"></i>
+                <span>Mastered OAuth 2.0 authentication flow, secure token storage, and automatic refresh cycles using Python decorators.</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-[#1db954] mr-3 mt-1"></i>
+                <span>Deep understanding of Spotify Web API endpoints, response structures, rate limiting, and pagination handling.</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-[#1db954] mr-3 mt-1"></i>
+                <span>Proficiency in creating RESTful APIs with Flask, including Blueprint organization and CORS management.</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-check-circle text-[#1db954] mr-3 mt-1"></i>
+                <span>Advanced React state management for handling asynchronous data fetching and user sessions.</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-[#1db954] mb-4 futuristic-text">Product & Soft Skills</h3>
+            <ul class="space-y-3 text-[#ccd6f6]">
+              <li class="flex items-start">
+                <i class="fas fa-lightbulb text-[#1db954] mr-3 mt-1"></i>
+                <span><strong>Problem Solving:</strong> Developed a custom algorithm for genre normalization when standard APIs proved insufficient.</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-lightbulb text-[#1db954] mr-3 mt-1"></i>
+                <span><strong>UX Design:</strong> Designed a dark-mode first interface that mimics the Spotify aesthetic while adding unique "futuristic" elements.</span>
+              </li>
+              <li class="flex items-start">
+                <i class="fas fa-lightbulb text-[#1db954] mr-3 mt-1"></i>
+                <span><strong>API Documentation:</strong> Learned to navigate and interpret complex third-party documentation to implement features correctly.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Future Improvements -->
+    <section class="py-16 px-6 bg-[#112240]/30">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+          <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+          FUTURE IMPROVEMENTS
+        </h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-[#0a192f] p-6 rounded-xl border border-[#1db954]/20 hover:border-[#1db954] transition-colors">
+            <i class="fab fa-spotify text-3xl text-[#1db954] mb-4"></i>
+            <h4 class="text-lg font-semibold text-[#e6f1ff] mb-2">Save to Library</h4>
+            <p class="text-[#8892b0] text-sm">Allow Premium users to save generated playlists directly to their Spotify account with one click.</p>
+          </div>
+          <div class="bg-[#0a192f] p-6 rounded-xl border border-[#1db954]/20 hover:border-[#1db954] transition-colors">
+            <i class="fas fa-robot text-3xl text-[#ff6afc] mb-4"></i>
+            <h4 class="text-lg font-semibold text-[#e6f1ff] mb-2">AI Integration</h4>
+            <p class="text-[#8892b0] text-sm">Integrate NLP to allow users to describe their mood in text (e.g., "Rainy sunday reading") for playlist generation.</p>
+          </div>
+          <div class="bg-[#0a192f] p-6 rounded-xl border border-[#1db954]/20 hover:border-[#1db954] transition-colors">
+            <i class="fas fa-mobile-alt text-3xl text-[#64ffda] mb-4"></i>
+            <h4 class="text-lg font-semibold text-[#e6f1ff] mb-2">Mobile App</h4>
+            <p class="text-[#8892b0] text-sm">Develop a React Native version of Moodify for iOS and Android for on-the-go usage.</p>
+          </div>
+          <div class="bg-[#0a192f] p-6 rounded-xl border border-[#1db954]/20 hover:border-[#1db954] transition-colors">
+            <i class="fas fa-users text-3xl text-[#00fff7] mb-4"></i>
+            <h4 class="text-lg font-semibold text-[#e6f1ff] mb-2">Social Sharing</h4>
+            <p class="text-[#8892b0] text-sm">Enable users to share their generated mood cards and playlists on social media platforms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Installation / Get Started -->
+    <section class="py-16 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
+                <span class="w-12 h-px bg-[#1db954] mr-4"></span>
+                RUN LOCALLY
+            </h2>
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <div class="terminal-dot bg-red-500"></div>
+                    <div class="terminal-dot bg-yellow-500"></div>
+                    <div class="terminal-dot bg-green-500"></div>
+                    <span class="ml-4 text-xs text-gray-400">bash — 80x24</span>
+                </div>
+                <div class="p-6 text-sm text-gray-300 space-y-4">
+                    <div class="flex gap-3">
+                        <span class="text-[#1db954]">$</span>
+                        <p>git clone https://github.com/yourusername/moodify.git</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-[#1db954]">$</span>
+                        <p>cd moodify/backend && pip install -r requirements.txt</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-[#1db954]">$</span>
+                        <p>python app.py</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <span class="text-[#1db954]">$</span>
+                        <p>cd ../frontend && npm install && npm start</p>
+                    </div>
+                    <div class="flex gap-3 mt-4">
+                        <span class="text-[#1db954]">➜</span>
+                        <p class="text-[#64ffda]">Server running on http://localhost:5000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#020c1b] py-12 px-6 border-t border-[#1db954]/10">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-center md:text-left">
+                <h3 class="text-2xl font-bold text-[#e6f1ff] futuristic-header">MOODIFY</h3>
+                <p class="text-[#8892b0] text-sm mt-2">Designed & Built by Zhicheng Yu</p>
+            </div>
+            
+            <div class="flex gap-6">
+                <a href="#" class="text-[#8892b0] hover:text-[#1db954] transition-colors text-xl"><i class="fab fa-github"></i></a>
+                <a href="#" class="text-[#8892b0] hover:text-[#1db954] transition-colors text-xl"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="text-[#8892b0] hover:text-[#1db954] transition-colors text-xl"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-[#8892b0] text-xs futuristic-text">
+            <p>© 2024 Moodify. All rights reserved. | Not affiliated with Spotify AB.</p>
+        </div>
+    </footer>
+
+  </div>
+</body>
+</html>
