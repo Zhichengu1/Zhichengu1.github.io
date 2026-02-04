@@ -51,6 +51,267 @@
       overflow-x: hidden;
     }
 
+    /* Animated Gradient Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #0a192f, #112240, #1a365d, #0a192f);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      z-index: -2;
+    }
+    
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(100, 255, 218, 0.3);
+      border-radius: 50%;
+      animation: float 20s infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* Scroll Progress Bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #64ffda, #00fff9, #64ffda);
+      z-index: 10000;
+      transform-origin: left;
+      transition: transform 0.1s ease-out;
+    }
+
+    /* 3D Tilt Card Effect */
+    .tilt-card {
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+    
+    .tilt-card:hover {
+      transform: perspective(1000px) rotateX(var(--rotateX)) rotateY(var(--rotateY));
+    }
+    
+    .tilt-card .tilt-content {
+      transform: translateZ(30px);
+      transition: transform 0.5s ease;
+    }
+
+    /* Magnetic Button Effect */
+    .magnetic-btn {
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .magnetic-btn::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(45deg, #64ffda, #00fff9, #64ffda);
+      border-radius: inherit;
+      opacity: 0;
+      z-index: -1;
+      transition: opacity 0.3s ease;
+    }
+    
+    .magnetic-btn:hover::before {
+      opacity: 1;
+      animation: borderGlow 2s linear infinite;
+    }
+    
+    @keyframes borderGlow {
+      0%, 100% { filter: blur(3px); }
+      50% { filter: blur(6px); }
+    }
+
+    /* Typing Cursor */
+    .typing-cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1.2em;
+      background: #64ffda;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* Text Reveal Animation */
+    .text-reveal {
+      overflow: hidden;
+    }
+    
+    .text-reveal span {
+      display: inline-block;
+      transform: translateY(100%);
+      animation: textReveal 0.8s ease forwards;
+    }
+    
+    @keyframes textReveal {
+      to { transform: translateY(0); }
+    }
+
+    /* Neon Glow Text */
+    .neon-text {
+      text-shadow: 
+        0 0 5px rgba(100, 255, 218, 0.5),
+        0 0 10px rgba(100, 255, 218, 0.3),
+        0 0 20px rgba(100, 255, 218, 0.2),
+        0 0 40px rgba(100, 255, 218, 0.1);
+    }
+
+    /* Morphing Background Blob */
+    .blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: blobMorph 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes blobMorph {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(50px, -50px) scale(1.1); }
+      50% { transform: translate(0, 50px) scale(0.9); }
+      75% { transform: translate(-50px, -25px) scale(1.05); }
+    }
+
+    /* Reveal on Scroll - Slide variants */
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .reveal-scale {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .revealed {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    /* Hover Underline Animation */
+    .hover-underline {
+      position: relative;
+    }
+    
+    .hover-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, #64ffda, #00fff9);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-underline:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Staggered List Animation */
+    .stagger-list li {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: staggerIn 0.5s ease forwards;
+    }
+    
+    .stagger-list li:nth-child(1) { animation-delay: 0.1s; }
+    .stagger-list li:nth-child(2) { animation-delay: 0.2s; }
+    .stagger-list li:nth-child(3) { animation-delay: 0.3s; }
+    .stagger-list li:nth-child(4) { animation-delay: 0.4s; }
+    .stagger-list li:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes staggerIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Ripple Effect */
+    .ripple {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .ripple::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.3) 0%, transparent 70%);
+      transform: scale(0);
+      opacity: 0;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+    
+    .ripple:hover::after {
+      transform: scale(2);
+      opacity: 1;
+    }
+
     /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
@@ -59,11 +320,11 @@
       background: #0a192f;
     }
     ::-webkit-scrollbar-thumb {
-      background: #233554;
+      background: linear-gradient(180deg, #233554, #64ffda);
       border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #64ffda;
+      background: linear-gradient(180deg, #64ffda, #00fff9);
     }
 
     /* --- Utilities --- */
@@ -184,6 +445,161 @@
       color: #e6f1ff;
       font-weight: 600;
     }
+
+    /* === MODERN ALTERNATING TIMELINE === */
+    .timeline-container {
+      position: relative;
+      max-width: 100%;
+      padding: 20px 0;
+    }
+    
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(180deg, transparent, #64ffda 10%, #64ffda 90%, transparent);
+    }
+    
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 20px 40px;
+      box-sizing: border-box;
+    }
+    
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      text-align: right;
+      padding-right: 50px;
+    }
+    
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      text-align: left;
+      padding-left: 50px;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      width: 16px;
+      height: 16px;
+      background: #0a192f;
+      border: 3px solid #64ffda;
+      border-radius: 50%;
+      z-index: 10;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    }
+    
+    .timeline-item:nth-child(odd)::before {
+      right: -8px;
+    }
+    
+    .timeline-item:nth-child(even)::before {
+      left: -8px;
+    }
+    
+    .timeline-item:hover::before {
+      transform: scale(1.3);
+      box-shadow: 0 0 30px rgba(100, 255, 218, 0.6);
+      background: #64ffda;
+    }
+    
+    .timeline-card {
+      background: linear-gradient(135deg, rgba(17, 34, 64, 0.9), rgba(35, 53, 84, 0.6));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .timeline-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #64ffda, #00fff9, #64ffda);
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .timeline-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(100, 255, 218, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(100, 255, 218, 0.1);
+    }
+    
+    .timeline-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .timeline-date {
+      display: inline-block;
+      background: rgba(100, 255, 218, 0.1);
+      color: #64ffda;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(100, 255, 218, 0.2);
+    }
+    
+    .timeline-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, rgba(100, 255, 218, 0.2), rgba(100, 255, 218, 0.05));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+    
+    .timeline-card:hover .timeline-icon {
+      transform: rotate(10deg) scale(1.1);
+      background: linear-gradient(135deg, rgba(100, 255, 218, 0.3), rgba(100, 255, 218, 0.1));
+    }
+    
+    /* Mobile Timeline */
+    @media (max-width: 768px) {
+      .timeline-container::before {
+        left: 20px;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        text-align: left !important;
+        padding-left: 60px !important;
+        padding-right: 20px !important;
+      }
+      
+      .timeline-item::before {
+        left: 12px !important;
+        right: auto !important;
+      }
+    }
+
+    /* Smooth hover glow effect */
+    .glow-hover {
+      transition: all 0.3s ease;
+    }
+    .glow-hover:hover {
+      box-shadow: 0 0 30px rgba(100, 255, 218, 0.2);
+    }
     
     /* Highlight Spans */
     .highlight {
@@ -203,6 +619,15 @@
 </head>
 <body class="selection:bg-teal selection:text-navy">
 
+  <!-- Animated Gradient Background -->
+  <div class="animated-bg"></div>
+  
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- Mouse Spotlight Overlay -->
   <div id="spotlight" class="spotlight hidden lg:block"></div>
 
@@ -214,19 +639,22 @@
       <!-- === LEFT COLUMN: HEADER & NAV (FIXED) === -->
       <!-- ADDED: lg:pl-12 xl:pl-24 (Padding to keep text readable but anchored left) -->
       <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-5/12 lg:flex-col lg:justify-between lg:py-12 lg:pl-12 xl:pl-24">
-        <div>
+        <div class="relative">
+          <!-- Morphing Blob Background -->
+          <div class="blob -top-20 -left-20 opacity-50"></div>
+          
           <!-- Name & Glitch Effect -->
           <div class="glitch-wrapper mb-2">
-            <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl font-header glitch" data-text="ZHICHENG YU">
+            <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl font-header glitch neon-text" data-text="ZHICHENG YU">
               ZHICHENG YU
             </h1>
           </div>
           
-          <h2 class="mt-3 text-lg font-medium tracking-tight text-white sm:text-xl font-mono text-teal">
-            FULLSTACK SOFTWARE ENGINEER
+          <h2 class="mt-3 text-lg font-medium tracking-tight sm:text-xl font-mono">
+            <span class="text-teal" id="typingText"></span><span class="typing-cursor"></span>
           </h2>
           
-          <p class="mt-4 max-w-xs leading-normal text-slate">
+          <p class="mt-4 max-w-xs leading-normal text-slate reveal-left" id="heroDesc">
             Crafting immersive digital experiences with precision, AI innovation, and scalable architecture.
           </p>
 
@@ -268,21 +696,21 @@
         </div>
 
         <!-- Social Links (Desktop & Mobile) -->
-        <ul class="ml-1 mt-8 flex items-center gap-6 lg:mt-0" aria-label="Social media">
-          <li class="transform transition hover:scale-110 hover:-translate-y-1">
-            <a class="block text-slate hover:text-teal" href="https://github.com/Zhichengu1" target="_blank" rel="noreferrer noopener" aria-label="GitHub">
+        <ul class="ml-1 mt-8 flex items-center gap-6 lg:mt-0 stagger-list" aria-label="Social media">
+          <li class="transform transition-all duration-300 hover:scale-125 hover:-translate-y-2">
+            <a class="magnetic-btn block text-slate hover:text-teal p-2 rounded-lg" href="https://github.com/Zhichengu1" target="_blank" rel="noreferrer noopener" aria-label="GitHub">
               <span class="sr-only">GitHub</span>
               <i class="fab fa-github fa-2x"></i>
             </a>
           </li>
-          <li class="transform transition hover:scale-110 hover:-translate-y-1">
-            <a class="block text-slate hover:text-teal" href="https://www.linkedin.com/in/zhichengyu369" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn">
+          <li class="transform transition-all duration-300 hover:scale-125 hover:-translate-y-2">
+            <a class="magnetic-btn block text-slate hover:text-teal p-2 rounded-lg" href="https://www.linkedin.com/in/zhichengyu369" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn">
               <span class="sr-only">LinkedIn</span>
               <i class="fab fa-linkedin fa-2x"></i>
             </a>
           </li>
-          <li class="transform transition hover:scale-110 hover:-translate-y-1">
-            <a class="block text-slate hover:text-teal" href="mailto:yuzhicheng369@gmail.com" aria-label="Email">
+          <li class="transform transition-all duration-300 hover:scale-125 hover:-translate-y-2">
+            <a class="magnetic-btn block text-slate hover:text-teal p-2 rounded-lg" href="mailto:yuzhicheng369@gmail.com" aria-label="Email">
               <span class="sr-only">Email</span>
               <i class="fas fa-envelope fa-2x"></i>
             </a>
@@ -328,162 +756,179 @@
           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
             <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Experience</h2>
           </div>
-          <ol class="group/list relative border-l border-slate/20 dark:border-slate/20 ml-3">
+          
+          <!-- Section Header -->
+          <div class="text-center mb-12 hidden lg:block">
+            <h2 class="text-3xl font-header font-bold text-white mb-3">Experience</h2>
+            <p class="text-slate max-w-md mx-auto">My professional journey in software development</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-transparent via-teal to-transparent mx-auto mt-4"></div>
+          </div>
+          
+          <!-- Modern Alternating Timeline -->
+          <div class="timeline-container">
             
-          <!-- Job 1 -->
-          <li class="mb-10 ml-6 fade-in-up stagger-1">
-            <span class="absolute flex items-center justify-center w-6 h-6 bg-navy rounded-full -left-9 ring-4 ring-navy border border-teal">
-              <i class="fas fa-code text-teal text-[10px]"></i>
-            </span>
-            <div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
-              <header class="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate sm:col-span-2" aria-label="Present to May 2026">
-                Present --- May 2026
-              </header>
-              <div class="z-10 sm:col-span-6">
-                <h3 class="font-medium leading-snug text-white">
-                  <div>
-                    <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-teal focus-visible:text-teal group/link text-base" href="https://www.cuny.edu/about/administration/offices/cis/" aria-label="Software Engineer Intern at CUNY">
-                      <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                      <span>Software Engineer Intern <span class="inline-block"><i class="fas fa-arrow-right ml-1 transform transition-transform group-hover/link:translate-x-1 text-xs"></i></span></span>
-                    </a>
-                  </div>
-                  <div class="text-sm font-normal text-slate mt-1">City University of New York - Department of CIS</div>
+            <!-- Job 1 - Right Side -->
+            <div class="timeline-item fade-in-up stagger-1">
+              <div class="timeline-card glow-hover tilt-card">
+                <div class="tilt-content">
+                <div class="timeline-icon">
+                  <i class="fas fa-code text-teal text-lg"></i>
+                </div>
+                <span class="timeline-date">Present — May 2026</span>
+                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
+                  <a href="https://www.cuny.edu/about/administration/offices/cis/" class="hover:text-teal transition-colors hover-underline" target="_blank">
+                    Software Engineer Intern
+                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
+                  </a>
                 </h3>
-                <!-- CONVERTED P TAG TO BULLETED LIST -->
-                <ul class="mt-2 text-sm leading-normal list-disc ml-4 space-y-1">
-                  <li>
-                    Collaborated and assisted in developing an <span class="text-teal">internal dashboard system</span> for staff using React, Flask, and Python.
+                <p class="text-teal font-mono text-sm mb-3">City University of New York</p>
+                <ul class="text-sm leading-relaxed space-y-2 text-slate">
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Developed an <span class="text-teal">internal dashboard system</span> for staff using React, Flask, and Python</span>
                   </li>
-                  <li>
-                    Improved data accessibility and workflows for over a thousand internal users.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Improved data accessibility for over 1,000+ internal users</span>
                   </li>
-                  <li>
-                    Contributed to full-stack development aligned with Brightspace initiatives.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Contributed to full-stack development aligned with Brightspace initiatives</span>
                   </li>
                 </ul>
-                <ul class="mt-2 flex flex-wrap" aria-label="Technologies used">
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">React</div></li>
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Flask</div></li>
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Python</div></li>
-                </ul>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">React</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Flask</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Python</span>
+                </div>
+                </div>
               </div>
             </div>
-          </li> 
-          
-          <!-- Job 2 -->
-          <li class="mb-10 ml-6 fade-in-up stagger-2">
-            <span class="absolute flex items-center justify-center w-6 h-6 bg-navy rounded-full -left-9 ring-4 ring-navy border border-teal/50">
-              <i class="fas fa-laptop-code text-slate text-[10px]"></i>
-            </span>
-            <div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
-              <header class="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate sm:col-span-2"> Mar --- May 2025 </header>
-              <div class="z-10 sm:col-span-6">
-                <h3 class="font-medium leading-snug text-white">
-                  <div>
-                    <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-teal focus-visible:text-teal group/link text-base" href="#">
-                      <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                      <span>Frontend Web Developer Intern <span class="inline-block">Kontaktsource <i class="fas fa-arrow-right ml-1 transform transition-transform group-hover/link:translate-x-1 text-xs"></i></span></span>
-                    </a>
-                  </div>
-                  <div class="text-sm font-normal text-slate mt-1">Kontaktsource</div>
+            
+            <!-- Job 2 - Left Side -->
+            <div class="timeline-item fade-in-up stagger-2">
+              <div class="timeline-card glow-hover tilt-card">
+                <div class="tilt-content">
+                <div class="timeline-icon">
+                  <i class="fas fa-laptop-code text-teal text-lg"></i>
+                </div>
+                <span class="timeline-date">Mar — May 2025</span>
+                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
+                  <a href="#" class="hover:text-teal transition-colors hover-underline">
+                    Frontend Web Developer Intern
+                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
+                  </a>
                 </h3>
-                <!-- CONVERTED P TAG TO BULLETED LIST -->
-                <ul class="mt-2 text-sm leading-normal list-disc ml-4 space-y-1">
-                  <li>
-                    Enhanced user experience by collaborating with design teams on new features.
+                <p class="text-teal font-mono text-sm mb-3">Kontaktsource</p>
+                <ul class="text-sm leading-relaxed space-y-2 text-slate">
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Enhanced UX by collaborating with design teams on new features</span>
                   </li>
-                  <li>
-                    Managed the community page to highlight members and events.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Managed the community page to highlight members and events</span>
                   </li>
-                  <li>
-                    Optimized website performance and implemented new features ensuring brand alignment.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Optimized website performance ensuring brand alignment</span>
                   </li>
                 </ul>
-                <ul class="mt-2 flex flex-wrap" aria-label="Technologies used">
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Frontend</div></li>
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">UI/UX</div></li>
-                </ul>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Frontend</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">UI/UX</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">JavaScript</span>
+                </div>
+                </div>
               </div>
             </div>
-          </li> 
-          
-          <!-- Job 3 -->
-          <li class="mb-10 ml-6 fade-in-up stagger-3">
-            <span class="absolute flex items-center justify-center w-6 h-6 bg-navy rounded-full -left-9 ring-4 ring-navy border border-teal/50">
-              <i class="fab fa-google text-slate text-[10px]"></i>
-            </span>
-            <div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
-              <header class="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate sm:col-span-2"> Oct 24 --- Jan 25 </header>
-              <div class="z-10 sm:col-span-6">
-                <h3 class="font-medium leading-snug text-white">
-                  <div>
-                    <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-teal focus-visible:text-teal group/link text-base" href="https://www.projectbasta.com/code2career" target="_blank">
-                      <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                      <span>Software Engineer Fellow <span class="inline-block"><i class="fas fa-arrow-right ml-1 transform transition-transform group-hover/link:translate-x-1 text-xs"></i></span></span>
-                    </a>
-                  </div>
-                  <div class="text-sm font-normal text-slate mt-1">Google Inc.</div>
+            
+            <!-- Job 3 - Right Side -->
+            <div class="timeline-item fade-in-up stagger-3">
+              <div class="timeline-card glow-hover tilt-card">
+                <div class="tilt-content">
+                <div class="timeline-icon">
+                  <i class="fab fa-google text-teal text-lg"></i>
+                </div>
+                <span class="timeline-date">Oct 2024 — Jan 2025</span>
+                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
+                  <a href="https://www.projectbasta.com/code2career" target="_blank" class="hover:text-teal transition-colors hover-underline">
+                    Software Engineer Fellow
+                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
+                  </a>
                 </h3>
-                <!-- CONVERTED P TAG TO BULLETED LIST -->
-                <ul class="mt-2 text-sm leading-normal list-disc ml-4 space-y-1">
-                  <li>
-                    Selected as one of <span class="text-teal">80 interns</span> from a pool of 2000+ applicants for the Code2Career Fellowship.
+                <p class="text-teal font-mono text-sm mb-3">Google Inc.</p>
+                <ul class="text-sm leading-relaxed space-y-2 text-slate">
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Selected as one of <span class="text-teal font-semibold">80 fellows</span> from 2000+ applicants</span>
                   </li>
-                  <li>
-                    Participated in advanced software development workshops and mentorship programs led by Google engineers.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Advanced workshops and mentorship by Google engineers</span>
                   </li>
-                  <li>
-                    Built a strong foundation in scalable architecture, data structures, and algorithms.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Built foundation in scalable architecture & algorithms</span>
                   </li>
                 </ul>
-                <ul class="mt-2 flex flex-wrap">
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Java</div></li>
-                  <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Algorithms</div></li>
-                </ul>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Java</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Algorithms</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">DSA</span>
+                </div>
+                </div>
               </div>
             </div>
-          </li>
-          <!-- Job 4 -->
-          <li class="mb-10 ml-6 fade-in-up stagger-4">
-            <span class="absolute flex items-center justify-center w-6 h-6 bg-navy rounded-full -left-9 ring-4 ring-navy border border-teal/50">
-              <i class="fas fa-chalkboard-teacher text-slate text-[10px]"></i>
-            </span>
-            <div class="group relative grid pb-1 transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
-              <header class="z-10 mb-2 mt-1 text-xs font-semibold uppercase tracking-wide text-slate sm:col-span-2">
-                Mar --- May 2024
-              </header>
-              <div class="z-10 sm:col-span-6">
-                <h3 class="font-medium leading-snug text-white">
-                  <div>
-                    <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-teal focus-visible:text-teal group/link text-base" href="https://www.stonybrook.edu/commcms/cie/agep/agep-archives/agep-t_frame/how-to-apply/stemDepartments" target="_blank">
-                      <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                      <span>Teaching Assistant <span class="inline-block"><i class="fas fa-arrow-right ml-1 transform transition-transformation group-hover/link:translate-x-1 text-xs"></i></span></span>
-                    </a>
-                  </div>
-                  <div class="text-sm font-normal text-slate mt-1">Stony Brook University</div>
+            
+            <!-- Job 4 - Left Side -->
+            <div class="timeline-item fade-in-up stagger-4">
+              <div class="timeline-card glow-hover tilt-card">
+                <div class="tilt-content">
+                <div class="timeline-icon">
+                  <i class="fas fa-chalkboard-teacher text-teal text-lg"></i>
+                </div>
+                <span class="timeline-date">Mar — May 2024</span>
+                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
+                  <a href="https://www.stonybrook.edu/commcms/cie/agep/agep-archives/agep-t_frame/how-to-apply/stemDepartments" target="_blank" class="hover:text-teal transition-colors hover-underline">
+                    Teaching Assistant
+                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
+                  </a>
                 </h3>
-                 <ul class="mt-2 text-sm leading-normal list-disc ml-4 space-y-1">
-                  <li>
-                    Engineered support systems for 50+ freshmen in Python, improving scores by 15%..
+                <p class="text-teal font-mono text-sm mb-3">Stony Brook University</p>
+                <ul class="text-sm leading-relaxed space-y-2 text-slate">
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Engineered support systems for <span class="text-teal">50+ freshmen</span> in Python</span>
                   </li>
-                  <li>
-                    Conducted 1:1 tutoring on core CS concepts.
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Improved student scores by 15% through targeted tutoring</span>
+                  </li>
+                  <li class="flex items-start gap-2">
+                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
+                    <span>Conducted 1:1 sessions on core CS concepts</span>
                   </li>
                 </ul>
+                <div class="flex flex-wrap gap-2 mt-4">
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Python</span>
+                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Teaching</span>
+                </div>
+                </div>
               </div>
             </div>
-          </li>
-        </ol>
-      </section>       
+            
+          </div>
+        </section>       
         <!-- PROJECTS SECTION -->
         <section id="projects" class="mb-12 scroll-mt-16 md:mb-16 lg:mb-20 lg:scroll-mt-24 fade-in-up">
           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
             <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Capstone Projects</h2>
           </div>
           <ul class="group/list">
-            <li class="mb-12 transition-all hover:scale-[1.02]">
+            <li class="mb-12 transition-all duration-500 hover:scale-[1.02]">
               <div class="group relative grid gap-4 pb-1 sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
-                <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-md transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-lightNavy/50 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg"></div>
+                <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-xl transition-all duration-500 motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-gradient-to-br lg:group-hover:from-lightNavy/80 lg:group-hover:to-lightNavy/40 lg:group-hover:shadow-[0_0_40px_rgba(100,255,218,0.1)] lg:group-hover:border lg:group-hover:border-teal/20"></div>
                 <div class="z-10 sm:order-2 sm:col-span-6">
                   <h3>
                     <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-teal focus-visible:text-teal group/link text-lg" href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" rel="noopener noreferrer">
@@ -516,11 +961,11 @@
             </li>
           </ul>
           <div class="mt-12">
-            <a class="group inline-flex items-center font-medium leading-tight text-white hover:text-teal font-mono" href="project.html">
-              <span class="border-b border-transparent pb-px transition group-hover:border-teal motion-reduce:transition-none">
+            <a class="group inline-flex items-center font-medium leading-tight text-white hover:text-teal font-mono hover-underline" href="project.html">
+              <span class="pb-px transition motion-reduce:transition-none">
                 View Full Project Archive
               </span>
-              <i class="fas fa-arrow-right ml-1 transition-transform group-hover:translate-x-2"></i>
+              <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-3"></i>
             </a>
           </div>
         </section>
@@ -550,17 +995,26 @@
           </div>
           
           <div class="grid grid-cols-2 gap-4 mt-6">
-             <div class="glass-panel p-4 rounded-lg hover:border-teal/50 transition duration-300">
-               <h3 class="text-teal font-mono mb-2 text-sm">Backend</h3>
-               <p class="text-sm">Flask, Django, Express.js, PostgreSQL, MongoDB</p>
+             <div class="glass-panel p-5 rounded-xl hover:border-teal/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(100,255,218,0.1)] group">
+               <div class="flex items-center gap-2 mb-3">
+                 <i class="fas fa-server text-teal group-hover:scale-110 transition-transform"></i>
+                 <h3 class="text-teal font-mono text-sm font-semibold">Backend</h3>
+               </div>
+               <p class="text-sm leading-relaxed">Flask, Django, Express.js, PostgreSQL, MongoDB</p>
              </div>
-              <div class="glass-panel p-4 rounded-lg hover:border-teal/50 transition duration-300">
-                <h3 class="text-teal font-mono mb-2 text-sm">AI/ML</h3>
-                <p class="text-sm">PyTorch, scikit-learn, NLP, LSTM</p>
+              <div class="glass-panel p-5 rounded-xl hover:border-teal/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(100,255,218,0.1)] group">
+                <div class="flex items-center gap-2 mb-3">
+                  <i class="fas fa-brain text-teal group-hover:scale-110 transition-transform"></i>
+                  <h3 class="text-teal font-mono text-sm font-semibold">AI/ML</h3>
+                </div>
+                <p class="text-sm leading-relaxed">PyTorch, scikit-learn, NLP, LSTM</p>
               </div>
-             <div class="glass-panel p-4 rounded-lg hover:border-teal/50 transition duration-300">
-               <h3 class="text-teal font-mono mb-2 text-sm">Tools</h3>
-               <p class="text-sm">Git, AWS, Docker, Postman, CI/CD, VS Code, Pycharm, Juypter Notebook</p>
+             <div class="glass-panel p-5 rounded-xl hover:border-teal/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(100,255,218,0.1)] group col-span-2">
+               <div class="flex items-center gap-2 mb-3">
+                 <i class="fas fa-tools text-teal group-hover:scale-110 transition-transform"></i>
+                 <h3 class="text-teal font-mono text-sm font-semibold">Tools & Platforms</h3>
+               </div>
+               <p class="text-sm leading-relaxed">Git, AWS, Docker, Postman, CI/CD, VS Code, PyCharm, Jupyter Notebook</p>
              </div>
           </div>
         </section>
@@ -571,27 +1025,38 @@
             <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Pathway Programs</h2>
           </div>
           
+          <!-- Section Header -->
+          <div class="text-center mb-10 hidden lg:block">
+            <h2 class="text-3xl font-header font-bold text-white mb-3">Pathway Programs</h2>
+            <p class="text-slate max-w-md mx-auto">Industry-recognized certifications and accelerator programs</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-transparent via-teal to-transparent mx-auto mt-4"></div>
+          </div>
+          
           <div class="grid gap-6 sm:grid-cols-2">
             <!-- Card 1 -->
-            <div class="glass-panel p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
+            <div class="glass-panel p-6 rounded-xl tilt-card cursor-default group hover:shadow-[0_20px_50px_rgba(100,255,218,0.1)] hover:border-teal/30">
+              <div class="tilt-content">
               <div class="flex justify-between items-start mb-4">
                  <div class="text-2xl font-bold"><span class="text-[#e53238]">e</span><span class="text-[#0064d2]">B</span><span class="text-[#f5af02]">a</span><span class="text-[#86b817]">y</span></div>
-                 <i class="fas fa-certificate text-teal"></i>
+                 <i class="fas fa-certificate text-teal text-xl group-hover:rotate-12 transition-transform duration-300"></i>
               </div>
-              <h3 class="text-white font-semibold mb-2">Pathway Program</h3>
+              <h3 class="text-white font-semibold mb-2 group-hover:text-teal transition-colors">Pathway Program</h3>
               <p class="text-xs text-slate mb-4">6-week intensive program focusing on real-world software development cycles.</p>
-              <span class="text-[10px] font-mono border border-teal text-teal px-2 py-1 rounded">Certified</span>
+              <span class="text-[10px] font-mono border border-teal text-teal px-3 py-1.5 rounded-full bg-teal/5 ripple">Certified</span>
+              </div>
             </div>
 
             <!-- Card 2 -->
-            <div class="glass-panel p-6 rounded-xl hover:-translate-y-2 transition-transform duration-300 cursor-default">
+            <div class="glass-panel p-6 rounded-xl tilt-card cursor-default group hover:shadow-[0_20px_50px_rgba(100,255,218,0.1)] hover:border-teal/30">
+              <div class="tilt-content">
               <div class="flex justify-between items-start mb-4">
                  <div class="text-xl font-bold text-white">NOMURA</div>
-                 <i class="fas fa-check-circle text-teal"></i>
+                 <i class="fas fa-check-circle text-teal text-xl group-hover:scale-110 transition-transform duration-300"></i>
               </div>
-              <h3 class="text-white font-semibold mb-2">Accelerator</h3>
+              <h3 class="text-white font-semibold mb-2 group-hover:text-teal transition-colors">Accelerator</h3>
               <p class="text-xs text-slate mb-4">Financial technology innovation and quantitative analysis for global markets.</p>
-              <span class="text-[10px] font-mono border border-teal text-teal px-2 py-1 rounded">Completed</span>
+              <span class="text-[10px] font-mono border border-teal text-teal px-3 py-1.5 rounded-full bg-teal/5 ripple">Completed</span>
+              </div>
             </div>
           </div>
         </section>
@@ -643,14 +1108,112 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Spotlight Effect
+      
+      // 0. Create Floating Particles
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 20 + 's';
+        particle.style.animationDuration = (15 + Math.random() * 15) + 's';
+        particle.style.width = (2 + Math.random() * 4) + 'px';
+        particle.style.height = particle.style.width;
+        particlesContainer.appendChild(particle);
+      }
+      
+      // 1. Scroll Progress Bar
+      const scrollProgress = document.getElementById('scrollProgress');
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = scrollTop / docHeight;
+        scrollProgress.style.transform = `scaleX(${scrollPercent})`;
+      });
+      
+      // 2. Typing Animation
+      const typingElement = document.getElementById('typingText');
+      const phrases = [
+        'FULLSTACK SOFTWARE ENGINEER',
+        'AI/ML ENTHUSIAST',
+        'PROBLEM SOLVER',
+        'CREATIVE DEVELOPER'
+      ];
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typingSpeed = 100;
+      
+      function typeText() {
+        const currentPhrase = phrases[phraseIndex];
+        
+        if (isDeleting) {
+          typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+          typingSpeed = 50;
+        } else {
+          typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+          charIndex++;
+          typingSpeed = 100;
+        }
+        
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          isDeleting = true;
+          typingSpeed = 2000; // Pause at end
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          typingSpeed = 500; // Pause before next phrase
+        }
+        
+        setTimeout(typeText, typingSpeed);
+      }
+      typeText();
+      
+      // 3. Spotlight Effect
       const spotlight = document.getElementById('spotlight');
       window.addEventListener('mousemove', e => {
         spotlight.style.setProperty('--x', `${e.clientX}px`);
         spotlight.style.setProperty('--y', `${e.clientY}px`);
       });
+      
+      // 4. 3D Tilt Effect for Cards
+      const tiltCards = document.querySelectorAll('.tilt-card');
+      tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / 10;
+          const rotateY = (centerX - x) / 10;
+          card.style.setProperty('--rotateX', `${rotateX}deg`);
+          card.style.setProperty('--rotateY', `${rotateY}deg`);
+        });
+        
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--rotateX', '0deg');
+          card.style.setProperty('--rotateY', '0deg');
+        });
+      });
+      
+      // 5. Magnetic Button Effect
+      const magneticBtns = document.querySelectorAll('.magnetic-btn');
+      magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = 'translate(0, 0)';
+        });
+      });
 
-      // 2. Active Nav Link Highlighter & Scroll Spy
+      // 6. Active Nav Link Highlighter & Scroll Spy
       const sections = document.querySelectorAll('section');
       const navLinks = document.querySelectorAll('.nav-link');
       
@@ -675,7 +1238,7 @@
 
       sections.forEach(section => observer.observe(section));
 
-      // 3. Fade-in on Scroll
+      // 7. Fade-in on Scroll
       const fadeElements = document.querySelectorAll('.fade-in-up');
       const fadeObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -686,6 +1249,59 @@
       }, { threshold: 0.1 });
       
       fadeElements.forEach(el => fadeObserver.observe(el));
+      
+      // 8. Reveal Animations (Left, Right, Scale)
+      const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-scale');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      revealElements.forEach(el => revealObserver.observe(el));
+      
+      // 9. Parallax Effect on Scroll
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const blobs = document.querySelectorAll('.blob');
+        blobs.forEach((blob, i) => {
+          const speed = 0.1 + (i * 0.05);
+          blob.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+      });
+      
+      // 10. Counter Animation for Stats (if any)
+      const counters = document.querySelectorAll('.counter');
+      const animateCounter = (counter) => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const duration = 2000;
+        const step = target / (duration / 16);
+        let current = 0;
+        
+        const updateCounter = () => {
+          current += step;
+          if (current < target) {
+            counter.textContent = Math.floor(current);
+            requestAnimationFrame(updateCounter);
+          } else {
+            counter.textContent = target;
+          }
+        };
+        updateCounter();
+      };
+      
+      const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      counters.forEach(counter => counterObserver.observe(counter));
     });
   </script>
 </body>
