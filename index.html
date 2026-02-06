@@ -3,1306 +3,2473 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Zhicheng Yu | Fullstack Engineer</title>
+  <title>Zhicheng Yu | Software Engineer</title>
   <meta name="description" content="Portfolio of Zhicheng Yu, a Fullstack Software Engineer specializing in AI/ML and Application Development.">
   
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Preload Critical Assets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            navy: '#0a192f',
-            lightNavy: '#112240',
-            lightestNavy: '#233554',
-            teal: '#64ffda',
-            slate: '#8892b0',
-            lightSlate: '#ccd6f6',
-            white: '#e6f1ff',
-          },
-          fontFamily: {
-            sans: ['"Exo 2"', 'sans-serif'],
-            mono: ['"Fira Code"', 'monospace'],
-            header: ['"Orbitron"', 'sans-serif'],
-          },
-          animation: {
-            'spin-slow': 'spin 15s linear infinite',
-            'bounce-slow': 'bounce 3s infinite',
-            'scroll': 'scroll 40s linear infinite',
-          }
-        }
-      }
-    }
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Devicons for tech stack -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
 
   <style>
-    /* --- Core Base Styles --- */
+    /* ========================================
+       CSS Variables - Dark Theme
+       ======================================== */
+    :root {
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #111113;
+      --bg-tertiary: #18181b;
+      --bg-card: #1c1c1f;
+      --bg-card-hover: #232326;
+      
+      --accent-primary: #10b981;
+      --accent-secondary: #34d399;
+      --accent-glow: rgba(16, 185, 129, 0.15);
+      
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      
+      --border-color: #27272a;
+      --border-hover: #3f3f46;
+      
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --font-display: 'Space Grotesk', sans-serif;
+      
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ========================================
+       Base Styles
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      background-color: #0a192f;
-      color: #8892b0;
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
-    /* Animated Gradient Background */
-    .animated-bg {
+    ::selection {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+
+    /* ========================================
+       Scrollbar
+       ======================================== */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-primary);
+    }
+
+    /* ========================================
+       Navigation
+       ======================================== */
+    .nav {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(-45deg, #0a192f, #112240, #1a365d, #0a192f);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
-      z-index: -2;
-    }
-    
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 11, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      transition: var(--transition-base);
     }
 
-    /* Floating Particles */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-      overflow: hidden;
-    }
-    
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: rgba(100, 255, 218, 0.3);
-      border-radius: 50%;
-      animation: float 20s infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-      }
-      90% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(720deg);
-        opacity: 0;
-      }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* Scroll Progress Bar */
-    .scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 3px;
-      background: linear-gradient(90deg, #64ffda, #00fff9, #64ffda);
-      z-index: 10000;
-      transform-origin: left;
-      transition: transform 0.1s ease-out;
+    .nav-logo {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    /* 3D Tilt Card Effect */
-    .tilt-card {
-      transform-style: preserve-3d;
-      transition: transform 0.5s ease;
-    }
-    
-    .tilt-card:hover {
-      transform: perspective(1000px) rotateX(var(--rotateX)) rotateY(var(--rotateY));
-    }
-    
-    .tilt-card .tilt-content {
-      transform: translateZ(30px);
-      transition: transform 0.5s ease;
+    .nav-logo .bracket {
+      color: var(--accent-primary);
     }
 
-    /* Magnetic Button Effect */
-    .magnetic-btn {
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-fast);
       position: relative;
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    .magnetic-btn::before {
+
+    .nav-links a::before {
       content: '';
       position: absolute;
-      inset: -2px;
-      background: linear-gradient(45deg, #64ffda, #00fff9, #64ffda);
-      border-radius: inherit;
-      opacity: 0;
-      z-index: -1;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-primary);
+      transition: var(--transition-base);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-primary);
+    }
+
+    .nav-links a:hover::before {
+      width: 100%;
+    }
+
+    .nav-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .nav-social a {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      transition: var(--transition-fast);
+    }
+
+    .nav-social a:hover {
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile Nav Toggle */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--bg-secondary);
+        flex-direction: column;
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+      .nav-links.show {
+        display: flex;
+      }
+      .nav-toggle {
+        display: block;
+      }
+    }
+
+    /* ========================================
+       Hero Section - Clean & Modern
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle Grid Background */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+
+    /* Soft Ambient Glow */
+    .hero-glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Hidden - not needed for clean design */
+    .hero-glow-secondary,
+    .hero-glow-tertiary,
+    .hero-particles,
+    .hero-particle,
+    .hero-lines,
+    .hero-line {
+      display: none;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Clean Terminal Badge */
+    .hero-terminal {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.6s ease-out;
+      transition: border-color 0.3s ease;
+    }
+
+    .hero-terminal:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .hero-terminal .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    #terminalText {
       transition: opacity 0.3s ease;
     }
-    
-    .magnetic-btn:hover::before {
-      opacity: 1;
-      animation: borderGlow 2s linear infinite;
-    }
-    
-    @keyframes borderGlow {
-      0%, 100% { filter: blur(3px); }
-      50% { filter: blur(6px); }
+
+    /* Greeting */
+    .hero-greeting {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.6s ease-out 0.1s both;
     }
 
-    /* Typing Cursor */
-    .typing-cursor {
-      display: inline-block;
-      width: 3px;
-      height: 1.2em;
-      background: #64ffda;
-      margin-left: 4px;
-      animation: blink 1s step-end infinite;
-      vertical-align: text-bottom;
-    }
-    
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
+    /* Clean Name Style */
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+      animation: fadeInUp 0.6s ease-out 0.2s both;
     }
 
-    /* Text Reveal Animation */
-    .text-reveal {
-      overflow: hidden;
-    }
-    
-    .text-reveal span {
-      display: inline-block;
-      transform: translateY(100%);
-      animation: textReveal 0.8s ease forwards;
-    }
-    
-    @keyframes textReveal {
-      to { transform: translateY(0); }
+    .hero-name-text {
+      color: var(--text-primary);
     }
 
-    /* Neon Glow Text */
-    .neon-text {
-      text-shadow: 
-        0 0 5px rgba(100, 255, 218, 0.5),
-        0 0 10px rgba(100, 255, 218, 0.3),
-        0 0 20px rgba(100, 255, 218, 0.2),
-        0 0 40px rgba(100, 255, 218, 0.1);
+    /* Title */
+    .hero-title {
+      font-size: clamp(1.25rem, 4vw, 1.75rem);
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.6s ease-out 0.3s both;
     }
 
-    /* Morphing Background Blob */
-    .blob {
+    .hero-title .accent {
+      color: var(--accent-primary);
+    }
+
+    /* Description */
+    .hero-description {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      animation: fadeInUp 0.6s ease-out 0.4s both;
+      line-height: 1.8;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease-out 0.5s both;
+    }
+
+    /* Clean Button Styles */
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    /* Scroll Indicator */
+    .hero-scroll {
       position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(100, 255, 218, 0.08) 0%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(40px);
-      animation: blobMorph 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-    
-    @keyframes blobMorph {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(50px, -50px) scale(1.1); }
-      50% { transform: translate(0, 50px) scale(0.9); }
-      75% { transform: translate(-50px, -25px) scale(1.05); }
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce 2s infinite;
+      transition: color 0.2s ease;
     }
 
-    /* Reveal on Scroll - Slide variants */
-    .reveal-left {
-      opacity: 0;
-      transform: translateX(-50px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .reveal-right {
-      opacity: 0;
-      transform: translateX(50px);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .reveal-scale {
-      opacity: 0;
-      transform: scale(0.8);
-      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .revealed {
-      opacity: 1;
-      transform: translateX(0) scale(1);
+    .hero-scroll:hover {
+      color: var(--accent-primary);
     }
 
-    /* Hover Underline Animation */
-    .hover-underline {
-      position: relative;
-    }
-    
-    .hover-underline::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, #64ffda, #00fff9);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .hover-underline:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-6px); }
+      60% { transform: translateX(-50%) translateY(-3px); }
     }
 
-    /* Staggered List Animation */
-    .stagger-list li {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: staggerIn 0.5s ease forwards;
+    /* ========================================
+       Section Styles
+       ======================================== */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    
-    .stagger-list li:nth-child(1) { animation-delay: 0.1s; }
-    .stagger-list li:nth-child(2) { animation-delay: 0.2s; }
-    .stagger-list li:nth-child(3) { animation-delay: 0.3s; }
-    .stagger-list li:nth-child(4) { animation-delay: 0.4s; }
-    .stagger-list li:nth-child(5) { animation-delay: 0.5s; }
-    
-    @keyframes staggerIn {
-      to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-primary), transparent);
+      margin: 0 auto;
+      border-radius: 2px;
+    }
+
+    /* ========================================
+       About Section - Clean & Modern
+       ======================================== */
+    .about {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
 
-    /* Ripple Effect */
-    .ripple {
+    /* Clean Image Container */
+    .about-image-container {
       position: relative;
-      overflow: hidden;
     }
-    
-    .ripple::after {
-      content: '';
+
+    .about-image-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Hide floating elements */
+    .about-float-element {
+      display: none;
+    }
+
+    .about-image {
+      width: 100%;
+      max-width: 350px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 16px;
+      filter: grayscale(20%);
+      transition: all 0.3s ease;
+      border: 2px solid var(--border-color);
+    }
+
+    .about-image:hover {
+      filter: grayscale(0%);
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-image-frame {
       position: absolute;
+      top: 20px;
+      left: 20px;
       width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      background: radial-gradient(circle, rgba(100, 255, 218, 0.3) 0%, transparent 70%);
-      transform: scale(0);
-      opacity: 0;
-      transition: transform 0.6s ease, opacity 0.6s ease;
-    }
-    
-    .ripple:hover::after {
-      transform: scale(2);
-      opacity: 1;
+      max-width: 350px;
+      aspect-ratio: 1;
+      border: 2px solid var(--accent-primary);
+      border-radius: 16px;
+      z-index: -1;
+      opacity: 0.4;
+      transition: all 0.3s ease;
     }
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #0a192f;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, #233554, #64ffda);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: linear-gradient(180deg, #64ffda, #00fff9);
+    .about-image-container:hover .about-image-frame {
+      opacity: 0.6;
     }
 
-    /* --- Utilities --- */
-    .glass-panel {
-      background: rgba(17, 34, 64, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(100, 255, 218, 0.1);
-    }
-    
-    .glass-nav {
-      background: rgba(10, 25, 47, 0.85);
-      backdrop-filter: blur(12px);
-      border-top: 1px solid rgba(100, 255, 218, 0.1);
+    /* Clean Content Styling */
+    .about-content h3 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
     }
 
-    /* --- Spotlight Effect --- */
-    .spotlight {
-      background: radial-gradient(600px circle at var(--x) var(--y), rgba(29, 78, 216, 0.15), transparent 80%);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
+    .about-content h3 .title-text {
+      color: var(--text-primary);
     }
 
-    /* --- Glitch Effect --- */
-    .glitch-wrapper {
+    .about-content p {
+      margin-bottom: 1.25rem;
+      line-height: 1.8;
+    }
+
+    .about-content .highlight {
+      color: var(--accent-primary);
+      font-weight: 500;
+    }
+
+    /* Clean Stats Grid */
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat {
+      text-align: center;
+      background: var(--bg-tertiary);
+      padding: 1.5rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      transition: all 0.25s ease;
+    }
+
+    .stat:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+    }
+
+    .stat-icon {
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+      margin-bottom: 0.5rem;
+      opacity: 0.8;
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ========================================
+       Experience Section - Premium Timeline
+       ======================================== */
+    .timeline {
       position: relative;
-    }
-    .glitch {
-      position: relative;
-      color: #64ffda;
-    }
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0a192f;
-    }
-    .glitch::before {
-      left: 2px;
-      text-shadow: -1px 0 #ff00c1;
-      clip: rect(44px, 450px, 56px, 0);
-      animation: glitch-anim 5s infinite linear alternate-reverse;
-    }
-    .glitch::after {
-      left: -2px;
-      text-shadow: -1px 0 #00fff9;
-      clip: rect(44px, 450px, 56px, 0);
-      animation: glitch-anim2 5s infinite linear alternate-reverse;
-    }
-    @keyframes glitch-anim {
-      0% { clip: rect(31px, 9999px, 94px, 0); }
-      20% { clip: rect(6px, 9999px, 3px, 0); }
-      40% { clip: rect(78px, 9999px, 31px, 0); }
-      60% { clip: rect(15px, 9999px, 66px, 0); }
-      80% { clip: rect(12px, 9999px, 9px, 0); }
-      100% { clip: rect(54px, 9999px, 83px, 0); }
-    }
-    @keyframes glitch-anim2 {
-      0% { clip: rect(65px, 9999px, 96px, 0); }
-      20% { clip: rect(11px, 9999px, 47px, 0); }
-      40% { clip: rect(2px, 9999px, 14px, 0); }
-      60% { clip: rect(82px, 9999px, 18px, 0); }
-      80% { clip: rect(33px, 9999px, 52px, 0); }
-      100% { clip: rect(27px, 9999px, 9px, 0); }
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 0;
     }
 
-    /* --- Animation Utilities --- */
-    .fade-in-up {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    }
-    .fade-in-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .stagger-1 { transition-delay: 100ms; }
-    .stagger-2 { transition-delay: 200ms; }
-    .stagger-3 { transition-delay: 300ms; }
-    .stagger-4 { transition-delay: 400ms; }
-
-    /* Infinite Scroll Animation */
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .animate-scroll {
-      animation: scroll 30s linear infinite;
-    }
-    .pause-on-hover:hover {
-      animation-play-state: paused;
-    }
-
-    /* Nav Indicator Transition */
-    .nav-indicator {
-      transition: width 0.3s ease, background-color 0.3s ease;
-    }
-    .group:hover .nav-indicator {
-      width: 3rem; 
-      background-color: #64ffda;
-    }
-    .nav-link.active .nav-indicator {
-      width: 4rem;
-      background-color: #64ffda;
-    }
-    .nav-link.active span:last-child {
-      color: #e6f1ff;
-      font-weight: 600;
-    }
-
-    /* === MODERN ALTERNATING TIMELINE === */
-    .timeline-container {
-      position: relative;
-      max-width: 100%;
-      padding: 20px 0;
-    }
-    
-    .timeline-container::before {
+    /* Main vertical line with gradient */
+    .timeline::before {
       content: '';
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      width: 2px;
+      width: 3px;
       height: 100%;
-      background: linear-gradient(180deg, transparent, #64ffda 10%, #64ffda 90%, transparent);
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(16, 185, 129, 0.3) 5%,
+        var(--accent-primary) 15%,
+        var(--accent-primary) 85%,
+        rgba(16, 185, 129, 0.3) 95%,
+        transparent 100%
+      );
+      border-radius: 3px;
     }
-    
-    .timeline-item {
-      position: relative;
-      width: 50%;
-      padding: 20px 40px;
-      box-sizing: border-box;
-    }
-    
-    .timeline-item:nth-child(odd) {
-      left: 0;
-      text-align: right;
-      padding-right: 50px;
-    }
-    
-    .timeline-item:nth-child(even) {
-      left: 50%;
-      text-align: left;
-      padding-left: 50px;
-    }
-    
-    .timeline-item::before {
+
+    /* Animated traveling glow */
+    .timeline::after {
       content: '';
       position: absolute;
-      top: 28px;
-      width: 16px;
-      height: 16px;
-      background: #0a192f;
-      border: 3px solid #64ffda;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 80px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(16, 185, 129, 0.8),
+        var(--accent-primary),
+        rgba(16, 185, 129, 0.8),
+        transparent
+      );
+      filter: blur(6px);
+      animation: timelineGlow 4s ease-in-out infinite;
+      border-radius: 10px;
+    }
+
+    @keyframes timelineGlow {
+      0% { top: -80px; opacity: 0; }
+      5% { opacity: 0.8; }
+      95% { opacity: 0.8; }
+      100% { top: calc(100% + 80px); opacity: 0; }
+    }
+
+    .timeline-item {
+      position: relative;
+      width: calc(50% - 30px);
+      padding-bottom: 50px;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .timeline-item:nth-child(even) {
+      transform: translateX(30px);
+    }
+
+    .timeline-item:nth-child(even).visible {
+      transform: translateX(0);
+    }
+
+    /* Alternating sides */
+    .timeline-item:nth-child(odd) {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
+    .timeline-item:nth-child(even) {
+      margin-left: auto;
+      margin-right: 0;
+    }
+
+    /* Timeline node/dot */
+    .timeline-node {
+      position: absolute;
+      top: 24px;
+      width: 18px;
+      height: 18px;
+      background: var(--bg-primary);
+      border: 3px solid var(--accent-primary);
       border-radius: 50%;
       z-index: 10;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      box-shadow: 0 0 0 4px var(--bg-primary);
+    }
+
+    .timeline-item:nth-child(odd) .timeline-node {
+      right: -40px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-node {
+      left: -40px;
+    }
+
+    .timeline-node::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      opacity: 0;
       transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
     }
-    
-    .timeline-item:nth-child(odd)::before {
-      right: -8px;
+
+    .timeline-item:hover .timeline-node {
+      transform: scale(1.5);
+      box-shadow: 
+        0 0 0 4px var(--bg-primary),
+        0 0 30px var(--accent-primary),
+        0 0 60px rgba(16, 185, 129, 0.5),
+        0 0 100px rgba(16, 185, 129, 0.3);
+      border-color: #34d399;
+      background: var(--accent-primary);
     }
-    
-    .timeline-item:nth-child(even)::before {
-      left: -8px;
+
+    /* Inner dot */
+    .timeline-node::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: all 0.4s ease;
     }
-    
-    .timeline-item:hover::before {
-      transform: scale(1.3);
-      box-shadow: 0 0 30px rgba(100, 255, 218, 0.6);
-      background: #64ffda;
+
+    .timeline-item:hover .timeline-node::after {
+      opacity: 1;
+      background: #fff;
+      box-shadow: 0 0 10px #fff;
     }
-    
+
+    /* Pulsing rings */
+    .timeline-node .ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      border: 2px solid var(--accent-primary);
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .timeline-item:hover .timeline-node .ring {
+      animation: pulseRing 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+    }
+
+    .timeline-item:hover .timeline-node .ring:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .timeline-item:hover .timeline-node .ring:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes pulseRing {
+      0% {
+        width: 100%;
+        height: 100%;
+        opacity: 0.8;
+      }
+      100% {
+        width: 300%;
+        height: 300%;
+        opacity: 0;
+      }
+    }
+
+    /* Connector line from node to card */
+    .timeline-connector {
+      position: absolute;
+      top: 32px;
+      width: 30px;
+      height: 2px;
+      background: var(--accent-primary);
+      opacity: 0.5;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-connector {
+      right: -30px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-connector {
+      left: -30px;
+    }
+
+    /* Timeline card - Ultra Premium Glass Design */
     .timeline-card {
-      background: linear-gradient(135deg, rgba(17, 34, 64, 0.9), rgba(35, 53, 84, 0.6));
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(100, 255, 218, 0.1);
-      border-radius: 16px;
-      padding: 24px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(135deg, rgba(26, 26, 31, 0.95) 0%, rgba(15, 15, 18, 0.98) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      padding: 2rem 2.25rem;
+      position: relative;
+      transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    /* Animated gradient border */
+    .timeline-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, 
+        var(--accent-primary), 
+        #34d399,
+        #06b6d4,
+        var(--accent-secondary),
+        #8b5cf6,
+        #34d399,
+        var(--accent-primary));
+      background-size: 400% 400%;
+      border-radius: 26px;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      animation: borderGlow 8s ease infinite;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    /* Inner glow overlay */
+    .timeline-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 20% 0%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(6, 182, 212, 0.1) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      border-radius: 24px;
+    }
+
+    /* Floating particles container */
+    .timeline-card .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: hidden;
+      border-radius: 24px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .timeline-card .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent-primary);
+      border-radius: 50%;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .timeline-card .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+    .timeline-card .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 0.5s; }
+    .timeline-card .particle:nth-child(3) { left: 60%; top: 30%; animation-delay: 1s; }
+    .timeline-card .particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 1.5s; }
+    .timeline-card .particle:nth-child(5) { left: 90%; top: 40%; animation-delay: 2s; }
+    .timeline-card .particle:nth-child(6) { left: 40%; top: 90%; animation-delay: 2.5s; }
+
+    @keyframes float {
+      0%, 100% { 
+        transform: translateY(0) scale(1); 
+        opacity: 0.3;
+      }
+      50% { 
+        transform: translateY(-20px) scale(1.5); 
+        opacity: 0.8;
+      }
+    }
+
+    /* Shine sweep effect */
+    .timeline-card .shine {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.03),
+        transparent
+      );
+      transform: skewX(-25deg);
+      pointer-events: none;
+    }
+
+    .timeline-card:hover {
+      border-color: transparent;
+      transform: translateY(-12px) rotateX(2deg) rotateY(-1deg);
+      box-shadow: 
+        0 35px 60px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(16, 185, 129, 0.15),
+        0 0 100px rgba(16, 185, 129, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .timeline-card:hover::before {
+      opacity: 0.6;
+    }
+
+    .timeline-card:hover::after {
+      opacity: 1;
+    }
+
+    .timeline-card:hover .particles {
+      opacity: 1;
+    }
+
+    .timeline-card:hover .shine {
+      animation: shine 1.5s ease-in-out;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      100% { left: 150%; }
+    }
+
+    /* Ripple effect on click */
+    .timeline-card .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.3);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to {
+        transform: scale(4);
+        opacity: 0;
+      }
+    }
+
+    /* Card Header - Icon & Date Row */
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .timeline-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-primary);
+      font-size: 1.375rem;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      flex-shrink: 0;
+    }
+
+    .timeline-card:hover .timeline-icon {
+      transform: rotate(-10deg) scale(1.15) translateY(-3px);
+      box-shadow: 
+        0 10px 30px rgba(16, 185, 129, 0.4),
+        0 0 40px rgba(16, 185, 129, 0.3);
+      border-color: var(--accent-primary);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 0%, rgba(16, 185, 129, 0.1) 100%);
+    }
+
+    .timeline-card:hover .timeline-icon i {
+      animation: iconBounce 0.6s ease;
+    }
+
+    @keyframes iconBounce {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(0.9); }
+      50% { transform: scale(1.2); }
+      75% { transform: scale(0.95); }
+    }
+
+    .timeline-date {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent-primary);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(16, 185, 129, 0.05) 100%);
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      border: 1px solid rgba(16, 185, 129, 0.15);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
       position: relative;
       overflow: hidden;
     }
-    
-    .timeline-card::before {
+
+    .timeline-date::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .timeline-card:hover .timeline-date {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(16, 185, 129, 0.1) 100%);
+      border-color: var(--accent-primary);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .timeline-card:hover .timeline-date::before {
+      left: 100%;
+    }
+
+    /* Card Content */
+    .timeline-content {
+      text-align: left;
+    }
+
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.375rem;
+      line-height: 1.3;
+    }
+
+    .timeline-title a {
+      color: inherit;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .timeline-title a:hover {
+      color: var(--accent-primary);
+    }
+
+    .timeline-title .link-icon {
+      font-size: 0.75rem;
+      opacity: 0.4;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-title a:hover .link-icon {
+      opacity: 1;
+      transform: translate(2px, -2px);
+    }
+
+    .timeline-company {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .timeline-company::before {
+      content: '@';
+      opacity: 0.6;
+    }
+
+    .timeline-description {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    .timeline-description ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline-description li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-description li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent-primary);
+      font-size: 0.875rem;
+    }
+
+    .timeline-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      padding: 0.375rem 0.75rem;
+      background: var(--bg-tertiary);
+      color: var(--accent-primary);
+      border-radius: 9999px;
+      border: 1px solid var(--border-color);
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
+
+    .tag::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: all 0.5s ease;
+      opacity: 0;
+    }
+
+    .tag:hover {
+      border-color: var(--accent-primary);
+      background: var(--accent-glow);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 5px 15px rgba(16, 185, 129, 0.3),
+        0 0 20px rgba(16, 185, 129, 0.2);
+    }
+
+    .tag:hover::before {
+      width: 150%;
+      height: 150%;
+      opacity: 0.15;
+    }
+
+    /* Staggered tag animation on card hover */
+    .timeline-card:hover .tag:nth-child(1) { transition-delay: 0s; transform: translateY(-2px); }
+    .timeline-card:hover .tag:nth-child(2) { transition-delay: 0.05s; transform: translateY(-2px); }
+    .timeline-card:hover .tag:nth-child(3) { transition-delay: 0.1s; transform: translateY(-2px); }
+    .timeline-card:hover .tag:nth-child(4) { transition-delay: 0.15s; transform: translateY(-2px); }
+    .timeline-card:hover .tag:nth-child(5) { transition-delay: 0.2s; transform: translateY(-2px); }
+
+    /* Mobile Timeline */
+    @media (max-width: 768px) {
+      .timeline {
+        padding: 2rem 0;
+      }
+
+      .timeline::before {
+        left: 15px;
+        width: 2px;
+      }
+
+      .timeline::after {
+        left: 15px;
+        width: 4px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding-left: 50px;
+        padding-bottom: 30px;
+        transform: translateX(0) !important;
+      }
+
+      .timeline-item.visible {
+        transform: translateX(0) !important;
+      }
+
+      .timeline-node {
+        left: 6px !important;
+        right: auto !important;
+        width: 16px;
+        height: 16px;
+        top: 28px;
+      }
+
+      .timeline-connector {
+        left: 22px !important;
+        right: auto !important;
+        width: 20px;
+        top: 35px;
+      }
+
+      .timeline-card {
+        padding: 1.25rem 1.5rem;
+        border-radius: 16px;
+      }
+
+      .timeline-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+      }
+
+      .timeline-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.125rem;
+      }
+
+      .timeline-title {
+        font-size: 1.125rem;
+      }
+
+      .timeline-description {
+        font-size: 0.875rem;
+      }
+    }
+
+    /* ========================================
+       Projects Section
+       ======================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: var(--transition-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 3px;
-      background: linear-gradient(90deg, #64ffda, #00fff9, #64ffda);
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
       transform: scaleX(0);
-      transition: transform 0.4s ease;
+      transform-origin: left;
+      transition: var(--transition-base);
     }
-    
-    .timeline-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(100, 255, 218, 0.4);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(100, 255, 218, 0.1);
+
+    .project-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
-    
-    .timeline-card:hover::before {
+
+    .project-card:hover::before {
       transform: scaleX(1);
     }
-    
-    .timeline-date {
-      display: inline-block;
-      background: rgba(100, 255, 218, 0.1);
-      color: #64ffda;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      border: 1px solid rgba(100, 255, 218, 0.2);
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
     }
-    
-    .timeline-icon {
-      width: 40px;
-      height: 40px;
-      background: linear-gradient(135deg, rgba(100, 255, 218, 0.2), rgba(100, 255, 218, 0.05));
+
+    .project-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-glow);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
-      transition: all 0.3s ease;
+      color: var(--accent-primary);
+      font-size: 1.25rem;
     }
-    
-    .timeline-card:hover .timeline-icon {
-      transform: rotate(10deg) scale(1.1);
-      background: linear-gradient(135deg, rgba(100, 255, 218, 0.3), rgba(100, 255, 218, 0.1));
+
+    .project-links {
+      display: flex;
+      gap: 0.75rem;
     }
-    
-    /* Mobile Timeline */
-    @media (max-width: 768px) {
-      .timeline-container::before {
-        left: 20px;
+
+    .project-links a {
+      color: var(--text-muted);
+      font-size: 1.125rem;
+      transition: var(--transition-fast);
+    }
+
+    .project-links a:hover {
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .project-title {
+      font-size: 1.25rem;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .project-title a {
+      color: inherit;
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .project-title a:hover {
+      color: var(--accent-primary);
+    }
+
+    .project-description {
+      font-size: 0.9375rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.7;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .project-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      padding: 0.25rem 0.5rem;
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+      border-radius: 4px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .projects-cta {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .projects-cta a {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-fast);
+    }
+
+    .projects-cta a:hover {
+      gap: 1rem;
+    }
+
+    /* ========================================
+       Tech Stack Section
+       ======================================== */
+    .stack {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .stack-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.5rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: var(--transition-base);
+    }
+
+    .stack-item:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+    }
+
+    .stack-item i {
+      font-size: 2.5rem;
+      color: var(--text-primary);
+      transition: var(--transition-fast);
+    }
+
+    .stack-item:hover i {
+      color: var(--accent-primary);
+      transform: scale(1.1);
+    }
+
+    .stack-item span {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Marquee Animation */
+    .stack-marquee {
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .stack-marquee-inner {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 30s linear infinite;
+    }
+
+    .stack-marquee-inner:hover {
+      animation-play-state: paused;
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .marquee-item i {
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ========================================
+       GitHub Activity Section
+       ======================================== */
+    .github-section {
+      text-align: center;
+    }
+
+    .github-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .github-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition-base);
+    }
+
+    .github-stat-card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+    }
+
+    .github-stat-card i {
+      font-size: 2rem;
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+    }
+
+    .github-stat-card .value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .github-stat-card .label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .github-contribution {
+      margin-bottom: 2rem;
+    }
+
+    .github-contribution img {
+      width: 100%;
+      max-width: 800px;
+      border-radius: 8px;
+      opacity: 0.9;
+    }
+
+    .github-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 1rem 1.5rem;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: var(--transition-base);
+    }
+
+    .github-cta:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================
+       Contact Section
+       ======================================== */
+    .contact {
+      text-align: center;
+      padding: 8rem 2rem;
+    }
+
+    .contact-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-text {
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      font-size: 1.125rem;
+    }
+
+    /* ========================================
+       Footer
+       ======================================== */
+    .footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .footer-social {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-social a {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 1.125rem;
+      transition: var(--transition-base);
+    }
+
+    .footer-social a:hover {
+      color: var(--accent-primary);
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .footer-text a {
+      color: var(--accent-primary);
+      text-decoration: none;
+    }
+
+    /* ========================================
+       Animations
+       ======================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
-      
-      .timeline-item {
-        width: 100%;
-        left: 0 !important;
-        text-align: left !important;
-        padding-left: 60px !important;
-        padding-right: 20px !important;
-      }
-      
-      .timeline-item::before {
-        left: 12px !important;
-        right: auto !important;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    /* Smooth hover glow effect */
-    .glow-hover {
-      transition: all 0.3s ease;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
-    .glow-hover:hover {
-      box-shadow: 0 0 30px rgba(100, 255, 218, 0.2);
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-10px); }
     }
-    
-    /* Highlight Spans */
-    .highlight {
-      color: #64ffda;
-      background: rgba(100, 255, 218, 0.1);
-      padding: 0.1em 0.3em;
-      border-radius: 4px;
-      font-weight: 500;
-      transition: all 0.2s ease;
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
     }
-    .highlight:hover {
-      background: rgba(100, 255, 218, 0.2);
-      transform: translateY(-1px);
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       Terminal-style Cursor
+       ======================================== */
+    .cursor {
       display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background: var(--accent-primary);
+      margin-left: 2px;
+      animation: cursorBlink 1s step-end infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes cursorBlink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* ========================================
+       Responsive
+       ======================================== */
+    @media (max-width: 640px) {
+      .section {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero {
+        padding: 5rem 1.5rem 3rem;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stack-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .stack-item {
+        padding: 1rem;
+      }
+
+      .stack-item i {
+        font-size: 1.75rem;
+      }
     }
   </style>
 </head>
-<body class="selection:bg-teal selection:text-navy">
+<body>
 
-  <!-- Animated Gradient Background -->
-  <div class="animated-bg"></div>
-  
-  <!-- Floating Particles -->
-  <div class="particles" id="particles"></div>
-  
-  <!-- Scroll Progress Bar -->
-  <div class="scroll-progress" id="scrollProgress"></div>
-
-  <!-- Mouse Spotlight Overlay -->
-  <div id="spotlight" class="spotlight hidden lg:block"></div>
-
-  <!-- REMOVED: mx-auto max-w-screen-xl (This was centering everything) -->
-  <!-- ADDED: w-full (To span full width) -->
-  <div class="min-h-screen w-full px-6 py-12 font-sans md:px-12 md:py-16 lg:px-0 lg:py-0">
-    <div class="lg:flex lg:w-full">
-      
-      <!-- === LEFT COLUMN: HEADER & NAV (FIXED) === -->
-      <!-- ADDED: lg:pl-12 xl:pl-24 (Padding to keep text readable but anchored left) -->
-      <header class="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-5/12 lg:flex-col lg:justify-between lg:py-12 lg:pl-12 xl:pl-24">
-        <div class="relative">
-          <!-- Morphing Blob Background -->
-          <div class="blob -top-20 -left-20 opacity-50"></div>
-          
-          <!-- Name & Glitch Effect -->
-          <div class="glitch-wrapper mb-2">
-            <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl font-header glitch neon-text" data-text="ZHICHENG YU">
-              ZHICHENG YU
-            </h1>
-          </div>
-          
-          <h2 class="mt-3 text-lg font-medium tracking-tight sm:text-xl font-mono">
-            <span class="text-teal" id="typingText"></span><span class="typing-cursor"></span>
-          </h2>
-          
-          <p class="mt-4 max-w-xs leading-normal text-slate reveal-left" id="heroDesc">
-            Crafting immersive digital experiences with precision, AI innovation, and scalable architecture.
-          </p>
-
-          <!-- Desktop Navigation -->
-          <nav class="nav hidden lg:block" aria-label="In-page jump links">
-            <ul class="mt-16 w-max">
-              <li>
-                <a class="nav-link group flex items-center py-3 active" href="#about">
-                  <span class="nav-indicator mr-4 h-px w-8 bg-slate group-hover:bg-teal group-focus-visible:w-16 group-focus-visible:bg-teal motion-reduce:transition-none"></span>
-                  <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate group-hover:text-white group-focus-visible:text-white">About</span>
-                </a>
-              </li>
-              <li>
-                <a class="nav-link group flex items-center py-3" href="#experience">
-                  <span class="nav-indicator mr-4 h-px w-8 bg-slate group-hover:bg-teal group-focus-visible:w-16 group-focus-visible:bg-teal motion-reduce:transition-none"></span>
-                  <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate group-hover:text-white group-focus-visible:text-white">Experience</span>
-                </a>
-              </li>
-              <li>
-                <a class="nav-link group flex items-center py-3" href="#projects">
-                  <span class="nav-indicator mr-4 h-px w-8 bg-slate group-hover:bg-teal group-focus-visible:w-16 group-focus-visible:bg-teal motion-reduce:transition-none"></span>
-                  <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate group-hover:text-white group-focus-visible:text-white">Projects</span>
-                </a>
-              </li>
-              <li>
-                <a class="nav-link group flex items-center py-3" href="#technologies">
-                  <span class="nav-indicator mr-4 h-px w-8 bg-slate group-hover:bg-teal group-focus-visible:w-16 group-focus-visible:bg-teal motion-reduce:transition-none"></span>
-                  <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate group-hover:text-white group-focus-visible:text-white">Stack</span>
-                </a>
-              </li>
-              <li>
-                <a class="nav-link group flex items-center py-3" href="#pathway">
-                  <span class="nav-indicator mr-4 h-px w-8 bg-slate group-hover:bg-teal group-focus-visible:w-16 group-focus-visible:bg-teal motion-reduce:transition-none"></span>
-                  <span class="nav-text text-xs font-bold uppercase tracking-widest text-slate group-hover:text-white group-focus-visible:text-white">Pathway</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-
-        <!-- Social Links (Desktop & Mobile) -->
-        <ul class="ml-1 mt-8 flex items-center gap-6 lg:mt-0 stagger-list" aria-label="Social media">
-          <li class="transform transition-all duration-300 hover:scale-125 hover:-translate-y-2">
-            <a class="magnetic-btn block text-slate hover:text-teal p-2 rounded-lg" href="https://github.com/Zhichengu1" target="_blank" rel="noreferrer noopener" aria-label="GitHub">
-              <span class="sr-only">GitHub</span>
-              <i class="fab fa-github fa-2x"></i>
-            </a>
-          </li>
-          <li class="transform transition-all duration-300 hover:scale-125 hover:-translate-y-2">
-            <a class="magnetic-btn block text-slate hover:text-teal p-2 rounded-lg" href="https://www.linkedin.com/in/zhichengyu369" target="_blank" rel="noreferrer noopener" aria-label="LinkedIn">
-              <span class="sr-only">LinkedIn</span>
-              <i class="fab fa-linkedin fa-2x"></i>
-            </a>
-          </li>
-          <li class="transform transition-all duration-300 hover:scale-125 hover:-translate-y-2">
-            <a class="magnetic-btn block text-slate hover:text-teal p-2 rounded-lg" href="mailto:yuzhicheng369@gmail.com" aria-label="Email">
-              <span class="sr-only">Email</span>
-              <i class="fas fa-envelope fa-2x"></i>
-            </a>
-          </li>
-        </ul>
-      </header>
-
-      <!-- === RIGHT COLUMN: CONTENT === -->
-      <!-- ADDED: lg:pr-12 xl:pr-24 (Padding to keep text readable but anchored right) -->
-      <main id="content" class="pt-12 lg:w-7/12 lg:py-12 lg:pr-12 xl:pr-24">
-        
-        <!-- ABOUT SECTION -->
-        <section id="about" class="mb-12 scroll-mt-16 md:mb-16 lg:mb-20 lg:scroll-mt-24 fade-in-up">
-          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">About</h2>
-          </div>
-          
-          <!-- CHANGED: Flex container instead of float to fix "out of container" issue -->
-          <div class="flex flex-col-reverse md:flex-row gap-8 items-start group">
-            
-            <!-- Text Content -->
-            <div class="flex-1">
-              <p class="mb-4 text-lg leading-relaxed">
-                Hi, I'm <span class="highlight text-white">Zhicheng Yu</span>, a student studying <span class="highlight">Computer Science</span>. I'm <span class="text-teal font-semibold">passionate</span> about <span class="highlight">Full Stack Development</span> and AI/ML. I love working on innovative projects that help me learn cutting-edge skills and solve real-world problems.
-              </p>
-              <p class="mb-4 leading-relaxed">
-                I enjoy programming in <span class="font-mono text-teal text-sm highlight">Python</span>. I'm always open to constructive feedback and eager to grow in <span class="font-mono text-teal text-sm">challenging environments</span>. I am currently expanding my skills in <span class="font-mono text-teal text-sm">Machine Learning</span> and <span class="font-mono text-teal text-sm">Backend Development</span>.              </p>
-              <p class="leading-relaxed">
-                When I'm not coding, I enjoy collaborating with fellow developers, exploring emerging technologies, and constantly challenging myself to grow both personally and professionally.
-              </p>
-            </div>
-
-            <!-- Image Container -->
-            <div class="relative shrink-0 w-40 md:w-48 group-hover:scale-105 transition-transform duration-300">
-               <img src="download.png" alt="Zhicheng Yu" class="rounded-lg relative z-10 grayscale hover:grayscale-0 transition-all duration-300 border border-slate/30 bg-navy shadow-lg w-full h-auto object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Zhicheng+Yu&background=0a192f&color=64ffda&size=200'">
-            </div>
-
-          </div>
-        </section>
-
-        <!-- EXPERIENCE SECTION -->
-        <section id="experience" class="mb-12 scroll-mt-16 md:mb-16 lg:mb-20 lg:scroll-mt-24 fade-in-up">
-          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Experience</h2>
-          </div>
-          
-          <!-- Section Header -->
-          <div class="text-center mb-12 hidden lg:block">
-            <h2 class="text-3xl font-header font-bold text-white mb-3">Experience</h2>
-            <p class="text-slate max-w-md mx-auto">My professional journey in software development</p>
-            <div class="w-24 h-1 bg-gradient-to-r from-transparent via-teal to-transparent mx-auto mt-4"></div>
-          </div>
-          
-          <!-- Modern Alternating Timeline -->
-          <div class="timeline-container">
-            
-            <!-- Job 1 - Right Side -->
-            <div class="timeline-item fade-in-up stagger-1">
-              <div class="timeline-card glow-hover tilt-card">
-                <div class="tilt-content">
-                <div class="timeline-icon">
-                  <i class="fas fa-code text-teal text-lg"></i>
-                </div>
-                <span class="timeline-date">Present — May 2026</span>
-                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
-                  <a href="https://www.cuny.edu/about/administration/offices/cis/" class="hover:text-teal transition-colors hover-underline" target="_blank">
-                    Software Engineer Intern
-                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
-                  </a>
-                </h3>
-                <p class="text-teal font-mono text-sm mb-3">City University of New York</p>
-                <ul class="text-sm leading-relaxed space-y-2 text-slate">
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Developed an <span class="text-teal">internal dashboard system</span> for staff using React, Flask, and Python</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Improved data accessibility for over 1,000+ internal users</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Contributed to full-stack development aligned with Brightspace initiatives</span>
-                  </li>
-                </ul>
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">React</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Flask</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Python</span>
-                </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Job 2 - Left Side -->
-            <div class="timeline-item fade-in-up stagger-2">
-              <div class="timeline-card glow-hover tilt-card">
-                <div class="tilt-content">
-                <div class="timeline-icon">
-                  <i class="fas fa-laptop-code text-teal text-lg"></i>
-                </div>
-                <span class="timeline-date">Mar — May 2025</span>
-                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
-                  <a href="#" class="hover:text-teal transition-colors hover-underline">
-                    Frontend Web Developer Intern
-                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
-                  </a>
-                </h3>
-                <p class="text-teal font-mono text-sm mb-3">Kontaktsource</p>
-                <ul class="text-sm leading-relaxed space-y-2 text-slate">
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Enhanced UX by collaborating with design teams on new features</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Managed the community page to highlight members and events</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Optimized website performance ensuring brand alignment</span>
-                  </li>
-                </ul>
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Frontend</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">UI/UX</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">JavaScript</span>
-                </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Job 3 - Right Side -->
-            <div class="timeline-item fade-in-up stagger-3">
-              <div class="timeline-card glow-hover tilt-card">
-                <div class="tilt-content">
-                <div class="timeline-icon">
-                  <i class="fab fa-google text-teal text-lg"></i>
-                </div>
-                <span class="timeline-date">Oct 2024 — Jan 2025</span>
-                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
-                  <a href="https://www.projectbasta.com/code2career" target="_blank" class="hover:text-teal transition-colors hover-underline">
-                    Software Engineer Fellow
-                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
-                  </a>
-                </h3>
-                <p class="text-teal font-mono text-sm mb-3">Google Inc.</p>
-                <ul class="text-sm leading-relaxed space-y-2 text-slate">
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Selected as one of <span class="text-teal font-semibold">80 fellows</span> from 2000+ applicants</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Advanced workshops and mentorship by Google engineers</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Built foundation in scalable architecture & algorithms</span>
-                  </li>
-                </ul>
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Java</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Algorithms</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">DSA</span>
-                </div>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Job 4 - Left Side -->
-            <div class="timeline-item fade-in-up stagger-4">
-              <div class="timeline-card glow-hover tilt-card">
-                <div class="tilt-content">
-                <div class="timeline-icon">
-                  <i class="fas fa-chalkboard-teacher text-teal text-lg"></i>
-                </div>
-                <span class="timeline-date">Mar — May 2024</span>
-                <h3 class="text-xl font-semibold text-white mt-3 mb-1">
-                  <a href="https://www.stonybrook.edu/commcms/cie/agep/agep-archives/agep-t_frame/how-to-apply/stemDepartments" target="_blank" class="hover:text-teal transition-colors hover-underline">
-                    Teaching Assistant
-                    <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
-                  </a>
-                </h3>
-                <p class="text-teal font-mono text-sm mb-3">Stony Brook University</p>
-                <ul class="text-sm leading-relaxed space-y-2 text-slate">
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Engineered support systems for <span class="text-teal">50+ freshmen</span> in Python</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Improved student scores by 15% through targeted tutoring</span>
-                  </li>
-                  <li class="flex items-start gap-2">
-                    <i class="fas fa-chevron-right text-teal text-xs mt-1.5 shrink-0"></i>
-                    <span>Conducted 1:1 sessions on core CS concepts</span>
-                  </li>
-                </ul>
-                <div class="flex flex-wrap gap-2 mt-4">
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Python</span>
-                  <span class="px-3 py-1 text-xs font-medium bg-teal/10 text-teal rounded-full border border-teal/20 ripple">Teaching</span>
-                </div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-        </section>       
-        <!-- PROJECTS SECTION -->
-        <section id="projects" class="mb-12 scroll-mt-16 md:mb-16 lg:mb-20 lg:scroll-mt-24 fade-in-up">
-          <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Capstone Projects</h2>
-          </div>
-          <ul class="group/list">
-            <li class="mb-12 transition-all duration-500 hover:scale-[1.02]">
-              <div class="group relative grid gap-4 pb-1 sm:grid-cols-8 sm:gap-8 md:gap-4 lg:hover:!opacity-100 lg:group-hover/list:opacity-50">
-                <div class="absolute -inset-x-4 -inset-y-4 z-0 hidden rounded-xl transition-all duration-500 motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-gradient-to-br lg:group-hover:from-lightNavy/80 lg:group-hover:to-lightNavy/40 lg:group-hover:shadow-[0_0_40px_rgba(100,255,218,0.1)] lg:group-hover:border lg:group-hover:border-teal/20"></div>
-                <div class="z-10 sm:order-2 sm:col-span-6">
-                  <h3>
-                    <a class="inline-flex items-baseline font-medium leading-tight text-white hover:text-teal focus-visible:text-teal group/link text-lg" href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" rel="noopener noreferrer">
-                      <span class="absolute -inset-x-4 -inset-y-2.5 hidden rounded md:-inset-x-6 md:-inset-y-4 lg:block"></span>
-                      <span>GoodHub Platform <span class="inline-block"><i class="fas fa-external-link-alt ml-1 text-sm"></i></span></span>
-                    </a>
-                  </h3>
-                  <p class="mt-2 text-sm leading-normal text-slate">
-                    A web application designed to connect environmentally conscious individuals with local and global volunteer opportunities. Features an intuitive, interactive map interface powered by Leaflet API.
-                  </p>
-                  <ul class="mt-2 flex flex-wrap" aria-label="Technologies used">
-                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">React</div></li>
-                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Python</div></li>
-                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Tailwind</div></li>
-                    <li class="mr-1.5 mt-2"><div class="flex items-center rounded-full bg-teal/10 px-3 py-1 text-xs font-medium leading-5 text-teal">Leaflet API</div></li>
-                  </ul>
-                  <div class="mt-4 flex gap-4">
-                     <a href="Goodhub.html" class="text-xs font-mono text-teal border border-teal/50 px-3 py-2 rounded hover:bg-teal/10 transition z-10 relative">View Demo</a>
-                     <a href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" class="text-xs font-mono text-white border border-slate/50 px-3 py-2 rounded hover:bg-white/10 transition z-10 relative"><i class="fab fa-github mr-2"></i>Code</a>
-                  </div>
-                  
-                </div>
-                <!-- Project Image Placeholder/Icon -->
-                <div class="sm:order-1 sm:col-span-2 sm:translate-y-1">
-                  <div class="w-full aspect-square max-w-[200px] rounded-lg bg-lightNavy border border-slate/10 flex items-center justify-center text-teal transition-transform duration-300 shadow-lg overflow-hidden group-hover:border-teal/30">
-                    <img src="goodhub.png" alt="GoodHub Project" class="w-full h-full object-contain p-3">
-                  </div>
-                </div>
-              </div>
-            </li>
-          </ul>
-          <div class="mt-12">
-            <a class="group inline-flex items-center font-medium leading-tight text-white hover:text-teal font-mono hover-underline" href="project.html">
-              <span class="pb-px transition motion-reduce:transition-none">
-                View Full Project Archive
-              </span>
-              <i class="fas fa-arrow-right ml-2 transition-transform duration-300 group-hover:translate-x-3"></i>
-            </a>
-          </div>
-        </section>
-
-        <!-- TECHNOLOGIES SECTION (Infinite Scroll) -->
-        <section id="technologies" class="mb-12 scroll-mt-16 md:mb-16 lg:mb-20 lg:scroll-mt-24 fade-in-up">
-           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Technologies</h2>
-          </div>
-          
-          <div class="relative w-full overflow-hidden py-6">
-            <div class="flex whitespace-nowrap animate-scroll hover:animation-play-state:paused">
-              <!-- Scroll Items (Duplicated for infinite effect) -->
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-js text-teal"></i>JavaScript</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-react text-teal"></i>React</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-python text-teal"></i> Python</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fas fa-database text-teal"></i> SQL</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-aws text-teal"></i> AWS</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-docker text-teal"></i> Docker</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fas fa-terminal text-teal"></i> TypeScript</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-node text-teal"></i> Node.js</span>
-              <!-- Repeat -->
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-python text-teal"></i> Python</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-react text-teal"></i> React</span>
-              <span class="mx-4 flex items-center gap-2 text-slate text-xl"><i class="fab fa-js text-teal"></i>JavaScript</span>
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-2 gap-4 mt-6">
-             <div class="glass-panel p-5 rounded-xl hover:border-teal/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(100,255,218,0.1)] group">
-               <div class="flex items-center gap-2 mb-3">
-                 <i class="fas fa-server text-teal group-hover:scale-110 transition-transform"></i>
-                 <h3 class="text-teal font-mono text-sm font-semibold">Backend</h3>
-               </div>
-               <p class="text-sm leading-relaxed">Flask, Django, Express.js, PostgreSQL, MongoDB</p>
-             </div>
-              <div class="glass-panel p-5 rounded-xl hover:border-teal/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(100,255,218,0.1)] group">
-                <div class="flex items-center gap-2 mb-3">
-                  <i class="fas fa-brain text-teal group-hover:scale-110 transition-transform"></i>
-                  <h3 class="text-teal font-mono text-sm font-semibold">AI/ML</h3>
-                </div>
-                <p class="text-sm leading-relaxed">PyTorch, scikit-learn, NLP, LSTM</p>
-              </div>
-             <div class="glass-panel p-5 rounded-xl hover:border-teal/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(100,255,218,0.1)] group col-span-2">
-               <div class="flex items-center gap-2 mb-3">
-                 <i class="fas fa-tools text-teal group-hover:scale-110 transition-transform"></i>
-                 <h3 class="text-teal font-mono text-sm font-semibold">Tools & Platforms</h3>
-               </div>
-               <p class="text-sm leading-relaxed">Git, AWS, Docker, Postman, CI/CD, VS Code, PyCharm, Jupyter Notebook</p>
-             </div>
-          </div>
-        </section>
-
-        <!-- PATHWAY SECTION -->
-        <section id="pathway" class="mb-12 scroll-mt-16 md:mb-16 lg:mb-20 lg:scroll-mt-24 fade-in-up">
-           <div class="sticky top-0 z-20 -mx-6 mb-4 w-screen bg-navy/75 px-6 py-5 backdrop-blur md:-mx-12 md:px-12 lg:sr-only lg:relative lg:top-auto lg:mx-auto lg:w-full lg:px-0 lg:py-0 lg:opacity-0">
-            <h2 class="text-sm font-bold uppercase tracking-widest text-white lg:sr-only">Pathway Programs</h2>
-          </div>
-          
-          <!-- Section Header -->
-          <div class="text-center mb-10 hidden lg:block">
-            <h2 class="text-3xl font-header font-bold text-white mb-3">Pathway Programs</h2>
-            <p class="text-slate max-w-md mx-auto">Industry-recognized certifications and accelerator programs</p>
-            <div class="w-24 h-1 bg-gradient-to-r from-transparent via-teal to-transparent mx-auto mt-4"></div>
-          </div>
-          
-          <div class="grid gap-6 sm:grid-cols-2">
-            <!-- Card 1 -->
-            <div class="glass-panel p-6 rounded-xl tilt-card cursor-default group hover:shadow-[0_20px_50px_rgba(100,255,218,0.1)] hover:border-teal/30">
-              <div class="tilt-content">
-              <div class="flex justify-between items-start mb-4">
-                 <div class="text-2xl font-bold"><span class="text-[#e53238]">e</span><span class="text-[#0064d2]">B</span><span class="text-[#f5af02]">a</span><span class="text-[#86b817]">y</span></div>
-                 <i class="fas fa-certificate text-teal text-xl group-hover:rotate-12 transition-transform duration-300"></i>
-              </div>
-              <h3 class="text-white font-semibold mb-2 group-hover:text-teal transition-colors">Pathway Program</h3>
-              <p class="text-xs text-slate mb-4">6-week intensive program focusing on real-world software development cycles.</p>
-              <span class="text-[10px] font-mono border border-teal text-teal px-3 py-1.5 rounded-full bg-teal/5 ripple">Certified</span>
-              </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="glass-panel p-6 rounded-xl tilt-card cursor-default group hover:shadow-[0_20px_50px_rgba(100,255,218,0.1)] hover:border-teal/30">
-              <div class="tilt-content">
-              <div class="flex justify-between items-start mb-4">
-                 <div class="text-xl font-bold text-white">NOMURA</div>
-                 <i class="fas fa-check-circle text-teal text-xl group-hover:scale-110 transition-transform duration-300"></i>
-              </div>
-              <h3 class="text-white font-semibold mb-2 group-hover:text-teal transition-colors">Accelerator</h3>
-              <p class="text-xs text-slate mb-4">Financial technology innovation and quantitative analysis for global markets.</p>
-              <span class="text-[10px] font-mono border border-teal text-teal px-3 py-1.5 rounded-full bg-teal/5 ripple">Completed</span>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <!-- FOOTER -->
-        <footer class="max-w-md pb-16 text-sm text-slate sm:pb-0 fade-in-up">
-          <p>
-            Designed & Engineered by <span class="text-teal">Zhicheng Yu</span>.
-          </p>
-          <p class="mt-2 text-xs opacity-70">
-            Built with HTML5, Tailwind CSS, and pure Vanilla JS.
-          </p>
-        </footer>
-      </main>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="bracket">{</span>ZY<span class="bracket">}</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-social">
+        <a href="https://github.com/Zhichengu1" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/zhichengyu369" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:yuzhicheng369@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
     </div>
-  </div>
-  
-  <!-- === MOBILE BOTTOM NAVIGATION (Minimize Clicks) === -->
-  <nav class="glass-nav fixed bottom-0 left-0 w-full z-50 lg:hidden pb-safe">
-    <ul class="flex justify-around items-center p-4">
-      <li>
-        <a href="#about" class="flex flex-col items-center text-slate hover:text-teal active:text-teal transition-colors">
-          <i class="fas fa-user text-lg mb-1"></i>
-          <span class="text-[10px] uppercase font-bold">About</span>
-        </a>
-      </li>
-      <li>
-        <a href="#experience" class="flex flex-col items-center text-slate hover:text-teal active:text-teal transition-colors">
-          <i class="fas fa-briefcase text-lg mb-1"></i>
-          <span class="text-[10px] uppercase font-bold">Exp</span>
-        </a>
-      </li>
-      <li>
-        <a href="#projects" class="flex flex-col items-center text-slate hover:text-teal active:text-teal transition-colors">
-          <i class="fas fa-code-branch text-lg mb-1"></i>
-          <span class="text-[10px] uppercase font-bold">Work</span>
-        </a>
-      </li>
-      <li>
-        <a href="mailto:yuzhicheng369@gmail.com" class="flex flex-col items-center text-slate hover:text-teal active:text-teal transition-colors">
-          <div class="bg-teal/20 p-2 rounded-full -mt-6 border-2 border-navy shadow-lg text-teal">
-            <i class="fas fa-envelope"></i>
-          </div>
-          <span class="text-[10px] uppercase font-bold mt-1">Contact</span>
-        </a>
-      </li>
-    </ul>
   </nav>
 
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    
+    <div class="hero-content">
+      <div class="hero-terminal">
+        <span class="dot"></span>
+        <span>~/zhicheng$ </span>
+        <span id="terminalText">ready to build</span>
+      </div>
+      <p class="hero-greeting">Hi, my name is</p>
+      <h1 class="hero-name">Zhicheng Yu</h1>
+      <h2 class="hero-title">
+        I build <span class="accent" id="typingRole">things for the web</span><span class="cursor"></span>
+      </h2>
+      <p class="hero-description">
+        I'm a computer science student and fullstack engineer specializing in building exceptional digital experiences. 
+        Currently focused on AI/ML and creating accessible, human-centered applications.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">
+          <i class="fas fa-rocket"></i>
+          View My Work
+        </a>
+        <a href="mailto:yuzhicheng369@gmail.com" class="btn btn-outline">
+          <i class="fas fa-paper-plane"></i>
+          Get In Touch
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section about">
+    <div class="section-header">
+      <p class="section-label">// 01. Introduction</p>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-image-container">
+        <img src="download.png" alt="Zhicheng Yu" class="about-image" onerror="this.src='https://ui-avatars.com/api/?name=Zhicheng+Yu&background=111113&color=10b981&size=350'">
+        <div class="about-image-frame"></div>
+      </div>
+      <div class="about-content">
+        <h3>Software Engineer & CS Student</h3>
+        <p>
+          Hello! I'm <span class="highlight">Zhicheng</span>, a computer science student passionate about 
+          <span class="highlight">full-stack development</span> and <span class="highlight">AI/ML</span>. 
+          I love working on innovative projects that help me learn cutting-edge skills and solve real-world problems.
+        </p>
+        <p>
+          I'm always open to constructive feedback and eager to grow in challenging environments. 
+          Currently, I'm expanding my skills in <span class="highlight">Machine Learning</span> and 
+          <span class="highlight">Backend Development</span>.
+        </p>
+        <p>
+          When I'm not coding, I enjoy collaborating with fellow developers, exploring emerging technologies, 
+          and constantly challenging myself to grow both personally and professionally.
+        </p>
+        <div class="about-stats">
+          <div class="stat">
+            <span class="stat-value">2+</span>
+            <span class="stat-label">Internships</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">5+</span>
+            <span class="stat-label">Projects</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">2+</span>
+            <span class="stat-label">Hackathons</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section -->
+  <section id="experience" class="section">
+    <div class="section-header">
+      <p class="section-label">// 02. Career</p>
+      <h2 class="section-title">Where I've Worked</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="timeline">
+      
+      <!-- Timeline Item 1 -->
+      <div class="timeline-item">
+        <div class="timeline-node">
+          <span class="ring"></span>
+          <span class="ring"></span>
+          <span class="ring"></span>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-card">
+          <div class="shine"></div>
+          <div class="particles">
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+          </div>
+          <div class="timeline-header">
+            <div class="timeline-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <span class="timeline-date">Present — May 2026</span>
+          </div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">
+              <a href="https://www.cuny.edu/about/administration/offices/cis/" target="_blank">
+                Software Engineer Intern
+                <i class="fas fa-arrow-up-right-from-square link-icon"></i>
+              </a>
+            </h3>
+            <p class="timeline-company">City University of New York</p>
+            <div class="timeline-description">
+              <ul>
+                <li>Developed an internal dashboard system for staff using React, Flask, and Python</li>
+                <li>Improved data accessibility for over 1,000+ internal users</li>
+                <li>Collaborated with cross-functional teams on agile development cycles</li>
+              </ul>
+            </div>
+            <div class="timeline-tags">
+              <span class="tag">React</span>
+              <span class="tag">Flask</span>
+              <span class="tag">Python</span>
+              <span class="tag">Dashboard</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Item 2 -->
+      <div class="timeline-item">
+        <div class="timeline-node">
+          <span class="ring"></span>
+          <span class="ring"></span>
+          <span class="ring"></span>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-card">
+          <div class="shine"></div>
+          <div class="particles">
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+          </div>
+          <div class="timeline-header">
+            <div class="timeline-icon">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <span class="timeline-date">Mar — May 2025</span>
+          </div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">
+              <a href="#">
+                Frontend Web Developer Intern
+                <i class="fas fa-arrow-up-right-from-square link-icon"></i>
+              </a>
+            </h3>
+            <p class="timeline-company">Kontaktsource</p>
+            <div class="timeline-description">
+              <ul>
+                <li>Enhanced user experience by collaborating with design teams</li>
+                <li>Managed the community page and optimized website performance</li>
+                <li>Implemented responsive UI components with modern JavaScript</li>
+              </ul>
+            </div>
+            <div class="timeline-tags">
+              <span class="tag">Frontend</span>
+              <span class="tag">UI/UX</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Item 3 -->
+      <div class="timeline-item">
+        <div class="timeline-node">
+          <span class="ring"></span>
+          <span class="ring"></span>
+          <span class="ring"></span>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-card">
+          <div class="shine"></div>
+          <div class="particles">
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+          </div>
+          <div class="timeline-header">
+            <div class="timeline-icon">
+              <i class="fab fa-google"></i>
+            </div>
+            <span class="timeline-date">Oct 2024 — Jan 2025</span>
+          </div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">
+              <a href="https://www.projectbasta.com/code2career" target="_blank">
+                Software Engineer Fellow
+                <i class="fas fa-arrow-up-right-from-square link-icon"></i>
+              </a>
+            </h3>
+            <p class="timeline-company">Google Inc.</p>
+            <div class="timeline-description">
+              <ul>
+                <li>Selected as one of 80 fellows from 2,000+ applicants nationwide</li>
+                <li>Completed advanced workshops on algorithms and system design</li>
+                <li>Received mentorship from senior Google engineers</li>
+              </ul>
+            </div>
+            <div class="timeline-tags">
+              <span class="tag">Java</span>
+              <span class="tag">Algorithms</span>
+              <span class="tag">DSA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Item 4 -->
+      <div class="timeline-item">
+        <div class="timeline-node">
+          <span class="ring"></span>
+          <span class="ring"></span>
+          <span class="ring"></span>
+        </div>
+        <div class="timeline-connector"></div>
+        <div class="timeline-card">
+          <div class="shine"></div>
+          <div class="particles">
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+            <span class="particle"></span>
+          </div>
+          <div class="timeline-header">
+            <div class="timeline-icon">
+              <i class="fas fa-chalkboard-teacher"></i>
+            </div>
+            <span class="timeline-date">Mar — May 2024</span>
+          </div>
+          <div class="timeline-content">
+            <h3 class="timeline-title">
+              <a href="https://www.stonybrook.edu/commcms/cie/agep" target="_blank">
+                Teaching Assistant
+                <i class="fas fa-arrow-up-right-from-square link-icon"></i>
+              </a>
+            </h3>
+            <p class="timeline-company">Stony Brook University</p>
+            <div class="timeline-description">
+              <ul>
+                <li>Engineered support systems for 50+ freshmen in Python programming</li>
+                <li>Improved student scores by 15% through targeted tutoring sessions</li>
+                <li>Designed supplementary learning materials and practice problems</li>
+              </ul>
+            </div>
+            <div class="timeline-tags">
+              <span class="tag">Python</span>
+              <span class="tag">Teaching</span>
+              <span class="tag">Mentoring</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <div class="section-header">
+      <p class="section-label">// 03. Portfolio</p>
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="projects-grid">
+      
+      <!-- Project 1 -->
+      <article class="project-card reveal">
+        <span class="project-badge">Hackathon</span>
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fas fa-globe"></i>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="Goodhub.html" aria-label="Live Demo">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-title">
+          <a href="Goodhub.html">GoodHub Platform</a>
+        </h3>
+        <p class="project-description">
+          Web platform connecting environmentally conscious individuals with volunteer opportunities 
+          through an interactive map interface powered by Leaflet API.
+        </p>
+        <div class="project-tags">
+          <span class="tag">React</span>
+          <span class="tag">Python</span>
+          <span class="tag">Tailwind</span>
+          <span class="tag">Leaflet</span>
+        </div>
+      </article>
+
+      <!-- Project 2 -->
+      <article class="project-card reveal">
+        <span class="project-badge">AI/ML</span>
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fas fa-music"></i>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Zhichengu1" target="_blank" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="Moodify.html" aria-label="Live Demo">
+              <i class="fas fa-external-link-alt"></i>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-title">
+          <a href="Moodify.html">Moodify</a>
+        </h3>
+        <p class="project-description">
+          AI-powered music recommendation system that analyzes mood and preferences 
+          to create personalized playlists using machine learning algorithms.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">ML</span>
+          <span class="tag">Spotify API</span>
+        </div>
+      </article>
+
+      <!-- Project 3 -->
+      <article class="project-card reveal">
+        <div class="project-header">
+          <div class="project-icon">
+            <i class="fas fa-code"></i>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/Zhichengu1" target="_blank" aria-label="GitHub">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+        </div>
+        <h3 class="project-title">
+          <a href="#">Portfolio Website</a>
+        </h3>
+        <p class="project-description">
+          Personal portfolio website built with modern web technologies, featuring 
+          a clean minimal design, dark mode, and smooth animations.
+        </p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </article>
+
+    </div>
+    <div class="projects-cta">
+      <a href="project.html">
+        View All Projects
+        <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Tech Stack Section -->
+  <section id="stack" class="section stack">
+    <div class="section-header">
+      <p class="section-label">// 04. Technologies</p>
+      <h2 class="section-title">My Tech Stack</h2>
+      <div class="section-divider"></div>
+    </div>
+    
+    <!-- Marquee -->
+    <div class="stack-marquee">
+      <div class="stack-marquee-inner">
+        <span class="marquee-item"><i class="fab fa-python"></i> Python</span>
+        <span class="marquee-item"><i class="fab fa-js"></i> JavaScript</span>
+        <span class="marquee-item"><i class="fab fa-react"></i> React</span>
+        <span class="marquee-item"><i class="fas fa-database"></i> SQL</span>
+        <span class="marquee-item"><i class="fab fa-aws"></i> AWS</span>
+        <span class="marquee-item"><i class="fab fa-docker"></i> Docker</span>
+        <span class="marquee-item"><i class="fab fa-node-js"></i> Node.js</span>
+        <span class="marquee-item"><i class="fab fa-git-alt"></i> Git</span>
+        <!-- Duplicate for seamless loop -->
+        <span class="marquee-item"><i class="fab fa-python"></i> Python</span>
+        <span class="marquee-item"><i class="fab fa-js"></i> JavaScript</span>
+        <span class="marquee-item"><i class="fab fa-react"></i> React</span>
+        <span class="marquee-item"><i class="fas fa-database"></i> SQL</span>
+        <span class="marquee-item"><i class="fab fa-aws"></i> AWS</span>
+        <span class="marquee-item"><i class="fab fa-docker"></i> Docker</span>
+        <span class="marquee-item"><i class="fab fa-node-js"></i> Node.js</span>
+        <span class="marquee-item"><i class="fab fa-git-alt"></i> Git</span>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="stack-grid">
+      <div class="stack-item reveal">
+        <i class="fab fa-python"></i>
+        <span>Python</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fab fa-js-square"></i>
+        <span>JavaScript</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fab fa-react"></i>
+        <span>React</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fab fa-node-js"></i>
+        <span>Node.js</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fas fa-flask"></i>
+        <span>Flask</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fas fa-database"></i>
+        <span>SQL</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fab fa-git-alt"></i>
+        <span>Git</span>
+      </div>
+      <div class="stack-item reveal">
+        <i class="fab fa-docker"></i>
+        <span>Docker</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GitHub Section -->
+  <section class="section github-section">
+    <div class="section-header">
+      <p class="section-label">// 05. Open Source</p>
+      <h2 class="section-title">GitHub Activity</h2>
+      <div class="section-divider"></div>
+    </div>
+    <!-- GitHub Contribution Graph -->
+    <div class="github-contribution">
+      <img src="https://ghchart.rshah.org/10b981/Zhichengu1" alt="GitHub Contributions" onerror="this.style.display='none'">
+    </div>
+    
+    <!-- GitHub Stats Cards -->
+    <div class="github-stats">
+      <div class="github-stat-card">
+        <i class="fab fa-github"></i>
+        <div class="value">15+</div>
+        <div class="label">Repositories</div>
+      </div>
+      <div class="github-stat-card">
+        <i class="fas fa-code-commit"></i>
+        <div class="value">200+</div>
+        <div class="label">Commits</div>
+      </div>
+      <div class="github-stat-card">
+        <i class="fas fa-code-branch"></i>
+        <div class="value">Python</div>
+        <div class="label">Top Language</div>
+      </div>
+    </div>
+    
+    <a href="https://github.com/Zhichengu1" target="_blank" class="github-cta">
+      <i class="fab fa-github"></i>
+      View Full Profile on GitHub
+    </a>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact">
+    <div class="section-label">// 06. What's Next?</div>
+    <h2 class="contact-title">Get In Touch</h2>
+    <p class="contact-text">
+      I'm currently looking for new opportunities. Whether you have a question 
+      or just want to say hi, my inbox is always open!
+    </p>
+    <a href="mailto:yuzhicheng369@gmail.com" class="btn btn-primary">
+      <i class="fas fa-envelope"></i>
+      Say Hello
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-social">
+        <a href="https://github.com/Zhichengu1" target="_blank" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/zhichengyu369" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:yuzhicheng369@gmail.com" aria-label="Email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </div>
+      <p class="footer-text">
+        Designed & Built by <a href="https://github.com/Zhichengu1">Zhicheng Yu</a><br>
+        <span style="opacity: 0.5;">© 2026 All rights reserved</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    // Typing animation for hero role
+    const roles = [
+      'things for the web',
+      'fullstack applications', 
+      'AI/ML solutions',
+      'user experiences',
+      'scalable systems'
+    ];
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingSpeed = 100;
+    const deletingSpeed = 50;
+    const pauseTime = 2000;
+
+    function typeRole() {
+      const element = document.getElementById('typingRole');
+      const currentRole = roles[roleIndex];
       
-      // 0. Create Floating Particles
-      const particlesContainer = document.getElementById('particles');
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 20 + 's';
-        particle.style.animationDuration = (15 + Math.random() * 15) + 's';
-        particle.style.width = (2 + Math.random() * 4) + 'px';
-        particle.style.height = particle.style.width;
-        particlesContainer.appendChild(particle);
+      if (isDeleting) {
+        element.textContent = currentRole.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        element.textContent = currentRole.substring(0, charIndex + 1);
+        charIndex++;
       }
-      
-      // 1. Scroll Progress Bar
-      const scrollProgress = document.getElementById('scrollProgress');
-      window.addEventListener('scroll', () => {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = scrollTop / docHeight;
-        scrollProgress.style.transform = `scaleX(${scrollPercent})`;
-      });
-      
-      // 2. Typing Animation
-      const typingElement = document.getElementById('typingText');
-      const phrases = [
-        'FULLSTACK SOFTWARE ENGINEER',
-        'AI/ML ENTHUSIAST',
-        'PROBLEM SOLVER',
-        'CREATIVE DEVELOPER'
-      ];
-      let phraseIndex = 0;
-      let charIndex = 0;
-      let isDeleting = false;
-      let typingSpeed = 100;
-      
-      function typeText() {
-        const currentPhrase = phrases[phraseIndex];
-        
-        if (isDeleting) {
-          typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
-          charIndex--;
-          typingSpeed = 50;
-        } else {
-          typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
-          charIndex++;
-          typingSpeed = 100;
-        }
-        
-        if (!isDeleting && charIndex === currentPhrase.length) {
-          isDeleting = true;
-          typingSpeed = 2000; // Pause at end
-        } else if (isDeleting && charIndex === 0) {
-          isDeleting = false;
-          phraseIndex = (phraseIndex + 1) % phrases.length;
-          typingSpeed = 500; // Pause before next phrase
-        }
-        
-        setTimeout(typeText, typingSpeed);
+
+      if (!isDeleting && charIndex === currentRole.length) {
+        isDeleting = true;
+        setTimeout(typeRole, pauseTime);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        setTimeout(typeRole, 500);
+      } else {
+        setTimeout(typeRole, isDeleting ? deletingSpeed : typingSpeed);
       }
-      typeText();
+    }
+
+    // Terminal text animation
+    const terminalTexts = [
+      'ready to build',
+      'npm run dev',
+      'python main.py',
+      'git push origin main',
+      'building the future'
+    ];
+    let terminalIndex = 0;
+
+    function cycleTerminal() {
+      const element = document.getElementById('terminalText');
+      element.style.opacity = '0';
+      setTimeout(() => {
+        terminalIndex = (terminalIndex + 1) % terminalTexts.length;
+        element.textContent = terminalTexts[terminalIndex];
+        element.style.opacity = '1';
+      }, 300);
+    }
+
+    // Scroll reveal animation
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+      const timelineItems = document.querySelectorAll('.timeline-item');
+      const windowHeight = window.innerHeight;
       
-      // 3. Spotlight Effect
-      const spotlight = document.getElementById('spotlight');
-      window.addEventListener('mousemove', e => {
-        spotlight.style.setProperty('--x', `${e.clientX}px`);
-        spotlight.style.setProperty('--y', `${e.clientY}px`);
-      });
-      
-      // 4. 3D Tilt Effect for Cards
-      const tiltCards = document.querySelectorAll('.tilt-card');
-      tiltCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const rotateX = (y - centerY) / 10;
-          const rotateY = (centerX - x) / 10;
-          card.style.setProperty('--rotateX', `${rotateX}deg`);
-          card.style.setProperty('--rotateY', `${rotateY}deg`);
-        });
+      reveals.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        const revealPoint = 100;
         
-        card.addEventListener('mouseleave', () => {
-          card.style.setProperty('--rotateX', '0deg');
-          card.style.setProperty('--rotateY', '0deg');
-        });
+        if (elementTop < windowHeight - revealPoint) {
+          element.classList.add('visible');
+        }
       });
-      
-      // 5. Magnetic Button Effect
-      const magneticBtns = document.querySelectorAll('.magnetic-btn');
-      magneticBtns.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-          const rect = btn.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-        });
+
+      // Timeline items animation with staggered delay
+      timelineItems.forEach((item, index) => {
+        const elementTop = item.getBoundingClientRect().top;
+        const revealPoint = 150;
         
-        btn.addEventListener('mouseleave', () => {
-          btn.style.transform = 'translate(0, 0)';
-        });
+        if (elementTop < windowHeight - revealPoint) {
+          setTimeout(() => {
+            item.classList.add('visible');
+          }, index * 200); // Staggered animation
+        }
       });
+    }
 
-      // 6. Active Nav Link Highlighter & Scroll Spy
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.3
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(link => {
-              link.classList.remove('active');
-              if (link.getAttribute('href').substring(1) === entry.target.id) {
-                link.classList.add('active');
-              }
-            });
-          }
-        });
-      }, observerOptions);
-
-      sections.forEach(section => observer.observe(section));
-
-      // 7. Fade-in on Scroll
-      const fadeElements = document.querySelectorAll('.fade-in-up');
-      const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.1 });
-      
-      fadeElements.forEach(el => fadeObserver.observe(el));
-      
-      // 8. Reveal Animations (Left, Right, Scale)
-      const revealElements = document.querySelectorAll('.reveal-left, .reveal-right, .reveal-scale');
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-          }
-        });
-      }, { threshold: 0.1 });
-      
-      revealElements.forEach(el => revealObserver.observe(el));
-      
-      // 9. Parallax Effect on Scroll
-      window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        const blobs = document.querySelectorAll('.blob');
-        blobs.forEach((blob, i) => {
-          const speed = 0.1 + (i * 0.05);
-          blob.style.transform = `translateY(${scrolled * speed}px)`;
-        });
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
       });
-      
-      // 10. Counter Animation for Stats (if any)
-      const counters = document.querySelectorAll('.counter');
-      const animateCounter = (counter) => {
-        const target = parseInt(counter.getAttribute('data-target'));
-        const duration = 2000;
-        const step = target / (duration / 16);
-        let current = 0;
-        
-        const updateCounter = () => {
-          current += step;
-          if (current < target) {
-            counter.textContent = Math.floor(current);
-            requestAnimationFrame(updateCounter);
-          } else {
-            counter.textContent = target;
-          }
-        };
-        updateCounter();
-      };
-      
-      const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateCounter(entry.target);
-            counterObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.5 });
-      
-      counters.forEach(counter => counterObserver.observe(counter));
     });
+
+    // Nav background on scroll
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.nav');
+      const currentScroll = window.pageYOffset;
+      
+      if (currentScroll > 100) {
+        nav.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+      } else {
+        nav.style.boxShadow = 'none';
+      }
+      
+      lastScroll = currentScroll;
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      typeRole();
+      setInterval(cycleTerminal, 3000);
+      revealOnScroll();
+      window.addEventListener('scroll', revealOnScroll);
+    });
+
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (navToggle) {
+      navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+      });
+    }
   </script>
+
 </body>
 </html>

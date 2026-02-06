@@ -1,433 +1,871 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Project Name - Zhicheng Yu</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>GoodHub | Zhicheng Yu</title>
+  <meta name="description" content="GoodHub - A platform connecting volunteers with environmental opportunities">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    .feature-card {
-      transition: all 0.3s ease;
-      background: linear-gradient(135deg, rgba(100, 255, 218, 0.05) 0%, rgba(100, 255, 218, 0.02) 100%);
+    /* CSS Variables - Matching Main Site */
+    :root {
+      --bg-primary: #0a0a0b;
+      --bg-secondary: #111113;
+      --bg-tertiary: #18181b;
+      --bg-card: #1c1c1f;
+      --accent-primary: #10b981;
+      --accent-secondary: #34d399;
+      --accent-glow: rgba(16, 185, 129, 0.15);
+      --text-primary: #fafafa;
+      --text-secondary: #a1a1aa;
+      --text-muted: #71717a;
+      --border-color: #27272a;
+      --border-hover: #3f3f46;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Space Grotesk', sans-serif;
+      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
-      background: linear-gradient(135deg, rgba(100, 255, 218, 0.1) 0%, rgba(100, 255, 218, 0.05) 100%);
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-primary);
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 11, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--accent-primary);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .nav-back:hover {
+      gap: 1rem;
+    }
+
+    .nav-back i {
+      transition: var(--transition-fast);
+    }
+
+    .nav-back:hover i {
+      transform: translateX(-4px);
+    }
+
+    .nav-home {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-fast);
+    }
+
+    .nav-home:hover {
+      color: var(--accent-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 2rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent-glow);
+      color: var(--accent-primary);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge.hackathon {
+      background: rgba(168, 85, 247, 0.1);
+      color: #a855f7;
+      border-color: rgba(168, 85, 247, 0.2);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+
+    .hero-title .accent {
+      color: var(--accent-primary);
+    }
+
+    .hero-description {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .btn {
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      padding: 0.875rem 1.75rem;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-base);
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--accent-primary);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent-primary);
+      border: 1px solid var(--accent-primary);
+    }
+
+    .btn-secondary:hover {
+      background: var(--accent-glow);
+      transform: translateY(-2px);
+    }
+
+    /* Section Styles */
+    .section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-alt {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-alt .section {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--accent-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Screenshot Container */
     .screenshot-container {
-      position: relative;
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
       overflow: hidden;
-      border-radius: 12px;
-      border: 2px solid rgba(100, 255, 218, 0.2);
+      background: var(--bg-tertiary);
     }
-    .screenshot-container::after {
+
+    .screenshot-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Tech Stack Grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .tech-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: var(--transition-base);
+    }
+
+    .tech-item:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+    }
+
+    .tech-item i {
+      font-size: 2rem;
+      color: var(--accent-primary);
+    }
+
+    .tech-item span {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    /* Overview Grid */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .overview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .overview-subtitle {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+    }
+
+    .overview-text {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+    }
+
+    /* Feature Cards */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      padding: 1.75rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      transition: var(--transition-base);
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--accent-glow);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .feature-icon i {
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-description {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
       content: '';
       position: absolute;
+      left: 0;
       top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.3), transparent);
-      transition: left 0.5s;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-primary), transparent);
     }
-    .screenshot-container:hover::after {
-      left: 100%;
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.5rem;
     }
-    .tech-pill {
-      animation: pulse-subtle 3s ease-in-out infinite;
-    }
-    @keyframes pulse-subtle {
-      0%, 100% { box-shadow: 0 0 10px rgba(100, 255, 218, 0.2); }
-      50% { box-shadow: 0 0 20px rgba(100, 255, 218, 0.4); }
-    }
+
     .timeline-item::before {
       content: '';
       position: absolute;
-      left: -8px;
-      top: 8px;
-      width: 16px;
-      height: 16px;
+      left: -2rem;
+      top: 0.25rem;
+      width: 12px;
+      height: 12px;
+      background: var(--accent-primary);
       border-radius: 50%;
-      background: #64ffda;
-      box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+      transform: translateX(-5px);
+    }
+
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      color: var(--accent-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-period {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-text {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Team Section */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .team-card {
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      text-align: center;
+      transition: var(--transition-base);
+    }
+
+    .team-card:hover {
+      border-color: var(--accent-primary);
+      transform: translateY(-4px);
+    }
+
+    .team-avatar {
+      width: 64px;
+      height: 64px;
+      background: var(--accent-glow);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .team-avatar i {
+      font-size: 1.5rem;
+      color: var(--accent-primary);
+    }
+
+    .team-name {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .team-role {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 4rem 2rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .footer-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .fade-in-delay-1 { animation-delay: 0.1s; }
+    .fade-in-delay-2 { animation-delay: 0.2s; }
+    .fade-in-delay-3 { animation-delay: 0.3s; }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hero {
+        padding: 6rem 1.5rem 3rem;
+      }
+
+      .section {
+        padding: 3rem 1.5rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-<body class="antialiased">
-  <div class="min-h-screen">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a192f]/95 backdrop-blur-sm border-b border-[#64ffda]/10">
-      <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="project.html" class="flex items-center gap-3 text-[#64ffda] hover:text-[#e6f1ff] transition-colors group">
-          <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
-          <span class="futuristic-text font-semibold">ALL PROJECTS</span>
-        </a>
-        <a href="index.html" class="text-[#ccd6f6] hover:text-[#64ffda] transition-colors futuristic-text text-sm">
-          HOME
-        </a>
-      </div>
-    </nav>
+<body>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-16 px-6">
-      <div class="max-w-6xl mx-auto">
-        <div class="flex flex-wrap gap-3 mb-6 fade-in">
-          <span class="px-4 py-2 bg-[#64ffda]/10 text-[#64ffda] rounded-full text-sm font-semibold border border-[#64ffda]/30">
-            WEB APP
-          </span>
-          <span class="px-4 py-2 bg-[#ff6afc]/10 text-[#ff6afc] rounded-full text-sm font-semibold border border-[#ff6afc]/30">
-            HACKATHON
-          </span>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="project.html" class="nav-back">
+        <i class="fas fa-arrow-left"></i>
+        <span>All Projects</span>
+      </a>
+      <a href="index.html" class="nav-home">Home</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badges fade-in">
+      <span class="badge">Web App</span>
+      <span class="badge hackathon">Hackathon</span>
+      <span class="badge">Full Stack</span>
+    </div>
+    
+    <h1 class="hero-title fade-in fade-in-delay-1">
+      <span class="accent">GoodHub</span> Platform
+    </h1>
+    
+    <p class="hero-description fade-in fade-in-delay-2">
+      A comprehensive web application designed to connect environmentally conscious individuals with local 
+      and global volunteer opportunities through an intuitive, interactive map interface.
+    </p>
+
+    <div class="hero-buttons fade-in fade-in-delay-3">
+      <a href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" class="btn btn-primary">
+        <i class="fab fa-github"></i>
+        View Code
+      </a>
+    </div>
+  </section>
+
+  <!-- Screenshot Section -->
+  <section class="section">
+    <div class="screenshot-container">
+      <img src="goodhub.png" alt="GoodHub Platform Screenshot">
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <div class="section-alt">
+    <section class="section">
+      <div class="section-header">
+        <p class="section-label">// Technologies</p>
+        <h2 class="section-title">Tech Stack</h2>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <i class="fab fa-react"></i>
+          <span>React</span>
         </div>
-        
-        <h1 class="text-5xl md:text-7xl font-bold text-[#64ffda] mb-6 futuristic-header fade-in delay-100">
-          GOODHUB PLATFORM
-        </h1>
-        
-        <p class="text-xl text-[#ccd6f6] max-w-4xl mb-8 futuristic-text fade-in delay-200 leading-relaxed">
-          A comprehensive web application designed to connect environmentally conscious individuals with local and global volunteer opportunities through an intuitive, interactive map interface.
+        <div class="tech-item">
+          <i class="fab fa-python"></i>
+          <span>Python</span>
+        </div>
+        <div class="tech-item">
+          <i class="fas fa-flask"></i>
+          <span>Flask</span>
+        </div>
+        <div class="tech-item">
+          <i class="fas fa-map-marked-alt"></i>
+          <span>Leaflet API</span>
+        </div>
+        <div class="tech-item">
+          <i class="fab fa-css3-alt"></i>
+          <span>Tailwind CSS</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Project Overview -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-label">// Overview</p>
+      <h2 class="section-title">Project Overview</h2>
+    </div>
+    <div class="overview-grid">
+      <div>
+        <h3 class="overview-subtitle">The Challenge</h3>
+        <p class="overview-text">
+          Many environmentally conscious individuals struggle to find and engage with local volunteer opportunities. 
+          Existing platforms lack intuitive interfaces and real-time updates, making it difficult for users to 
+          discover events that align with their interests and availability.
         </p>
-
-        <div class="flex flex-wrap gap-4 fade-in delay-300">
-          <a href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" class="px-8 py-4 bg-[#64ffda] text-[#0a192f] rounded-lg font-semibold hover:bg-[#64ffda]/90 transition-all hover:scale-105 shadow-[0_0_20px_rgba(100,255,218,0.3)]">
-            <i class="fab fa-github mr-2"></i>VIEW CODE
-          </a>
-        </div>
+        <h3 class="overview-subtitle">The Solution</h3>
+        <p class="overview-text">
+          GoodHub provides an interactive map-based interface that allows users to easily discover, join, and create 
+          sustainability-focused events. The platform features real-time updates, user profiles, event management, 
+          and social features to build a community of environmental advocates.
+        </p>
       </div>
-    </section>
-
-    <!-- Project Image/Screenshot -->
-    <section class="py-8 px-6">
-      <div class="max-w-6xl mx-auto">
-        <div class="screenshot-container bg-gradient-to-br from-[#64ffda]/20 to-[#00fff7]/20 aspect-video flex items-center justify-center fade-in">
-          <div class="text-center">
-            <img src="goodhub.png" alt="GoodHub Platform Screenshot" class="w-full h-full object-cover rounded-lg">
-            <p class="text-[#ccd6f6] futuristic-text">Project Screenshot</p>
-            <p class="text-[#8892b0] text-sm mt-2">Replace with actual project image</p>
+      <div>
+        <h3 class="overview-subtitle">Key Metrics</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Development Time</span>
+            <span class="stat-value">48 hours</span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Tech Stack -->
-    <section class="py-16 px-6">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          TECH STACK
-        </h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#64ffda]/20 text-center hover:border-[#64ffda] transition-all">
-            <i class="fab fa-react text-3xl text-[#64ffda] mb-2"></i>
-            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">React</p>
+          <div class="stat-item">
+            <span class="stat-label">Team Size</span>
+            <span class="stat-value">4 members</span>
           </div>
-          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#64ffda]/20 text-center hover:border-[#64ffda] transition-all">
-            <i class="fab fa-python text-3xl text-[#64ffda] mb-2"></i>
-            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Python</p>
+          <div class="stat-item">
+            <span class="stat-label">Lines of Code</span>
+            <span class="stat-value">5,000+</span>
           </div>
-          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#64ffda]/20 text-center hover:border-[#64ffda] transition-all">
-            <i class="fas fa-css3-alt text-3xl text-[#64ffda] mb-2"></i>
-            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Tailwind</p>
-          </div>
-          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#64ffda]/20 text-center hover:border-[#64ffda] transition-all">
-            <i class="fas fa-map-marked-alt text-3xl text-[#64ffda] mb-2"></i>
-            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Leaflet API</p>
-          </div>
-          <div class="tech-pill px-6 py-4 bg-[#112240] rounded-lg border border-[#64ffda]/20 text-center hover:border-[#64ffda] transition-all">
-            <i class="fas fa-server text-3xl text-[#64ffda] mb-2"></i>
-            <p class="text-[#ccd6f6] futuristic-text text-sm font-semibold">Flask</p>
+          <div class="stat-item">
+            <span class="stat-label">Hackathon Rank</span>
+            <span class="stat-value">Top 10</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Project Overview -->
-    <section class="py-16 px-6 bg-[#112240]/30">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          PROJECT OVERVIEW
-        </h2>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-4 futuristic-text">The Challenge</h3>
-            <p class="text-[#ccd6f6] leading-relaxed mb-6">
-              Many environmentally conscious individuals struggle to find and engage with local volunteer opportunities. 
-              Existing platforms lack intuitive interfaces and real-time updates, making it difficult for users to 
-              discover events that align with their interests and availability.
-            </p>
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-4 futuristic-text">The Solution</h3>
-            <p class="text-[#ccd6f6] leading-relaxed">
-              GoodHub provides an interactive map-based interface that allows users to easily discover, join, and create 
-              sustainability-focused events. The platform features real-time updates, user profiles, event management, 
-              and social features to build a community of environmental advocates.
-            </p>
+  <!-- Key Features -->
+  <div class="section-alt">
+    <section class="section">
+      <div class="section-header">
+        <p class="section-label">// Features</p>
+        <h2 class="section-title">Key Features</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-map-marker-alt"></i>
           </div>
-          <div>
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-4 futuristic-text">Key Metrics</h3>
-            <div class="space-y-4">
-              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#64ffda]/10">
-                <span class="text-[#ccd6f6] futuristic-text">Development Time</span>
-                <span class="text-[#64ffda] font-bold text-xl">48 hours</span>
-              </div>
-              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#64ffda]/10">
-                <span class="text-[#ccd6f6] futuristic-text">Team Size</span>
-                <span class="text-[#64ffda] font-bold text-xl">4 members</span>
-              </div>
-              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#64ffda]/10">
-                <span class="text-[#ccd6f6] futuristic-text">Lines of Code</span>
-                <span class="text-[#64ffda] font-bold text-xl">5,000+</span>
-              </div>
-              <div class="flex items-center justify-between p-4 bg-[#0a192f]/50 rounded-lg border border-[#64ffda]/10">
-                <span class="text-[#ccd6f6] futuristic-text">Hackathon Rank</span>
-                <span class="text-[#64ffda] font-bold text-xl">Top 10</span>
-              </div>
-            </div>
+          <h3 class="feature-title">Interactive Map</h3>
+          <p class="feature-description">
+            Leaflet-powered map interface displaying volunteer opportunities with real-time location tracking and filtering capabilities.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-calendar-plus"></i>
           </div>
+          <h3 class="feature-title">Event Creation</h3>
+          <p class="feature-description">
+            Users can create and manage their own environmental events with custom descriptions, dates, and locations.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <h3 class="feature-title">Community Hub</h3>
+          <p class="feature-description">
+            Connect with like-minded individuals, join groups, and build a network of environmental advocates.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <h3 class="feature-title">User Profiles</h3>
+          <p class="feature-description">
+            Customizable profiles tracking volunteer hours, events attended, and environmental impact contributions.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-filter"></i>
+          </div>
+          <h3 class="feature-title">Smart Filters</h3>
+          <p class="feature-description">
+            Advanced filtering options by event type, date, distance, and impact category for personalized discovery.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3 class="feature-title">Responsive Design</h3>
+          <p class="feature-description">
+            Fully responsive interface optimized for desktop, tablet, and mobile devices with seamless user experience.
+          </p>
         </div>
       </div>
     </section>
+  </div>
 
-    <!-- Key Features -->
-    <section class="py-16 px-6">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          KEY FEATURES
-        </h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div class="feature-card p-6 rounded-xl border border-[#64ffda]/20">
-            <div class="w-12 h-12 bg-[#64ffda]/10 rounded-lg flex items-center justify-center mb-4">
-              <i class="fas fa-map-marker-alt text-2xl text-[#64ffda]"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Interactive Map</h3>
-            <p class="text-[#8892b0] text-sm leading-relaxed">
-              Leaflet-powered map interface displaying volunteer opportunities with real-time location tracking and filtering capabilities.
-            </p>
-          </div>
+  <!-- Development Process -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-label">// Process</p>
+      <h2 class="section-title">Development Process</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3 class="timeline-title">Phase 1: Planning & Design</h3>
+        <p class="timeline-period">Hours 0-8</p>
+        <p class="timeline-text">
+          Conducted user research, created wireframes, defined core features, and established the technical architecture. 
+          Designed the database schema and API endpoints for seamless frontend-backend integration.
+        </p>
+      </div>
+      <div class="timeline-item">
+        <h3 class="timeline-title">Phase 2: Core Development</h3>
+        <p class="timeline-period">Hours 8-32</p>
+        <p class="timeline-text">
+          Built the React frontend with component architecture, integrated Leaflet API for map functionality, 
+          developed Flask backend with RESTful APIs, and implemented user authentication and database operations.
+        </p>
+      </div>
+      <div class="timeline-item">
+        <h3 class="timeline-title">Phase 3: Feature Enhancement</h3>
+        <p class="timeline-period">Hours 32-44</p>
+        <p class="timeline-text">
+          Added advanced filtering, real-time updates, user profiles, event management dashboard, and social features. 
+          Optimized performance and implemented responsive design across all device sizes.
+        </p>
+      </div>
+      <div class="timeline-item">
+        <h3 class="timeline-title">Phase 4: Testing & Deployment</h3>
+        <p class="timeline-period">Hours 44-48</p>
+        <p class="timeline-text">
+          Conducted comprehensive testing, fixed bugs, optimized performance, prepared presentation materials, 
+          and deployed the application for the hackathon demo.
+        </p>
+      </div>
+    </div>
+  </section>
 
-          <div class="feature-card p-6 rounded-xl border border-[#64ffda]/20">
-            <div class="w-12 h-12 bg-[#64ffda]/10 rounded-lg flex items-center justify-center mb-4">
-              <i class="fas fa-calendar-plus text-2xl text-[#64ffda]"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Event Creation</h3>
-            <p class="text-[#8892b0] text-sm leading-relaxed">
-              Users can create and manage their own environmental events with custom descriptions, dates, and locations.
-            </p>
+  <!-- Team Section -->
+  <div class="section-alt">
+    <section class="section">
+      <div class="section-header">
+        <p class="section-label">// Team</p>
+        <h2 class="section-title">The Team</h2>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">
+            <i class="fas fa-user"></i>
           </div>
-
-          <div class="feature-card p-6 rounded-xl border border-[#64ffda]/20">
-            <div class="w-12 h-12 bg-[#64ffda]/10 rounded-lg flex items-center justify-center mb-4">
-              <i class="fas fa-users text-2xl text-[#64ffda]"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Community Hub</h3>
-            <p class="text-[#8892b0] text-sm leading-relaxed">
-              Connect with like-minded individuals, join groups, and build a network of environmental advocates.
-            </p>
+          <h3 class="team-name">Zhicheng Yu</h3>
+          <p class="team-role">Full Stack Developer</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">
+            <i class="fas fa-user"></i>
           </div>
-
-          <div class="feature-card p-6 rounded-xl border border-[#64ffda]/20">
-            <div class="w-12 h-12 bg-[#64ffda]/10 rounded-lg flex items-center justify-center mb-4">
-              <i class="fas fa-user-circle text-2xl text-[#64ffda]"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">User Profiles</h3>
-            <p class="text-[#8892b0] text-sm leading-relaxed">
-              Customizable profiles tracking volunteer hours, events attended, and environmental impact contributions.
-            </p>
+          <h3 class="team-name">Team Member</h3>
+          <p class="team-role">Frontend Developer</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">
+            <i class="fas fa-user"></i>
           </div>
-
-          <div class="feature-card p-6 rounded-xl border border-[#64ffda]/20">
-            <div class="w-12 h-12 bg-[#64ffda]/10 rounded-lg flex items-center justify-center mb-4">
-              <i class="fas fa-filter text-2xl text-[#64ffda]"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Smart Filters</h3>
-            <p class="text-[#8892b0] text-sm leading-relaxed">
-              Advanced filtering options by event type, date, distance, and impact category for personalized discovery.
-            </p>
+          <h3 class="team-name">Team Member</h3>
+          <p class="team-role">Backend Developer</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">
+            <i class="fas fa-user"></i>
           </div>
-
-          <div class="feature-card p-6 rounded-xl border border-[#64ffda]/20">
-            <div class="w-12 h-12 bg-[#64ffda]/10 rounded-lg flex items-center justify-center mb-4">
-              <i class="fas fa-mobile-alt text-2xl text-[#64ffda]"></i>
-            </div>
-            <h3 class="text-xl font-semibold text-[#e6f1ff] mb-3 futuristic-text">Responsive Design</h3>
-            <p class="text-[#8892b0] text-sm leading-relaxed">
-              Fully responsive interface optimized for desktop, tablet, and mobile devices with seamless user experience.
-            </p>
-          </div>
+          <h3 class="team-name">Team Member</h3>
+          <p class="team-role">UI/UX Designer</p>
         </div>
       </div>
     </section>
+  </div>
 
-    <!-- Development Process -->
-    <section class="py-16 px-6 bg-[#112240]/30">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          DEVELOPMENT PROCESS
-        </h2>
-        <div class="space-y-8">
-          <div class="relative pl-8 border-l-2 border-[#64ffda] timeline-item">
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-2 futuristic-text">Phase 1: Planning & Design</h3>
-            <p class="text-[#8892b0] mb-3">Hours 0-8</p>
-            <p class="text-[#ccd6f6] leading-relaxed">
-              Conducted user research, created wireframes, defined core features, and established the technical architecture. 
-              Designed the database schema and API endpoints for seamless frontend-backend integration.
-            </p>
-          </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <h3 class="footer-title">GoodHub</h3>
+    <p class="footer-subtitle">Built at HunterHack 2025</p>
+    <p class="footer-copy">© 2025 GoodHub. Designed & Built by Zhicheng Yu and Team.</p>
+  </footer>
 
-          <div class="relative pl-8 border-l-2 border-[#64ffda] timeline-item">
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-2 futuristic-text">Phase 2: Core Development</h3>
-            <p class="text-[#8892b0] mb-3">Hours 8-32</p>
-            <p class="text-[#ccd6f6] leading-relaxed">
-              Built the React frontend with component architecture, integrated Leaflet API for map functionality, 
-              developed Flask backend with RESTful APIs, and implemented user authentication and database operations.
-            </p>
-          </div>
-
-          <div class="relative pl-8 border-l-2 border-[#64ffda] timeline-item">
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-2 futuristic-text">Phase 3: Feature Enhancement</h3>
-            <p class="text-[#8892b0] mb-3">Hours 32-44</p>
-            <p class="text-[#ccd6f6] leading-relaxed">
-              Added advanced filtering, real-time updates, user profiles, event management dashboard, and social features. 
-              Optimized performance and implemented responsive design across all device sizes.
-            </p>
-          </div>
-
-          <div class="relative pl-8 border-l-2 border-[#64ffda] timeline-item">
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-2 futuristic-text">Phase 4: Testing & Deployment</h3>
-            <p class="text-[#8892b0] mb-3">Hours 44-48</p>
-            <p class="text-[#ccd6f6] leading-relaxed">
-              Conducted comprehensive testing, fixed bugs, refined UI/UX based on feedback, and deployed the application. 
-              Prepared presentation materials and documented the codebase for future development.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Challenges & Solutions -->
-    <section class="py-16 px-6">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          CHALLENGES & SOLUTIONS
-        </h2>
-        <div class="space-y-6">
-          <div class="bg-[#112240] p-6 rounded-xl border-l-4 border-[#ff6afc]">
-            <h3 class="text-xl font-semibold text-[#ff6afc] mb-3 futuristic-text">Challenge: Real-time Map Updates</h3>
-            <p class="text-[#ccd6f6] mb-3">
-              Ensuring smooth real-time updates of event markers on the map without performance degradation was challenging 
-              with multiple users creating events simultaneously.
-            </p>
-            <p class="text-[#8892b0]">
-              <span class="text-[#64ffda] font-semibold">Solution:</span> Implemented connections for real-time 
-              communication and optimized rendering with React.memo to prevent unnecessary re-renders.
-            </p>
-          </div>
-
-          <div class="bg-[#112240] p-6 rounded-xl border-l-4 border-[#00fff7]">
-            <h3 class="text-xl font-semibold text-[#00fff7] mb-3 futuristic-text">Challenge: Mobile Responsiveness</h3>
-            <p class="text-[#ccd6f6] mb-3">
-              The interactive map and complex filtering system needed to work seamlessly across desktop and mobile devices 
-              with different screen sizes and touch interactions.
-            </p>
-            <p class="text-[#8892b0]">
-              <span class="text-[#64ffda] font-semibold">Solution:</span> Utilized Tailwind CSS for responsive design and 
-              implemented touch-optimized controls with gesture detection for mobile users.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Learnings & Takeaways -->
-    <section class="py-16 px-6 bg-[#112240]/30">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          LEARNINGS & TAKEAWAYS
-        </h2>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-4 futuristic-text">Technical Skills</h3>
-            <ul class="space-y-3 text-[#ccd6f6]">
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Mastered Leaflet API integration for interactive mapping solutions</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Implemented WebSocket connections for real-time data synchronization</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Gained experience with spatial databases using PostGIS</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Enhanced React performance optimization techniques</span>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-xl font-semibold text-[#64ffda] mb-4 futuristic-text">Soft Skills</h3>
-            <ul class="space-y-3 text-[#ccd6f6]">
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Improved time management under tight hackathon deadlines</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Strengthened team collaboration and communication skills</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Learned to prioritize features based on user value and feasibility</span>
-              </li>
-              <li class="flex items-start">
-                <i class="fas fa-check-circle text-[#64ffda] mr-3 mt-1"></i>
-                <span>Developed effective problem-solving strategies under pressure</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Next Steps -->
-    <section class="py-16 px-6">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl font-bold text-[#e6f1ff] mb-8 futuristic-header flex items-center">
-          <span class="w-12 h-px bg-[#64ffda] mr-4"></span>
-          FUTURE ENHANCEMENTS
-        </h2>
-        <div class="grid md:grid-cols-3 gap-6">
-          <div class="p-6 bg-[#112240] rounded-xl border border-[#64ffda]/20 hover:border-[#64ffda]/50 transition-all">
-            <div class="text-4xl mb-4">🔔</div>
-            <h3 class="text-lg font-semibold text-[#64ffda] mb-2 futuristic-text">Push Notifications</h3>
-            <p class="text-[#8892b0] text-sm">
-              Implement push notifications for nearby events and updates on joined activities
-            </p>
-          </div>
-          <div class="p-6 bg-[#112240] rounded-xl border border-[#64ffda]/20 hover:border-[#64ffda]/50 transition-all">
-            <div class="text-4xl mb-4">🤖</div>
-            <h3 class="text-lg font-semibold text-[#64ffda] mb-2 futuristic-text">AI Recommendations</h3>
-            <p class="text-[#8892b0] text-sm">
-              Add machine learning algorithms to suggest events based on user preferences and history
-            </p>
-          </div>
-          <div class="p-6 bg-[#112240] rounded-xl border border-[#64ffda]/20 hover:border-[#64ffda]/50 transition-all">
-            <div class="text-4xl mb-4">📱</div>
-            <h3 class="text-lg font-semibold text-[#64ffda] mb-2 futuristic-text">Mobile App</h3>
-            <p class="text-[#8892b0] text-sm">
-              Develop native mobile applications for iOS and Android for better accessibility
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+</body>
+</html>
