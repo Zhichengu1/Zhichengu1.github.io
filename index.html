@@ -749,7 +749,7 @@
     
     .timeline {
       position: relative;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 4rem 0;
     }
@@ -1016,9 +1016,9 @@
         #0a0a0b 0%, 
         #0f0f12 20%,
         #0a0a0b 100%);
-      border: 1px solid rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.12);
       border-radius: 28px;
-      padding: 2.25rem 2.5rem;
+      padding: 2.75rem 3rem;
       position: relative;
       transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
       overflow: hidden;
@@ -1026,20 +1026,20 @@
       transform-style: preserve-3d;
       perspective: 1000px;
       box-shadow: 
-        0 10px 40px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(16, 185, 129, 0.1) inset,
-        0 1px 0 rgba(255, 255, 255, 0.05) inset;
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(16, 185, 129, 0.08) inset,
+        0 1px 0 rgba(255, 255, 255, 0.03) inset;
       cursor: pointer;
     }
     
-    /* Subtle idle animation */
+    /* Subtle idle animation - Reduced visual noise */
     .timeline-card {
-      animation: cardIdle 4s ease-in-out infinite;
+      animation: cardIdle 5s ease-in-out infinite;
     }
     
     @keyframes cardIdle {
-      0%, 100% { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(16, 185, 129, 0.1) inset, 0 1px 0 rgba(255, 255, 255, 0.05) inset; }
-      50% { box-shadow: 0 12px 45px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(16, 185, 129, 0.15) inset, 0 1px 0 rgba(255, 255, 255, 0.08) inset, 0 0 20px rgba(16, 185, 129, 0.05); }
+      0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(16, 185, 129, 0.08) inset, 0 1px 0 rgba(255, 255, 255, 0.03) inset; }
+      50% { box-shadow: 0 10px 38px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(16, 185, 129, 0.12) inset, 0 1px 0 rgba(255, 255, 255, 0.05) inset, 0 0 15px rgba(16, 185, 129, 0.03); }
     }
     
     .timeline-card:hover {
@@ -1108,7 +1108,7 @@
       opacity: 1;
     }
 
-    /* Animated gradient border - Enhanced */
+    /* Animated gradient border - Reduced visual noise */
     .timeline-card::before {
       content: '';
       position: absolute;
@@ -1130,7 +1130,7 @@
       z-index: -1;
       opacity: 0;
       transition: opacity 0.6s ease;
-      animation: borderGlow 6s ease infinite;
+      animation: borderGlow 8s ease infinite;
     }
 
     @keyframes borderGlow {
@@ -1222,15 +1222,14 @@
     }
 
     .timeline-card:hover {
-      border-color: rgba(16, 185, 129, 0.4);
-      transform: translateY(-18px) rotateX(4deg) rotateY(-2deg) scale(1.03);
+      border-color: rgba(16, 185, 129, 0.3);
+      transform: translateY(-14px) rotateX(3deg) rotateY(-1.5deg) scale(1.02);
       box-shadow: 
-        0 50px 100px rgba(0, 0, 0, 0.7),
-        0 0 60px rgba(16, 185, 129, 0.25),
-        0 0 100px rgba(16, 185, 129, 0.15),
-        0 0 140px rgba(16, 185, 129, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(16, 185, 129, 0.15);
+        0 30px 70px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(16, 185, 129, 0.15),
+        0 0 60px rgba(16, 185, 129, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(16, 185, 129, 0.1);
       background: linear-gradient(145deg, 
         #0a0a0b 0%, 
         #0f0f12 50%,
@@ -1509,13 +1508,14 @@
 
     .timeline-title {
       font-family: var(--font-display);
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
       position: relative;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      letter-spacing: -0.3px;
     }
 
     .timeline-title a {
@@ -1566,20 +1566,22 @@
 
     .timeline-company {
       font-family: var(--font-mono);
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #34d399;
-      margin-bottom: 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #a1a1aa;
+      margin-bottom: 1.75rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+      text-shadow: none;
       transition: all 0.4s ease;
+      letter-spacing: 0.3px;
     }
 
     .timeline-company::before {
       content: '@';
-      color: rgba(16, 185, 129, 0.7);
+      color: rgba(16, 185, 129, 0.5);
+      margin-right: 0.25rem;
     }
     
     .timeline-card:hover .timeline-company {
@@ -1589,10 +1591,21 @@
     
     .timeline-description {
       font-size: 0.95rem;
-      color: #d4d4d8;
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
+      color: #d9d9e3;
+      line-height: 1.95;
+      margin-bottom: 2rem;
       text-align: left;
+      font-weight: 400;
+      letter-spacing: 0.3px;
+    }
+
+    .timeline-description p {
+      margin-bottom: 1.25rem;
+      color: #e4e4e7;
+    }
+
+    .timeline-description p:last-of-type {
+      margin-bottom: 1.75rem;
     }
 
     .timeline-description ul {
@@ -1603,55 +1616,61 @@
 
     .timeline-description li {
       position: relative;
-      padding-left: 1.75rem;
-      margin-bottom: 0.625rem;
+      padding-left: 2rem;
+      margin-bottom: 1.2rem;
       transition: all 0.3s ease;
+      color: #d9d9e3;
+      font-weight: 400;
+      line-height: 1.65;
     }
     
     .timeline-description li:hover {
-      transform: translateX(8px);
       color: #fafafa;
+      padding-left: 2.25rem;
     }
 
     .timeline-description li::before {
-      content: '▹';
+      content: '–';
       position: absolute;
       left: 0;
+      top: 0.5em;
       color: var(--accent-primary);
       font-size: 1rem;
+      font-weight: 600;
       transition: all 0.3s ease;
+      opacity: 0.6;
     }
     
     .timeline-description li:hover::before {
       color: #34d399;
-      text-shadow: 0 0 10px var(--accent-primary);
-      transform: translateX(3px);
+      opacity: 1;
     }
 
     .timeline-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: 0.875rem;
+      row-gap: 0.75rem;
     }
 
     .tag {
       font-family: var(--font-mono);
-      font-size: 0.65rem;
-      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+      padding: 0.6rem 1.1rem;
       background: linear-gradient(135deg, 
-        rgba(24, 24, 27, 0.9) 0%, 
-        rgba(16, 185, 129, 0.08) 100%);
+        rgba(24, 24, 27, 0.85) 0%, 
+        rgba(16, 185, 129, 0.06) 100%);
       color: var(--accent-primary);
       border-radius: 9999px;
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.15);
       transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
       position: relative;
       overflow: hidden;
       cursor: default;
       font-weight: 500;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
     .tag::before {
@@ -1684,14 +1703,14 @@
     .tag:hover {
       border-color: var(--accent-primary);
       background: linear-gradient(135deg, 
-        rgba(16, 185, 129, 0.2) 0%, 
-        rgba(6, 182, 212, 0.15) 50%,
-        rgba(16, 185, 129, 0.1) 100%);
-      transform: translateY(-4px) scale(1.08);
+        rgba(16, 185, 129, 0.15) 0%, 
+        rgba(6, 182, 212, 0.1) 50%,
+        rgba(16, 185, 129, 0.08) 100%);
+      transform: translateY(-3px) scale(1.05);
       box-shadow: 
-        0 8px 25px rgba(16, 185, 129, 0.35),
-        0 0 30px rgba(16, 185, 129, 0.25),
-        inset 0 0 15px rgba(16, 185, 129, 0.1);
+        0 6px 18px rgba(16, 185, 129, 0.25),
+        0 0 20px rgba(16, 185, 129, 0.15),
+        inset 0 0 10px rgba(16, 185, 129, 0.08);
       color: #34d399;
     }
     
@@ -1775,7 +1794,7 @@
       }
 
       .timeline-card {
-        padding: 1.5rem 1.75rem;
+        padding: 2rem 2.25rem;
         border-radius: 20px;
       }
       
@@ -3135,18 +3154,14 @@
             </h3>
             <p class="timeline-company">City University of New York</p>
             <div class="timeline-description">
-              <ul>
-                <li>Developed an internal dashboard system for staff using React, Flask, and Python</li>
-                <li>Improved data accessibility for over 1,000+ internal users</li>
-                <li>Collaborated with cross-functional teams on agile development cycles</li>
-              </ul>
-            </div>
-            <div class="timeline-tags">
-              <span class="tag">React</span>
-              <span class="tag">Flask</span>
-              <span class="tag">Python</span>
-              <span class="tag">Dashboard</span>
-            </div>
+                <ul>
+                  <li>Developed a responsive internal dashboard interface using Vanilla JavaScript, HTML, and CSS, improving usability and modernizing the overall design</li>
+                  <li>Engineered frontend–backend integration by building API connections to a Flask-based backend from scratch</li>
+                  <li>Implemented pagination and optimized performance to enhance data accessibility and user experience</li>
+                  <li>Redesigned legacy interface components, significantly improving usability and visual consistency</li>
+                  <li>Built a Brightspace widget extension that enables one-click certificate downloads for users who complete the cybersecurity module</li>
+                </ul>
+              </div>
           </div>
         </div>
       </div>
@@ -3188,15 +3203,10 @@
             <p class="timeline-company">eBay Inc.</p>
             <div class="timeline-description">
               <ul>
-                <li>Accepted at a 3% acceptance rate; analyzed systems design for e-commerce infrastructure with a ebay senior engineer.</li>
-                <li>Learn horizontal scalability strategies for e-commerce infrastructure handling millions of concurrent users.</li>
+                <li>Accepted at a 3% acceptance rate; analyzed systems design and data structure for e-commerce infrastructure with a ebay senior engineer</li>
+                <li>Learn horizontal scalability strategies for e-commerce infrastructure handling millions of concurrent users</li>
+                <li>Prepared for technical interviews through rigorous practice of data structures, algorithms, and system design problems</li>
               </ul>
-            </div>
-            <div class="timeline-tags">
-              <span class="tag">Fellowship</span>
-              <span class="tag">System Design</span>
-              <span class="tag">Python</span>
-              <span class="tag">CodeSignal</span>
             </div>
           </div>
         </div>
@@ -3239,9 +3249,9 @@
             <p class="timeline-company">Google Inc.</p>
             <div class="timeline-description">
               <ul>
-                <li>Selected as one of 80 fellows from 2,000+ applicants nationwide</li>
-                <li>Completed advanced workshops on algorithms and system design</li>
-                <li>Received mentorship from senior Google engineers</li>
+                <li>Selected as 1 of 80 fellows from a highly competitive pool of 2,000+ applicants nationwide</li>
+                <li>Completed advanced technical workshops focused on algorithms, data structures, and system design</li>
+                <li>Received mentorship and technical guidance from senior engineers at Google</li>
               </ul>
             </div>
             <div class="timeline-tags">
