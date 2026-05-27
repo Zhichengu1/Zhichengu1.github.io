@@ -745,8 +745,9 @@
     }
     .timeline-title a { color:inherit; text-decoration:none; transition:all .3s; display:inline-flex; align-items:center; gap:.5rem; }
     .timeline-card:hover .timeline-title a { color:var(--green); }
-    .timeline-title .link-icon { font-size:.7rem; opacity:.4; transition:all .3s; }
+    .timeline-title .link-icon { font-size:.7rem; opacity:.65; transition:all .3s; }
     .timeline-card:hover .timeline-title .link-icon { opacity:1; transform:translate(3px,-3px); }
+    .timeline-title a:hover { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: currentColor; }
 
     .timeline-company {
       font-family:var(--font-mono); font-size:.8125rem; color:var(--text-200);
@@ -1216,6 +1217,282 @@
       .hero-pills { gap:.375rem; }
       .pill { font-size:.6rem; padding:.3rem .7rem; }
     }
+
+    /* ─── EXPERIENCE CARD ENHANCEMENTS ──────────────────── */
+
+    /* Company-specific icon theming */
+    .tl-cuny   .timeline-icon { background: linear-gradient(135deg,rgba(16,185,129,.22),rgba(52,211,153,.08)); border-color: rgba(16,185,129,.45); color: var(--green); }
+    .tl-ebay   .timeline-icon { background: linear-gradient(135deg,rgba(245,158,11,.18),rgba(251,191,36,.06)); border-color: rgba(245,158,11,.45); color: var(--amber); }
+    .tl-google .timeline-icon { background: linear-gradient(135deg,rgba(59,130,246,.18),rgba(96,165,250,.06)); border-color: rgba(59,130,246,.45); color: var(--blue); }
+    .tl-stony  .timeline-icon { background: linear-gradient(135deg,rgba(139,92,246,.18),rgba(167,139,250,.06)); border-color: rgba(139,92,246,.45); color: var(--purple); }
+
+    /* Icon hover glow per company */
+    .tl-ebay   .timeline-card:hover .timeline-icon { box-shadow: 0 14px 36px rgba(245,158,11,.45), 0 0 55px rgba(245,158,11,.3); }
+    .tl-google .timeline-card:hover .timeline-icon { box-shadow: 0 14px 36px rgba(59,130,246,.45), 0 0 55px rgba(59,130,246,.3); }
+    .tl-stony  .timeline-card:hover .timeline-icon { box-shadow: 0 14px 36px rgba(139,92,246,.45), 0 0 55px rgba(139,92,246,.3); }
+
+    /* Date badge company theming */
+    .tl-ebay   .timeline-date { color: var(--amber); background: linear-gradient(135deg,rgba(245,158,11,.12),rgba(251,191,36,.05)); border-color: rgba(245,158,11,.22); }
+    .tl-google .timeline-date { color: #60a5fa;  background: linear-gradient(135deg,rgba(59,130,246,.12),rgba(96,165,250,.05));  border-color: rgba(59,130,246,.22); }
+    .tl-stony  .timeline-date { color: #a78bfa;  background: linear-gradient(135deg,rgba(139,92,246,.12),rgba(167,139,250,.05)); border-color: rgba(139,92,246,.22); }
+
+    /* Date hover per company */
+    .tl-ebay   .timeline-card:hover .timeline-date { background: linear-gradient(135deg,rgba(245,158,11,.28),rgba(251,191,36,.14)); border-color: var(--amber); box-shadow: 0 6px 22px rgba(245,158,11,.28); }
+    .tl-google .timeline-card:hover .timeline-date { background: linear-gradient(135deg,rgba(59,130,246,.28),rgba(96,165,250,.14)); border-color: #60a5fa; box-shadow: 0 6px 22px rgba(59,130,246,.28); }
+    .tl-stony  .timeline-card:hover .timeline-date { background: linear-gradient(135deg,rgba(139,92,246,.28),rgba(167,139,250,.14)); border-color: #a78bfa; box-shadow: 0 6px 22px rgba(139,92,246,.28); }
+
+    /* Timeline node company colors */
+    .tl-ebay   .timeline-node { border-color: var(--amber); box-shadow: 0 0 0 4px var(--bg-0), 0 0 14px rgba(245,158,11,.3), inset 0 0 8px rgba(245,158,11,.2); }
+    .tl-ebay   .timeline-node::before { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+    .tl-ebay   .timeline-node .ring { border-color: var(--amber); }
+    .tl-ebay   .timeline-item:hover .timeline-node { box-shadow: 0 0 0 4px var(--bg-0), 0 0 35px var(--amber), 0 0 70px rgba(245,158,11,.5), inset 0 0 18px rgba(245,158,11,.35); }
+    .tl-google .timeline-node { border-color: var(--blue); box-shadow: 0 0 0 4px var(--bg-0), 0 0 14px rgba(59,130,246,.3), inset 0 0 8px rgba(59,130,246,.2); }
+    .tl-google .timeline-node::before { background: var(--blue); box-shadow: 0 0 8px var(--blue); }
+    .tl-google .timeline-node .ring { border-color: var(--blue); }
+    .tl-google .timeline-item:hover .timeline-node { box-shadow: 0 0 0 4px var(--bg-0), 0 0 35px var(--blue), 0 0 70px rgba(59,130,246,.5), inset 0 0 18px rgba(59,130,246,.35); }
+    .tl-stony  .timeline-node { border-color: var(--purple); box-shadow: 0 0 0 4px var(--bg-0), 0 0 14px rgba(139,92,246,.3), inset 0 0 8px rgba(139,92,246,.2); }
+    .tl-stony  .timeline-node::before { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+    .tl-stony  .timeline-node .ring { border-color: var(--purple); }
+    .tl-stony  .timeline-item:hover .timeline-node { box-shadow: 0 0 0 4px var(--bg-0), 0 0 35px var(--purple), 0 0 70px rgba(139,92,246,.5), inset 0 0 18px rgba(139,92,246,.35); }
+
+    /* Connector company colors */
+    .tl-ebay   .timeline-connector { background: var(--amber); }
+    .tl-google .timeline-connector { background: var(--blue); }
+    .tl-stony  .timeline-connector { background: var(--purple); }
+
+    /* Card hover border per company */
+    .tl-ebay   .timeline-card:hover { border-color: rgba(245,158,11,.32); box-shadow: 0 28px 65px rgba(0,0,0,.5), 0 0 35px rgba(245,158,11,.1), inset 0 1px 0 rgba(255,255,255,.07); }
+    .tl-google .timeline-card:hover { border-color: rgba(59,130,246,.32); box-shadow: 0 28px 65px rgba(0,0,0,.5), 0 0 35px rgba(59,130,246,.1), inset 0 1px 0 rgba(255,255,255,.07); }
+    .tl-stony  .timeline-card:hover { border-color: rgba(139,92,246,.32); box-shadow: 0 28px 65px rgba(0,0,0,.5), 0 0 35px rgba(139,92,246,.1), inset 0 1px 0 rgba(255,255,255,.07); }
+
+    /* Card ::after radial overlay per company */
+    .tl-ebay   .timeline-card::after { background: radial-gradient(ellipse at 20% 0%,rgba(245,158,11,.07) 0%,transparent 40%), radial-gradient(ellipse at 80% 100%,rgba(251,191,36,.04) 0%,transparent 40%); }
+    .tl-google .timeline-card::after { background: radial-gradient(ellipse at 20% 0%,rgba(59,130,246,.07) 0%,transparent 40%), radial-gradient(ellipse at 80% 100%,rgba(96,165,250,.04) 0%,transparent 40%); }
+    .tl-stony  .timeline-card::after { background: radial-gradient(ellipse at 20% 0%,rgba(139,92,246,.07) 0%,transparent 40%), radial-gradient(ellipse at 80% 100%,rgba(167,139,250,.04) 0%,transparent 40%); }
+
+    /* Particles per company */
+    .tl-ebay   .timeline-card .particle { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+    .tl-google .timeline-card .particle { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+    .tl-stony  .timeline-card .particle { background: var(--purple); box-shadow: 0 0 6px var(--purple); }
+
+    /* Scanline per company */
+    .tl-ebay   .timeline-card .scanline { background: linear-gradient(90deg,transparent,rgba(245,158,11,.35),rgba(251,191,36,.55),rgba(245,158,11,.35),transparent); }
+    .tl-google .timeline-card .scanline { background: linear-gradient(90deg,transparent,rgba(59,130,246,.35),rgba(96,165,250,.55),rgba(59,130,246,.35),transparent); }
+    .tl-stony  .timeline-card .scanline { background: linear-gradient(90deg,transparent,rgba(139,92,246,.35),rgba(167,139,250,.55),rgba(139,92,246,.35),transparent); }
+
+    /* Corner accents per company */
+    .tl-ebay   .corner-accent::before, .tl-ebay   .corner-accent::after { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+    .tl-google .corner-accent::before, .tl-google .corner-accent::after { background: var(--blue); box-shadow: 0 0 8px var(--blue); }
+    .tl-stony  .corner-accent::before, .tl-stony  .corner-accent::after { background: var(--purple); box-shadow: 0 0 8px var(--purple); }
+
+    /* Title link hover per company */
+    .tl-ebay   .timeline-card:hover .timeline-title a { color: var(--amber); }
+    .tl-google .timeline-card:hover .timeline-title a { color: #60a5fa; }
+    .tl-stony  .timeline-card:hover .timeline-title a { color: #a78bfa; }
+
+    /* Company @ prefix color */
+    .tl-ebay   .timeline-company::before { color: rgba(245,158,11,.55); }
+    .tl-google .timeline-company::before { color: rgba(59,130,246,.55); }
+    .tl-stony  .timeline-company::before { color: rgba(139,92,246,.55); }
+
+    /* Card tab active per company */
+    .tl-ebay   .ctab.active { color: var(--amber); }
+    .tl-ebay   .ctab.active::after { background: linear-gradient(90deg,var(--amber),#fcd34d); }
+    .tl-google .ctab.active { color: #60a5fa; }
+    .tl-google .ctab.active::after { background: linear-gradient(90deg,var(--blue),#93c5fd); }
+    .tl-stony  .ctab.active { color: #a78bfa; }
+    .tl-stony  .ctab.active::after { background: linear-gradient(90deg,var(--purple),#c4b5fd); }
+
+    /* Type badge */
+    .exp-type-badge {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-mono); font-size: .58rem; font-weight: 600;
+      padding: .28rem .82rem; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: .08em; margin-bottom: .45rem;
+    }
+    .tl-cuny   .exp-type-badge { background: rgba(16,185,129,.09); border: 1px solid rgba(16,185,129,.22); color: var(--green); }
+    .tl-ebay   .exp-type-badge { background: rgba(245,158,11,.09); border: 1px solid rgba(245,158,11,.22); color: var(--amber); }
+    .tl-google .exp-type-badge { background: rgba(59,130,246,.09); border: 1px solid rgba(59,130,246,.22); color: #60a5fa; }
+    .tl-stony  .exp-type-badge { background: rgba(139,92,246,.09); border: 1px solid rgba(139,92,246,.22); color: #a78bfa; }
+
+    /* Current role pulsing indicator */
+    .exp-current-badge {
+      display: inline-flex; align-items: center; gap: .38rem;
+      font-family: var(--font-mono); font-size: .58rem; color: var(--green);
+      margin-left: .6rem; vertical-align: middle;
+    }
+    .exp-current-badge .dot {
+      width: 5px; height: 5px; background: var(--green); border-radius: 50%;
+      display: inline-block; animation: statusPulse 2.5s ease-in-out infinite;
+    }
+
+    /* Achievement callout */
+    .exp-achievement {
+      display: flex; align-items: center; gap: .875rem;
+      border-radius: 14px; padding: .875rem 1.125rem;
+      margin-bottom: 1.25rem; transition: transform .25s var(--ease-out);
+    }
+    .exp-achievement:hover { transform: translateX(5px); }
+    .tl-cuny   .exp-achievement { background: rgba(16,185,129,.065); border: 1px solid rgba(16,185,129,.18); }
+    .tl-ebay   .exp-achievement { background: rgba(245,158,11,.065); border: 1px solid rgba(245,158,11,.18); }
+    .tl-google .exp-achievement { background: rgba(59,130,246,.065); border: 1px solid rgba(59,130,246,.18); }
+    .tl-stony  .exp-achievement { background: rgba(139,92,246,.065); border: 1px solid rgba(139,92,246,.18); }
+
+    .exp-ach-icon {
+      width: 38px; height: 38px; flex-shrink: 0; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .tl-cuny   .exp-ach-icon { background: rgba(16,185,129,.15); color: var(--green); }
+    .tl-ebay   .exp-ach-icon { background: rgba(245,158,11,.15); color: var(--amber); }
+    .tl-google .exp-ach-icon { background: rgba(59,130,246,.15); color: #60a5fa; }
+    .tl-stony  .exp-ach-icon { background: rgba(139,92,246,.15); color: #a78bfa; }
+
+    .exp-ach-body { min-width: 0; }
+    .exp-ach-body strong {
+      display: block; font-family: var(--font-display);
+      font-size: .875rem; font-weight: 600; line-height: 1.3; margin-bottom: .2rem;
+    }
+    .tl-cuny   .exp-ach-body strong { color: #34d399; }
+    .tl-ebay   .exp-ach-body strong { color: #fbbf24; }
+    .tl-google .exp-ach-body strong { color: #60a5fa; }
+    .tl-stony  .exp-ach-body strong { color: #a78bfa; }
+    .exp-ach-body span { font-family: var(--font-mono); font-size: .63rem; color: var(--text-300); line-height: 1.4; }
+
+    /* 2×2 impact grid for 4 chips */
+    .impact-grid-4 { display: grid; grid-template-columns: repeat(2,1fr); gap: .75rem; }
+
+    /* Impact chip company theming */
+    .tl-ebay   .impact-chip { background: linear-gradient(135deg,rgba(245,158,11,.08),rgba(251,191,36,.03)); border-color: rgba(245,158,11,.22); }
+    .tl-ebay   .impact-chip:hover { border-color: rgba(245,158,11,.5); box-shadow: 0 10px 24px rgba(245,158,11,.13); }
+    .tl-ebay   .impact-chip .ic-val { color: var(--amber); }
+    .tl-google .impact-chip { background: linear-gradient(135deg,rgba(59,130,246,.08),rgba(96,165,250,.03)); border-color: rgba(59,130,246,.22); }
+    .tl-google .impact-chip:hover { border-color: rgba(59,130,246,.5); box-shadow: 0 10px 24px rgba(59,130,246,.13); }
+    .tl-google .impact-chip .ic-val { color: #60a5fa; }
+    .tl-stony  .impact-chip { background: linear-gradient(135deg,rgba(139,92,246,.08),rgba(167,139,250,.03)); border-color: rgba(139,92,246,.22); }
+    .tl-stony  .impact-chip:hover { border-color: rgba(139,92,246,.5); box-shadow: 0 10px 24px rgba(139,92,246,.13); }
+    .tl-stony  .impact-chip .ic-val { color: #a78bfa; }
+
+    /* Stack tag company theming */
+    .tl-ebay   .stack-panel-tags .tag { color: var(--amber); border-color: rgba(245,158,11,.2); background: rgba(245,158,11,.05); }
+    .tl-ebay   .stack-panel-tags .tag:hover { border-color: var(--amber); background: rgba(245,158,11,.13); color: #fcd34d; box-shadow: 0 4px 14px rgba(245,158,11,.2); }
+    .tl-google .stack-panel-tags .tag { color: #60a5fa; border-color: rgba(59,130,246,.2); background: rgba(59,130,246,.05); }
+    .tl-google .stack-panel-tags .tag:hover { border-color: #60a5fa; background: rgba(59,130,246,.13); color: #93c5fd; box-shadow: 0 4px 14px rgba(59,130,246,.2); }
+    .tl-stony  .stack-panel-tags .tag { color: #a78bfa; border-color: rgba(139,92,246,.2); background: rgba(139,92,246,.05); }
+    .tl-stony  .stack-panel-tags .tag:hover { border-color: #a78bfa; background: rgba(139,92,246,.13); color: #c4b5fd; box-shadow: 0 4px 14px rgba(139,92,246,.2); }
+
+    /* Footer visit link */
+    .card-ext-link {
+      margin-top: 1.125rem; padding-top: .875rem;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .card-ext-link a {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--font-mono); font-size: .75rem; font-weight: 500;
+      padding: .55rem 1.125rem; border-radius: 8px;
+      text-decoration: none !important; border: 1px solid;
+      transition: all .25s var(--ease-out);
+    }
+    .card-ext-link a .arr { transition: transform .25s var(--ease-out); }
+    .card-ext-link a:hover .arr { transform: translateX(4px); }
+    .tl-cuny   .card-ext-link a { color: var(--green); border-color: rgba(16,185,129,.25); background: rgba(16,185,129,.07); }
+    .tl-cuny   .card-ext-link a:hover { background: rgba(16,185,129,.17); border-color: var(--green); box-shadow: 0 4px 16px rgba(16,185,129,.22); }
+    .tl-ebay   .card-ext-link a { color: var(--amber); border-color: rgba(245,158,11,.25); background: rgba(245,158,11,.07); }
+    .tl-ebay   .card-ext-link a:hover { background: rgba(245,158,11,.17); border-color: var(--amber); box-shadow: 0 4px 16px rgba(245,158,11,.22); }
+    .tl-google .card-ext-link a { color: #60a5fa; border-color: rgba(59,130,246,.25); background: rgba(59,130,246,.07); }
+    .tl-google .card-ext-link a:hover { background: rgba(59,130,246,.17); border-color: #60a5fa; box-shadow: 0 4px 16px rgba(59,130,246,.22); }
+    .tl-stony  .card-ext-link a { color: #a78bfa; border-color: rgba(139,92,246,.25); background: rgba(139,92,246,.07); }
+    .tl-stony  .card-ext-link a:hover { background: rgba(139,92,246,.17); border-color: #a78bfa; box-shadow: 0 4px 16px rgba(139,92,246,.22); }
+
+    /* Role text key-metric highlights */
+    .ri-text mark { background: none; font-weight: 500; }
+    .tl-cuny   .ri-text mark { color: #34d399; }
+    .tl-ebay   .ri-text mark { color: #fbbf24; }
+    .tl-google .ri-text mark { color: #60a5fa; }
+    .tl-stony  .ri-text mark { color: #a78bfa; }
+
+    /* ─── PROJECT CARD ENHANCEMENTS ─────────────────────── */
+
+    /* Project number watermark */
+    .proj-num {
+      position: absolute; top: 1rem; left: 1rem; z-index: 5;
+      font-family: var(--font-mono); font-size: .65rem; font-weight: 700;
+      color: var(--text-100); opacity: .22; letter-spacing: .04em;
+      pointer-events: none;
+    }
+
+    /* Project tagline */
+    .proj-tagline {
+      font-family: var(--font-mono); font-size: .7rem;
+      color: var(--text-300); margin: -.3rem 0 .875rem; letter-spacing: .02em;
+    }
+
+    /* Always-visible flip indicator */
+    .flip-indicator { opacity: 1; }
+
+    /* Remove description line clamp — flex handles overflow */
+    .project-description {
+      -webkit-line-clamp: unset; display: block; overflow: visible;
+    }
+
+    /* ── Hackathon (amber) ─────────────────────── */
+    .proj-hackathon .project-card-front::before { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
+    .proj-hackathon .project-card-front::after  { background: radial-gradient(circle at 50% 0%,rgba(245,158,11,.09),transparent 55%); }
+    .proj-hackathon .project-icon-large { background: linear-gradient(135deg,#f59e0b,#fbbf24); box-shadow: 0 12px 32px rgba(245,158,11,.38); color: #000; }
+    .proj-hackathon .project-icon-large::after { background: linear-gradient(135deg,#f59e0b,#fbbf24); }
+    .proj-hackathon .project-tags .tag { color: #f59e0b; border-color: rgba(245,158,11,.22); background: rgba(245,158,11,.07); }
+    .proj-hackathon:hover .flip-indicator,
+    .proj-hackathon.flipped .flip-indicator { color: #f59e0b; border-color: rgba(245,158,11,.32); background: rgba(245,158,11,.09); }
+    .proj-hackathon:focus { outline-color: #f59e0b; }
+    .proj-hackathon .project-card-back::before { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
+    .proj-hackathon .back-icon { background: rgba(245,158,11,.12); color: #f59e0b; }
+    .proj-hackathon .project-accomplishments { background: linear-gradient(135deg,rgba(245,158,11,.1),rgba(251,191,36,.04)); border-color: rgba(245,158,11,.28); }
+    .proj-hackathon .acc-icon { background: #f59e0b; color: #000; }
+    .proj-hackathon .acc-text { color: #fcd34d; }
+    .proj-hackathon .acc-text strong { color: #f59e0b; }
+    .proj-hackathon .feature-item i { color: #f59e0b; }
+    .proj-hackathon .proj-link:hover { background: #f59e0b; border-color: #f59e0b; color: #000; box-shadow: 0 6px 18px rgba(245,158,11,.32); }
+    .proj-hackathon .proj-link.primary { background: #f59e0b; border-color: #f59e0b; color: #000; }
+    .proj-hackathon .proj-link.primary:hover { background: #fbbf24; box-shadow: 0 6px 20px rgba(245,158,11,.42); transform: translateY(-2px); }
+
+    /* ── AI/ML (purple) ────────────────────────── */
+    .proj-ai .project-card-front::before { background: linear-gradient(90deg,#8b5cf6,#a78bfa); }
+    .proj-ai .project-card-front::after  { background: radial-gradient(circle at 50% 0%,rgba(139,92,246,.09),transparent 55%); }
+    .proj-ai .project-icon-large { background: linear-gradient(135deg,#8b5cf6,#a78bfa); box-shadow: 0 12px 32px rgba(139,92,246,.38); color: #fff; }
+    .proj-ai .project-icon-large::after { background: linear-gradient(135deg,#8b5cf6,#a78bfa); }
+    .proj-ai .project-tags .tag { color: #a78bfa; border-color: rgba(139,92,246,.22); background: rgba(139,92,246,.07); }
+    .proj-ai:hover .flip-indicator,
+    .proj-ai.flipped .flip-indicator { color: #a78bfa; border-color: rgba(139,92,246,.32); background: rgba(139,92,246,.09); }
+    .proj-ai:focus { outline-color: #8b5cf6; }
+    .proj-ai .project-card-back::before { background: linear-gradient(90deg,#8b5cf6,#a78bfa); }
+    .proj-ai .back-icon { background: rgba(139,92,246,.12); color: #8b5cf6; }
+    .proj-ai .project-accomplishments { background: linear-gradient(135deg,rgba(139,92,246,.1),rgba(167,139,250,.04)); border-color: rgba(139,92,246,.28); }
+    .proj-ai .acc-icon { background: #8b5cf6; color: #fff; }
+    .proj-ai .acc-text { color: #c4b5fd; }
+    .proj-ai .acc-text strong { color: #a78bfa; }
+    .proj-ai .feature-item i { color: #8b5cf6; }
+    .proj-ai .proj-link:hover { background: #8b5cf6; border-color: #8b5cf6; color: #fff; box-shadow: 0 6px 18px rgba(139,92,246,.32); }
+    .proj-ai .proj-link.primary { background: #8b5cf6; border-color: #8b5cf6; color: #fff; }
+    .proj-ai .proj-link.primary:hover { background: #a78bfa; box-shadow: 0 6px 20px rgba(139,92,246,.42); transform: translateY(-2px); }
+
+    /* ── Web Dev (blue) ────────────────────────── */
+    .proj-web .project-card-front::before { background: linear-gradient(90deg,#3b82f6,#60a5fa); }
+    .proj-web .project-card-front::after  { background: radial-gradient(circle at 50% 0%,rgba(59,130,246,.09),transparent 55%); }
+    .proj-web .project-icon-large { background: linear-gradient(135deg,#3b82f6,#60a5fa); box-shadow: 0 12px 32px rgba(59,130,246,.38); color: #fff; }
+    .proj-web .project-icon-large::after { background: linear-gradient(135deg,#3b82f6,#60a5fa); }
+    .proj-web .project-tags .tag { color: #60a5fa; border-color: rgba(59,130,246,.22); background: rgba(59,130,246,.07); }
+    .proj-web:hover .flip-indicator,
+    .proj-web.flipped .flip-indicator { color: #60a5fa; border-color: rgba(59,130,246,.32); background: rgba(59,130,246,.09); }
+    .proj-web:focus { outline-color: #3b82f6; }
+    .proj-web .project-card-back::before { background: linear-gradient(90deg,#3b82f6,#60a5fa); }
+    .proj-web .back-icon { background: rgba(59,130,246,.12); color: #3b82f6; }
+    .proj-web .project-accomplishments { background: linear-gradient(135deg,rgba(59,130,246,.1),rgba(96,165,250,.04)); border-color: rgba(59,130,246,.28); }
+    .proj-web .acc-icon { background: #3b82f6; color: #fff; }
+    .proj-web .acc-text { color: #93c5fd; }
+    .proj-web .acc-text strong { color: #60a5fa; }
+    .proj-web .feature-item i { color: #3b82f6; }
+    .proj-web .proj-link:hover { background: #3b82f6; border-color: #3b82f6; color: #fff; box-shadow: 0 6px 18px rgba(59,130,246,.32); }
+    .proj-web .proj-link.primary { background: #3b82f6; border-color: #3b82f6; color: #fff; }
+    .proj-web .proj-link.primary:hover { background: #60a5fa; box-shadow: 0 6px 20px rgba(59,130,246,.42); transform: translateY(-2px); }
   </style>
 </head>
 <body>
@@ -1424,16 +1701,27 @@
           </div>
           <div class="timeline-header">
             <div class="timeline-icon"><i class="fas fa-code"></i></div>
-            <span class="timeline-date">Present — May 2026</span>
+            <span class="timeline-date">Jan 2025 — May 2026</span>
           </div>
           <div class="timeline-content">
+            <span class="exp-type-badge"><i class="fas fa-briefcase"></i> Internship</span>
             <h3 class="timeline-title">
               <a href="https://www.cuny.edu/about/administration/offices/cis/" target="_blank">
                 Software Engineer Intern
                 <i class="fas fa-arrow-up-right-from-square link-icon"></i>
               </a>
             </h3>
-            <p class="timeline-company">City University of New York</p>
+            <p class="timeline-company">
+              City University of New York
+              <span class="exp-current-badge"><span class="dot"></span>Current</span>
+            </p>
+            <div class="exp-achievement">
+              <div class="exp-ach-icon"><i class="fas fa-rocket"></i></div>
+              <div class="exp-ach-body">
+                <strong>2 production features · 500+ users · 25 campuses</strong>
+                <span>Built full internal dashboard 0→1, replacing a decade-old legacy UI</span>
+              </div>
+            </div>
             <div class="card-tabs">
               <button class="ctab active" data-tab="role">Role</button>
               <button class="ctab" data-tab="impact">Impact</button>
@@ -1441,25 +1729,34 @@
             </div>
             <div class="cpanel active" data-panel="role">
               <ul class="role-list">
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-hammer"></i></span><span class="ri-text">Built a <strong>responsive internal dashboard</strong> using Vanilla JS, HTML &amp; CSS — modernized a legacy UI</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-plug"></i></span><span class="ri-text">Engineered <strong>frontend–backend API integration</strong> from scratch connecting to a Flask backend</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-bolt"></i></span><span class="ri-text">Implemented <strong>pagination &amp; performance optimizations</strong> to enhance data accessibility and UX</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-paint-brush"></i></span><span class="ri-text">Redesigned <strong>legacy interface components</strong> — improved usability &amp; visual consistency significantly</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-certificate"></i></span><span class="ri-text">Built a <strong>Brightspace widget extension</strong> for one-click certificate downloads on cybersecurity completions</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-hammer"></i></span><span class="ri-text">Rebuilt internal dashboard <strong>0→1</strong> with Vanilla JS, HTML5 &amp; CSS3 — replaced a legacy system serving <mark>500+ staff</mark> across CUNY's <mark>25-campus</mark> network</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-plug"></i></span><span class="ri-text">Engineered <strong>REST API integration end-to-end</strong> — Flask backend with real-time CRUD operations and paginated rendering for <mark>10,000+ records</mark></span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-bolt"></i></span><span class="ri-text">Implemented <strong>smart pagination</strong>, slashing initial load time by <mark>~60%</mark> — making large datasets fast &amp; accessible for non-technical university administrators</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-paint-brush"></i></span><span class="ri-text">Redesigned <strong>5+ legacy UI components</strong> (modals, nav bars, data tables) applying WCAG accessibility standards — improved usability and visual consistency across the platform</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-certificate"></i></span><span class="ri-text">Shipped a <strong>Brightspace LMS widget</strong> enabling one-click cybersecurity certificate PDF downloads — adopted by <mark>500+ active university users</mark> within weeks of launch</span></li>
               </ul>
             </div>
             <div class="cpanel" data-panel="impact">
-              <div class="impact-grid">
-                <div class="impact-chip"><span class="ic-val">5</span><span class="ic-lbl">Features Shipped</span></div>
-                <div class="impact-chip"><span class="ic-val">0→1</span><span class="ic-lbl">API Built from Scratch</span></div>
-                <div class="impact-chip"><span class="ic-val">500+</span><span class="ic-lbl">Users Impacted</span></div>
+              <div class="impact-grid-4">
+                <div class="impact-chip"><span class="ic-val">2</span><span class="ic-lbl">Production Features Shipped</span></div>
+                <div class="impact-chip"><span class="ic-val">500+</span><span class="ic-lbl">Active Users Impacted</span></div>
+                <div class="impact-chip"><span class="ic-val">0→1</span><span class="ic-lbl">Full API Built from Scratch</span></div>
+                <div class="impact-chip"><span class="ic-val">~60%</span><span class="ic-lbl">Load Time Reduction</span></div>
               </div>
             </div>
             <div class="cpanel" data-panel="stack">
               <div class="stack-panel-tags">
                 <span class="tag">JavaScript</span><span class="tag">Flask</span>
-                <span class="tag">HTML / CSS</span><span class="tag">REST API</span><span class="tag">Brightspace</span>
+                <span class="tag">HTML5 / CSS3</span><span class="tag">REST API</span>
+                <span class="tag">Git</span><span class="tag">Brightspace LMS</span>
               </div>
+            </div>
+            <div class="card-ext-link">
+              <a href="https://www.cuny.edu/about/administration/offices/cis/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i>
+                Visit CUNY CIS Office
+                <i class="fas fa-arrow-right arr"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -1484,6 +1781,7 @@
             <span class="timeline-date">May — Aug 2025</span>
           </div>
           <div class="timeline-content">
+            <span class="exp-type-badge"><i class="fas fa-award"></i> Fellowship</span>
             <h3 class="timeline-title">
               <a href="#">
                 Technology Pathway Fellow
@@ -1491,6 +1789,13 @@
               </a>
             </h3>
             <p class="timeline-company">eBay Inc.</p>
+            <div class="exp-achievement">
+              <div class="exp-ach-icon"><i class="fas fa-star"></i></div>
+              <div class="exp-ach-body">
+                <strong>Top 3% — selected from 3,000+ nationwide applicants</strong>
+                <span>Intensive 1:1 mentorship with a senior eBay Principal Engineer</span>
+              </div>
+            </div>
             <div class="card-tabs">
               <button class="ctab active" data-tab="role">Role</button>
               <button class="ctab" data-tab="impact">Impact</button>
@@ -1498,17 +1803,17 @@
             </div>
             <div class="cpanel active" data-panel="role">
               <ul class="role-list">
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-star"></i></span><span class="ri-text">Accepted at a <strong>3% acceptance rate</strong> from a nationwide competitive applicant pool</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-sitemap"></i></span><span class="ri-text">Analyzed <strong>systems design &amp; data structures</strong> for e-commerce infrastructure with a senior eBay engineer</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-server"></i></span><span class="ri-text">Studied <strong>horizontal scalability</strong> strategies for systems handling millions of concurrent users</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-code"></i></span><span class="ri-text">Rigorous practice of <strong>DSA &amp; system design</strong> for technical interview preparation</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-star"></i></span><span class="ri-text">Competitively selected at a <mark>3% acceptance rate</mark> from 3,000+ nationwide applicants into eBay's exclusive Technology Pathway Fellowship program</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-sitemap"></i></span><span class="ri-text">Completed intensive <strong>system design curriculum</strong> with an eBay Principal Engineer — covered basic load balancing, CDN caching, database sharding &amp; microservice orchestration</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-server"></i></span><span class="ri-text">Analyzed real eBay engineering case studies — how the platform scales to handle <mark>M+ active listings</mark> and <mark>10× traffic surges</mark> during Flash Sale events</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-code"></i></span><span class="ri-text">Deepened <strong>DSA expertise</strong> (trees, graphs, dynamic programming, segment trees) through weekly competitive programming challenges and structured code reviews with senior engineers</span></li>
               </ul>
             </div>
             <div class="cpanel" data-panel="impact">
               <div class="impact-grid">
                 <div class="impact-chip"><span class="ic-val">3%</span><span class="ic-lbl">Acceptance Rate</span></div>
-                <div class="impact-chip"><span class="ic-val">M+</span><span class="ic-lbl">Concurrent Users Studied</span></div>
-                <div class="impact-chip"><span class="ic-val">1:1</span><span class="ic-lbl">Senior Eng Mentorship</span></div>
+                <div class="impact-chip"><span class="ic-val">M+</span><span class="ic-lbl">Listings Scale Studied</span></div>
+                <div class="impact-chip"><span class="ic-val">1:1</span><span class="ic-lbl">Principal Eng. Mentorship</span></div>
               </div>
             </div>
             <div class="cpanel" data-panel="stack">
@@ -1516,6 +1821,13 @@
                 <span class="tag">System Design</span><span class="tag">Algorithms</span>
                 <span class="tag">Scalability</span><span class="tag">DSA</span>
               </div>
+            </div>
+            <div class="card-ext-link">
+              <a href="https://www.ebayinc.com/stories/news/ebay-technology-fellowship/" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i>
+                eBay Technology Fellowship
+                <i class="fas fa-arrow-right arr"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -1540,6 +1852,7 @@
             <span class="timeline-date">Oct 2024 — Jan 2025</span>
           </div>
           <div class="timeline-content">
+            <span class="exp-type-badge"><i class="fas fa-award"></i> Fellowship</span>
             <h3 class="timeline-title">
               <a href="https://www.projectbasta.com/code2career" target="_blank">
                 Software Engineer Fellow
@@ -1547,6 +1860,13 @@
               </a>
             </h3>
             <p class="timeline-company">Google Inc.</p>
+            <div class="exp-achievement">
+              <div class="exp-ach-icon"><i class="fab fa-google"></i></div>
+              <div class="exp-ach-body">
+                <strong>1 of 80 selected from 2,000+ applicants nationwide (top 4%)</strong>
+                <span>Direct mentorship &amp; technical guidance from senior Google engineers</span>
+              </div>
+            </div>
             <div class="card-tabs">
               <button class="ctab active" data-tab="role">Role</button>
               <button class="ctab" data-tab="impact">Impact</button>
@@ -1554,23 +1874,32 @@
             </div>
             <div class="cpanel active" data-panel="role">
               <ul class="role-list">
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-trophy"></i></span><span class="ri-text">Selected as <strong>1 of 80 fellows</strong> from a highly competitive pool of 2,000+ applicants nationwide</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-graduation-cap"></i></span><span class="ri-text">Completed <strong>advanced technical workshops</strong> on algorithms, data structures &amp; system design</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fab fa-google"></i></span><span class="ri-text">Received <strong>mentorship &amp; technical guidance</strong> directly from senior engineers at Google</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-trophy"></i></span><span class="ri-text">Competitively selected as <mark>1 of 80 Software Engineer Fellows</mark> from 2,000+ nationwide applicants (top 4%) via Google's Code2Career program</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-graduation-cap"></i></span><span class="ri-text">Completed <strong>12+ advanced technical workshops</strong> led by senior Google engineers — covering algorithms (BFS/DFS, DP, greedy), complexity analysis &amp; large-scale system design</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fab fa-google"></i></span><span class="ri-text">Participated in <strong>mock technical interviews</strong> with Google engineers, receiving structured feedback on problem-solving strategy, code clarity &amp; time/space optimization</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-code"></i></span><span class="ri-text">Solved <strong>50+ competitive programming problems</strong> in Python &amp; C++ — advanced proficiency in algorithmic thinking, data structures &amp; interview-level performance optimization</span></li>
               </ul>
             </div>
             <div class="cpanel" data-panel="impact">
               <div class="impact-grid">
                 <div class="impact-chip"><span class="ic-val">1/80</span><span class="ic-lbl">Fellows Selected</span></div>
                 <div class="impact-chip"><span class="ic-val">2K+</span><span class="ic-lbl">Applicant Pool</span></div>
-                <div class="impact-chip"><span class="ic-val">4%</span><span class="ic-lbl">Accept Rate</span></div>
+                <div class="impact-chip"><span class="ic-val">12+</span><span class="ic-lbl">Technical Workshops</span></div>
               </div>
             </div>
             <div class="cpanel" data-panel="stack">
               <div class="stack-panel-tags">
                 <span class="tag">Python</span><span class="tag">C++</span>
                 <span class="tag">Algorithms</span><span class="tag">DSA</span>
+                <span class="tag">System Design</span>
               </div>
+            </div>
+            <div class="card-ext-link">
+              <a href="https://www.projectbasta.com/code2career" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i>
+                View Code2Career Program
+                <i class="fas fa-arrow-right arr"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -1595,6 +1924,7 @@
             <span class="timeline-date">Mar — May 2024</span>
           </div>
           <div class="timeline-content">
+            <span class="exp-type-badge"><i class="fas fa-chalkboard"></i> Teaching</span>
             <h3 class="timeline-title">
               <a href="https://www.stonybrook.edu/commcms/cie/agep" target="_blank">
                 Teaching Assistant
@@ -1602,6 +1932,13 @@
               </a>
             </h3>
             <p class="timeline-company">Stony Brook University</p>
+            <div class="exp-achievement">
+              <div class="exp-ach-icon"><i class="fas fa-chart-line"></i></div>
+              <div class="exp-ach-body">
+                <strong>Drove 15% class-wide score improvement in CSE 101</strong>
+                <span>Designed custom curriculum &amp; mentored 50+ freshmen under SUNY's AGEP STEM program</span>
+              </div>
+            </div>
             <div class="card-tabs">
               <button class="ctab active" data-tab="role">Role</button>
               <button class="ctab" data-tab="impact">Impact</button>
@@ -1609,23 +1946,31 @@
             </div>
             <div class="cpanel active" data-panel="role">
               <ul class="role-list">
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-users"></i></span><span class="ri-text">Provided support systems for <strong>50+ freshmen</strong> in Python programming fundamentals</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-chart-line"></i></span><span class="ri-text">Improved student scores by <strong>15%</strong> through targeted one-on-one tutoring sessions</span></li>
-                <li class="role-item"><span class="ri-icon"><i class="fas fa-file-alt"></i></span><span class="ri-text">Designed <strong>supplementary learning materials</strong> and custom practice problems for the curriculum</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-users"></i></span><span class="ri-text">Supported <mark>50+ freshman students</mark> in CSE 101: Intro to Computer Science (Python) under SUNY's AGEP STEM diversity initiative at Stony Brook University</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-chart-line"></i></span><span class="ri-text">Implemented <strong>personalized tutoring plans</strong> for at-risk students via weekly office hours &amp; progress tracking — directly contributing to a class-wide <mark>15% score improvement</mark></span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-file-alt"></i></span><span class="ri-text">Designed <strong>10+ custom practice problem sets</strong>, quizzes &amp; study guides aligned with the semester curriculum — distributed to all <mark>50+ enrolled students</mark> to reinforce core programming concepts</span></li>
+                <li class="role-item"><span class="ri-icon"><i class="fas fa-chalkboard-teacher"></i></span><span class="ri-text">Collaborated with the lead professor to refine <strong>lecture pacing &amp; curriculum delivery</strong> — identified conceptual gaps across the cohort and adapted teaching methods accordingly</span></li>
               </ul>
             </div>
             <div class="cpanel" data-panel="impact">
               <div class="impact-grid">
                 <div class="impact-chip"><span class="ic-val">50+</span><span class="ic-lbl">Students Supported</span></div>
                 <div class="impact-chip"><span class="ic-val">15%</span><span class="ic-lbl">Score Improvement</span></div>
-                <div class="impact-chip"><span class="ic-val">3mo</span><span class="ic-lbl">Program Duration</span></div>
+                <div class="impact-chip"><span class="ic-val">10+</span><span class="ic-lbl">Custom Study Materials</span></div>
               </div>
             </div>
             <div class="cpanel" data-panel="stack">
               <div class="stack-panel-tags">
-                <span class="tag">Python</span><span class="tag">Teaching</span>
-                <span class="tag">Mentoring</span><span class="tag">Curriculum Design</span>
+                <span class="tag">Python</span><span class="tag">Pedagogy</span>
+                <span class="tag">Curriculum Design</span><span class="tag">Mentoring</span>
               </div>
+            </div>
+            <div class="card-ext-link">
+              <a href="https://www.stonybrook.edu/commcms/cie/agep" target="_blank" rel="noopener">
+                <i class="fas fa-external-link-alt"></i>
+                View AGEP Program
+                <i class="fas fa-arrow-right arr"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -1649,12 +1994,14 @@
 
     <div class="projects-grid">
       <!-- GoodHub -->
-      <article class="project-card reveal" tabindex="0" role="button" aria-label="GoodHub Platform project card">
+      <article class="project-card reveal proj-hackathon" tabindex="0" role="button" aria-label="GoodHub Platform project card">
         <div class="project-card-inner">
           <div class="project-card-front">
+            <span class="proj-num">01</span>
             <span class="project-badge hackathon">Hackathon</span>
             <div class="project-icon-large"><i class="fas fa-leaf"></i></div>
             <h3 class="project-title">GoodHub Platform</h3>
+            <p class="proj-tagline">Environmental volunteer finder</p>
             <div class="project-tags">
               <span class="tag">React</span><span class="tag">Python</span>
               <span class="tag">Tailwind</span><span class="tag">Leaflet</span>
@@ -1671,16 +2018,17 @@
               <h4 class="back-title">GoodHub Platform</h4>
             </div>
             <p class="project-description">
-              Web platform connecting environmentally conscious individuals with volunteer opportunities
-              through an interactive map interface powered by Leaflet API.
+              Full-stack web platform connecting environmentally conscious individuals with local volunteer opportunities via an interactive Leaflet map. Features geolocation filtering, real-time event listings, and a complete volunteer sign-up flow.
             </p>
             <div class="project-accomplishments">
               <div class="acc-icon"><i class="fas fa-trophy"></i></div>
-              <span class="acc-text"><strong>2nd Place Environmental</strong> — HunterHack 2025</span>
+              <span class="acc-text"><strong>2nd Place — Environmental Track</strong> · HunterHack 2025</span>
             </div>
             <div class="project-features">
-              <span class="feature-item"><i class="fas fa-check"></i> Interactive Maps</span>
-              <span class="feature-item"><i class="fas fa-check"></i> Real-time Data</span>
+              <span class="feature-item"><i class="fas fa-map-marked-alt"></i> Interactive Leaflet Map</span>
+              <span class="feature-item"><i class="fas fa-filter"></i> Geolocation Filtering</span>
+              <span class="feature-item"><i class="fas fa-bolt"></i> Real-time Listings</span>
+              <span class="feature-item"><i class="fas fa-users"></i> Volunteer Sign-up Flow</span>
             </div>
             <div class="project-links">
               <a href="https://github.com/Zhichengu1/Goodhub_Hunterhack_2025" target="_blank" class="proj-link">
@@ -1695,12 +2043,14 @@
       </article>
 
       <!-- Moodify -->
-      <article class="project-card reveal" tabindex="0" role="button" aria-label="Moodify project card">
+      <article class="project-card reveal proj-ai" tabindex="0" role="button" aria-label="Moodify project card">
         <div class="project-card-inner">
           <div class="project-card-front">
+            <span class="proj-num">02</span>
             <span class="project-badge ai">AI/ML</span>
             <div class="project-icon-large"><i class="fas fa-headphones-alt"></i></div>
             <h3 class="project-title">Moodify</h3>
+            <p class="proj-tagline">AI-powered music discovery</p>
             <div class="project-tags">
               <span class="tag">Python</span><span class="tag">ML</span><span class="tag">Spotify API</span>
             </div>
@@ -1716,16 +2066,17 @@
               <h4 class="back-title">Moodify</h4>
             </div>
             <p class="project-description">
-              Built a web app that recommends music by analyzing user mood and listening preferences,
-              generating personalized playlists with machine-learning–based recommendation algorithms.
+              ML-powered web app that analyzes user mood and listening history to generate hyper-personalized Spotify playlists. Uses NLP emotion detection to classify mood states and match them to curated tracks in real time.
             </p>
             <div class="project-accomplishments">
               <div class="acc-icon"><i class="fas fa-brain"></i></div>
-              <span class="acc-text"><strong>95% Accuracy</strong> — Mood Classification Model</span>
+              <span class="acc-text"><strong>95% Accuracy</strong> · Mood Classification ML Model</span>
             </div>
             <div class="project-features">
-              <span class="feature-item"><i class="fas fa-check"></i> Smart Playlists</span>
-              <span class="feature-item"><i class="fas fa-check"></i> Personalization</span>
+              <span class="feature-item"><i class="fas fa-robot"></i> NLP Mood Detection</span>
+              <span class="feature-item"><i class="fas fa-compact-disc"></i> Smart Playlist Gen</span>
+              <span class="feature-item"><i class="fab fa-spotify"></i> Spotify Integration</span>
+              <span class="feature-item"><i class="fas fa-sliders"></i> User Personalization</span>
             </div>
             <div class="project-links">
               <a href="https://github.com/Zhichengu1" target="_blank" class="proj-link">
@@ -1740,14 +2091,16 @@
       </article>
 
       <!-- Portfolio -->
-      <article class="project-card reveal" tabindex="0" role="button" aria-label="Portfolio website project card">
+      <article class="project-card reveal proj-web" tabindex="0" role="button" aria-label="Portfolio website project card">
         <div class="project-card-inner">
           <div class="project-card-front">
+            <span class="proj-num">03</span>
             <span class="project-badge web">Web Dev</span>
             <div class="project-icon-large"><i class="fas fa-laptop-code"></i></div>
             <h3 class="project-title">Portfolio Website</h3>
+            <p class="proj-tagline">My personal dev showcase</p>
             <div class="project-tags">
-              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span>
+              <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
             </div>
             <div class="flip-indicator">
               <span class="hover">Hover to flip</span>
@@ -1761,16 +2114,17 @@
               <h4 class="back-title">Portfolio Website</h4>
             </div>
             <p class="project-description">
-              Personal portfolio website built with modern web technologies, featuring
-              a clean minimal design, dark mode, animations, and an interactive UI.
+              Hand-crafted from scratch with zero frameworks — custom particle canvas, 3D flip cards, parallax tilt, typed-text effects, and scroll-reveal animations. Dark-mode-first design with full mobile responsiveness.
             </p>
             <div class="project-accomplishments">
               <div class="acc-icon"><i class="fas fa-bolt"></i></div>
-              <span class="acc-text"><strong>100% Performance</strong> — Lighthouse Score</span>
+              <span class="acc-text"><strong>100% Lighthouse Score</strong> · Zero Dependencies</span>
             </div>
             <div class="project-features">
-              <span class="feature-item"><i class="fas fa-check"></i> Responsive</span>
-              <span class="feature-item"><i class="fas fa-check"></i> Animations</span>
+              <span class="feature-item"><i class="fas fa-mobile-alt"></i> Fully Responsive</span>
+              <span class="feature-item"><i class="fas fa-paint-brush"></i> Custom Animations</span>
+              <span class="feature-item"><i class="fas fa-circle-nodes"></i> Particle Canvas</span>
+              <span class="feature-item"><i class="fas fa-cube"></i> 3D Card Flips</span>
             </div>
             <div class="project-links">
               <a href="https://github.com/Zhichengu1" target="_blank" class="proj-link primary">
@@ -2054,6 +2408,7 @@
       });
       card.addEventListener('mouseleave', () => card.style.transform = '');
       card.addEventListener('click', e => {
+        if (e.target.closest('a')) return;
         const r = card.getBoundingClientRect();
         const rip = document.createElement('span');
         rip.className = 'ripple';
