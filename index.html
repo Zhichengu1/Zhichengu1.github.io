@@ -1493,6 +1493,128 @@
     .proj-web .proj-link:hover { background: #3b82f6; border-color: #3b82f6; color: #fff; box-shadow: 0 6px 18px rgba(59,130,246,.32); }
     .proj-web .proj-link.primary { background: #3b82f6; border-color: #3b82f6; color: #fff; }
     .proj-web .proj-link.primary:hover { background: #60a5fa; box-shadow: 0 6px 20px rgba(59,130,246,.42); transform: translateY(-2px); }
+
+    /* ─── VIBE PLAYER ───────────────────────────────── */
+    .vibe-player {
+      position:fixed; bottom:1.75rem; right:1.75rem; z-index:300;
+      font-family:var(--font-mono);
+    }
+    .vibe-pill {
+      position:relative; display:flex; align-items:center;
+      padding:7px; border:none; cursor:pointer;
+      border-radius:999px; color:var(--green-light);
+      background:rgba(16,18,24,.66);
+      backdrop-filter:blur(18px) saturate(140%);
+      -webkit-backdrop-filter:blur(18px) saturate(140%);
+      box-shadow:0 10px 34px rgba(0,0,0,.5), inset 0 0 0 1px var(--border);
+      transition:box-shadow .4s, transform .35s var(--ease-out);
+    }
+    /* animated gradient glow ring */
+    .vibe-pill::before {
+      content:''; position:absolute; inset:0; border-radius:inherit; padding:1.5px;
+      background:linear-gradient(120deg, var(--green), var(--cyan) 45%, transparent 75%);
+      -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude;
+      opacity:0; transition:opacity .45s;
+    }
+    .vibe-player.playing .vibe-pill::before,
+    .vibe-pill:hover::before { opacity:1; }
+    .vibe-pill:hover { transform:translateY(-3px); box-shadow:0 16px 44px rgba(16,185,129,.3), inset 0 0 0 1px var(--border-green); }
+    .vibe-pill:active { transform:translateY(-1px) scale(.98); }
+    .vibe-player.playing .vibe-pill {
+      box-shadow:0 14px 42px rgba(16,185,129,.26), inset 0 0 0 1px var(--border-green);
+      animation:vibeGlow 3.4s ease-in-out infinite;
+    }
+    @keyframes vibeGlow {
+      0%,100% { box-shadow:0 12px 38px rgba(16,185,129,.20), inset 0 0 0 1px var(--border-green); }
+      50%     { box-shadow:0 16px 48px rgba(16,185,129,.38), inset 0 0 0 1px rgba(16,185,129,.5); }
+    }
+
+    /* disc / icon holder */
+    .vibe-disc {
+      position:relative; flex-shrink:0;
+      width:44px; height:44px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      background:radial-gradient(circle at 32% 28%, rgba(16,185,129,.32), rgba(8,9,13,.98));
+      box-shadow:inset 0 0 0 1px var(--border-green), inset 0 -3px 8px rgba(0,0,0,.5);
+    }
+    .vibe-disc::after {
+      content:''; position:absolute; inset:-5px; border-radius:50%;
+      border:1.5px solid var(--green); opacity:.5;
+      animation:vibePulse 2.4s var(--ease-out) infinite;
+    }
+    .vibe-player.playing .vibe-disc::after,
+    .vibe-player.loading .vibe-disc::after { animation:none; opacity:0; }
+    @keyframes vibePulse {
+      0%   { transform:scale(1);   opacity:.55; }
+      70%  { transform:scale(1.5); opacity:0; }
+      100% { opacity:0; }
+    }
+
+    .vibe-icon { font-size:1.1rem; transition:opacity .3s, transform .3s; }
+    .vibe-player.playing .vibe-icon { opacity:0; transform:scale(.3); position:absolute; }
+    .vibe-player.loading .vibe-icon { animation:vibeSpin .8s linear infinite; }
+    @keyframes vibeSpin { to { transform:rotate(360deg); } }
+
+    .vibe-eq { display:none; align-items:flex-end; gap:3px; height:18px; }
+    .vibe-player.playing .vibe-eq { display:flex; }
+    .vibe-eq i {
+      width:3px; border-radius:2px; transform-origin:bottom;
+      background:linear-gradient(to top, var(--green), var(--green-light));
+      box-shadow:0 0 6px rgba(16,185,129,.6);
+      animation:vibeBar .9s ease-in-out infinite;
+    }
+    .vibe-eq i:nth-child(1){ height:45%; animation-delay:0s;   }
+    .vibe-eq i:nth-child(2){ height:90%; animation-delay:.22s; }
+    .vibe-eq i:nth-child(3){ height:60%; animation-delay:.44s; }
+    .vibe-eq i:nth-child(4){ height:100%;animation-delay:.12s; }
+    @keyframes vibeBar { 0%,100%{ transform:scaleY(.3); } 50%{ transform:scaleY(1); } }
+
+    /* meta column — collapses when idle, expands when playing */
+    .vibe-meta {
+      display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+      gap:3px; max-width:0; overflow:hidden; opacity:0; margin-left:0;
+      transition:max-width .55s var(--ease-out), opacity .4s, margin .55s var(--ease-out);
+      white-space:nowrap; text-align:left;
+    }
+    .vibe-player.playing .vibe-meta { max-width:210px; opacity:1; margin:0 14px 0 12px; }
+    .vibe-label {
+      font-size:.5rem; letter-spacing:.2em; color:var(--green);
+      display:flex; align-items:center; gap:.35rem;
+    }
+    .vibe-label::before {
+      content:''; width:5px; height:5px; border-radius:50%;
+      background:var(--green-light); box-shadow:0 0 8px var(--green);
+      animation:vibeBlink 1.6s ease-in-out infinite;
+    }
+    @keyframes vibeBlink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+    .vibe-track {
+      font-size:.72rem; color:var(--text-100); font-family:var(--font); font-weight:600;
+      max-width:200px; overflow:hidden; text-overflow:ellipsis;
+    }
+    .vibe-track span { color:var(--text-300); font-weight:400; margin-left:.3rem; }
+    .vibe-progress {
+      width:100%; height:3px; border-radius:2px; margin-top:3px;
+      background:rgba(255,255,255,.09); overflow:hidden;
+    }
+    .vibe-progress > i {
+      display:block; height:100%; width:0%; border-radius:2px;
+      background:linear-gradient(90deg, var(--green), var(--cyan));
+      transition:width .35s linear;
+    }
+
+    /* Real (non-zero) size so YouTube allows playback, but tucked off-screen. */
+    #vibe-yt { position:fixed; width:200px; height:150px; left:-9999px; top:0; pointer-events:none; opacity:.01; }
+
+    @media (max-width:768px) {
+      .vibe-player { bottom:1.1rem; right:1.1rem; }
+      .vibe-disc { width:40px; height:40px; }
+      .vibe-player.playing .vibe-meta { max-width:160px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      .vibe-disc::after, .vibe-eq i, .vibe-label::before, .vibe-player.playing .vibe-pill { animation:none; }
+    }
   </style>
 </head>
 <body>
@@ -1529,6 +1651,22 @@
       </button>
     </div>
   </nav>
+
+  <!-- ─── VIBE PLAYER ────────────────────────────────── -->
+  <div class="vibe-player" id="vibePlayer">
+    <button class="vibe-pill" id="vibeBtn" title="Play the vibe" aria-label="Play the vibe">
+      <span class="vibe-disc">
+        <span class="vibe-eq"><i></i><i></i><i></i><i></i></span>
+        <span class="vibe-icon"><i class="fas fa-headphones-alt"></i></span>
+      </span>
+      <span class="vibe-meta">
+        <span class="vibe-label">NOW VIBING</span>
+        <span class="vibe-track">Merry Christmas Mr. Lawrence <span>· Ryuichi Sakamoto</span></span>
+        <span class="vibe-progress"><i id="vibeProg"></i></span>
+      </span>
+    </button>
+    <div id="vibe-yt" aria-hidden="true"></div>
+  </div>
 
   <!-- ─── HERO ───────────────────────────────────────── -->
   <section class="hero">
@@ -1622,7 +1760,7 @@
             <div class="photo-frame"></div>
             <div class="photo-badge">
               <strong>NYC</strong>
-              Available Now
+              Available Nowi 
             </div>
           </div>
           <div class="about-stats-row">
@@ -2503,6 +2641,119 @@
         if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
+
+    /* ---------- VIBE PLAYER ---------- */
+    (function () {
+      // ── Change the song here ──
+      const VIDEO_ID  = '1OZDaRhHHyM';
+      const WATCH_URL = 'https://www.youtube.com/watch?v=' + VIDEO_ID +
+                        '&list=RD' + VIDEO_ID + '&start_radio=1';
+
+      const player   = document.getElementById('vibePlayer');
+      const btn      = document.getElementById('vibeBtn');
+      const iconWrap = btn.querySelector('.vibe-icon');
+      const progEl   = document.getElementById('vibeProg');
+      let yt = null, ready = false, playing = false, pending = false, fellBack = false;
+      let progTimer = null;
+
+      function trackProgress(on) {
+        clearInterval(progTimer);
+        if (!on) return;
+        progTimer = setInterval(() => {
+          try {
+            const d = yt.getDuration(), t = yt.getCurrentTime();
+            if (d > 0) progEl.style.width = Math.min(100, (t / d) * 100) + '%';
+          } catch (_) {}
+        }, 500);
+      }
+
+      // Lazy-load the YouTube IFrame API only when the user wants to vibe.
+      function loadAPI() {
+        if (window.YT && window.YT.Player) { createPlayer(); return; }
+        if (document.getElementById('yt-iframe-api')) return; // already loading
+        const tag = document.createElement('script');
+        tag.id = 'yt-iframe-api';
+        tag.src = 'https://www.youtube.com/iframe_api';
+        document.head.appendChild(tag);
+      }
+
+      window.onYouTubeIframeAPIReady = createPlayer;
+
+      function createPlayer() {
+        if (yt) return;
+        yt = new YT.Player('vibe-yt', {
+          videoId: VIDEO_ID,
+          playerVars: { autoplay: 0, controls: 0, disablekb: 1, playsinline: 1, rel: 0 },
+          events: {
+            onReady: () => { ready = true; if (pending) { pending = false; start(); } },
+            onStateChange: (e) => {
+              if (e.data === YT.PlayerState.PLAYING) {
+                try { yt.unMute(); yt.setVolume(55); } catch (_) {}
+                setPlaying(true);
+              }
+              else if (e.data === YT.PlayerState.PAUSED ||
+                       e.data === YT.PlayerState.ENDED)    setPlaying(false);
+            },
+            // Codes 101/150 = owner disabled embedding → open on YouTube instead.
+            onError: (e) => fallback('Embedding disabled (code ' + e.data + ')')
+          }
+        });
+      }
+
+      let watchdog = null;
+      // Last resort when this track refuses to play inside the page:
+      // open the song on YouTube so the button still does what the user expects.
+      function fallback(reason) {
+        clearTimeout(watchdog);
+        trackProgress(false);
+        const first = !fellBack;
+        fellBack = true;
+        player.classList.remove('playing', 'loading');
+        iconWrap.innerHTML = '<i class="fab fa-youtube"></i>';
+        btn.title = 'Listen on YouTube';
+        btn.setAttribute('aria-label', btn.title);
+        console.warn('[vibe] ' + reason + ' — falling back to YouTube.');
+        // Try once now (works if still inside the gesture window); otherwise the
+        // next click opens it reliably.
+        if (first) { try { window.open(WATCH_URL, '_blank', 'noopener'); } catch (_) {} }
+      }
+
+      function setLoading(on) {
+        player.classList.toggle('loading', on);
+        iconWrap.innerHTML = on
+          ? '<i class="fas fa-circle-notch"></i>'
+          : '<i class="fas fa-headphones-alt"></i>';
+      }
+      function setPlaying(on) {
+        playing = on;
+        if (on) clearTimeout(watchdog);
+        player.classList.toggle('playing', on);
+        setLoading(false);
+        trackProgress(on);
+        btn.title = on ? 'Pause the vibe' : 'Play the vibe';
+        btn.setAttribute('aria-label', btn.title);
+      }
+      function start() {
+        setLoading(true);
+        try { yt.unMute(); } catch (_) {}
+        yt.setVolume(55);
+        yt.playVideo();
+        // If playback hasn't begun in 6s, stop spinning and explain.
+        clearTimeout(watchdog);
+        watchdog = setTimeout(() => {
+          if (!playing) fallback('Playback timed out');
+        }, 7000);
+      }
+
+      btn.addEventListener('click', () => {
+        // Once we know it can't embed, the button just opens YouTube (in-gesture,
+        // so it's not killed by the popup blocker).
+        if (fellBack)  { window.open(WATCH_URL, '_blank', 'noopener'); return; }
+        if (playing)   { yt.pauseVideo(); return; }
+        if (ready)     { start(); return; }
+        pending = true; setLoading(true); loadAPI();
+      });
+    })();
 
     /* ---------- INIT ---------- */
     document.addEventListener('DOMContentLoaded', () => {
