@@ -9,7 +9,10 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <meta name="theme-color" content="#0e1013">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b8e94a'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='27' text-anchor='middle' fill='%230e1013'%3EZY%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,21 +20,22 @@
   <style>
     /* CSS Variables - Matching Main Site */
     :root {
-      --bg-primary: #0a0a0b;
-      --bg-secondary: #111113;
-      --bg-tertiary: #18181b;
-      --bg-card: #1c1c1f;
-      --accent-primary: #10b981;
-      --accent-secondary: #34d399;
-      --accent-glow: rgba(16, 185, 129, 0.15);
-      --text-primary: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
-      --border-color: #27272a;
-      --border-hover: #3f3f46;
+      --bg-primary: #0e1013;
+      --bg-secondary: #12151a;
+      --bg-tertiary: #161a21;
+      --bg-card: #161a21;
+      --accent-primary: #b8e94a;
+      --accent-secondary: #d3f36e;
+      --accent-strong: #9fd433;
+      --accent-glow: rgba(184, 233, 74, 0.10);
+      --text-primary: #eef1f6;
+      --text-secondary: #aeb6c3;
+      --text-muted: #67707f;
+      --border-color: #232937;
+      --border-hover: #333c4e;
       --font-sans: 'Inter', -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --font-display: 'Space Grotesk', sans-serif;
+      --font-display: 'Rajdhani', sans-serif;
       --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
       --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -84,7 +88,7 @@
       right: 0;
       z-index: 100;
       padding: 1rem 2rem;
-      background: rgba(10, 10, 11, 0.9);
+      background: rgba(14, 16, 19, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
     }
@@ -152,22 +156,22 @@
       padding: 0.5rem 1rem;
       background: var(--accent-glow);
       color: var(--accent-primary);
-      border: 1px solid rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(184, 233, 74, 0.3);
       border-radius: 100px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .badge.hackathon {
-      background: rgba(168, 85, 247, 0.1);
-      color: #a855f7;
-      border-color: rgba(168, 85, 247, 0.2);
+      background: var(--accent-glow);
+      color: var(--accent-primary);
+      border-color: rgba(184, 233, 74, 0.3);
     }
 
     .hero-title {
       font-family: var(--font-display);
       font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-primary);
       margin-bottom: 1.5rem;
       line-height: 1.1;
@@ -213,7 +217,7 @@
     .btn-primary:hover {
       background: var(--accent-secondary);
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+      box-shadow: 0 10px 30px rgba(184, 233, 74, 0.25);
     }
 
     .btn-secondary {
@@ -251,8 +255,10 @@
 
     .section-label {
       font-family: var(--font-mono);
-      font-size: 0.8125rem;
+      font-size: 0.72rem;
       color: var(--accent-primary);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
 
@@ -300,7 +306,7 @@
     .tech-item:hover {
       border-color: var(--accent-primary);
       transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.1);
+      box-shadow: 0 10px 30px rgba(184, 233, 74, 0.12);
     }
 
     .tech-item i {
@@ -450,7 +456,7 @@
       height: 12px;
       background: var(--accent-primary);
       border-radius: 50%;
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+      box-shadow: 0 0 20px rgba(184, 233, 74, 0.5);
       transform: translateX(-5px);
     }
 
@@ -639,7 +645,7 @@
   <div class="section-alt">
     <section class="section">
       <div class="section-header">
-        <p class="section-label">// Technologies</p>
+        <p class="section-label">Technologies</p>
         <h2 class="section-title">Tech Stack</h2>
       </div>
       <div class="tech-grid">
@@ -670,7 +676,7 @@
   <!-- Project Overview -->
   <section class="section">
     <div class="section-header">
-      <p class="section-label">// Overview</p>
+      <p class="section-label">Overview</p>
       <h2 class="section-title">Project Overview</h2>
     </div>
     <div class="overview-grid">
@@ -716,7 +722,7 @@
   <div class="section-alt">
     <section class="section">
       <div class="section-header">
-        <p class="section-label">// Features</p>
+        <p class="section-label">Features</p>
         <h2 class="section-title">Key Features</h2>
       </div>
       <div class="features-grid">
@@ -781,7 +787,7 @@
   <!-- Development Process -->
   <section class="section">
     <div class="section-header">
-      <p class="section-label">// Process</p>
+      <p class="section-label">Process</p>
       <h2 class="section-title">Development Process</h2>
     </div>
     <div class="timeline">
@@ -824,7 +830,7 @@
   <div class="section-alt">
     <section class="section">
       <div class="section-header">
-        <p class="section-label">// Team</p>
+        <p class="section-label">Team</p>
         <h2 class="section-title">The Team</h2>
       </div>
       <div class="team-grid">

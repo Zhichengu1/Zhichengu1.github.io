@@ -9,7 +9,10 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <meta name="theme-color" content="#0e1013">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b8e94a'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='27' text-anchor='middle' fill='%230e1013'%3EZY%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
   
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,21 +20,22 @@
   <style>
     /* CSS Variables - Matching Main Site */
     :root {
-      --bg-primary: #0a0a0b;
-      --bg-secondary: #111113;
-      --bg-tertiary: #18181b;
-      --bg-card: #1c1c1f;
-      --accent-primary: #10b981;
-      --accent-secondary: #34d399;
-      --accent-glow: rgba(16, 185, 129, 0.15);
-      --text-primary: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-muted: #71717a;
-      --border-color: #27272a;
-      --border-hover: #3f3f46;
+      --bg-primary: #0e1013;
+      --bg-secondary: #12151a;
+      --bg-tertiary: #161a21;
+      --bg-card: #161a21;
+      --accent-primary: #b8e94a;
+      --accent-secondary: #d3f36e;
+      --accent-strong: #9fd433;
+      --accent-glow: rgba(184, 233, 74, 0.10);
+      --text-primary: #eef1f6;
+      --text-secondary: #aeb6c3;
+      --text-muted: #67707f;
+      --border-color: #232937;
+      --border-hover: #333c4e;
       --font-sans: 'Inter', -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
-      --font-display: 'Space Grotesk', sans-serif;
+      --font-display: 'Rajdhani', sans-serif;
       --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
       --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -84,7 +88,7 @@
       right: 0;
       z-index: 100;
       padding: 1rem 2rem;
-      background: rgba(10, 10, 11, 0.9);
+      background: rgba(14, 16, 19, 0.85);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
     }
@@ -147,15 +151,17 @@
 
     .hero-label {
       font-family: var(--font-mono);
-      font-size: 0.8125rem;
+      font-size: 0.72rem;
       color: var(--accent-primary);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       margin-bottom: 1rem;
     }
 
     .hero-title {
       font-family: var(--font-display);
       font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-primary);
       margin-bottom: 1rem;
     }
@@ -366,8 +372,10 @@
 
     .section-label {
       font-family: var(--font-mono);
-      font-size: 0.8125rem;
+      font-size: 0.72rem;
       color: var(--accent-primary);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
       margin-bottom: 0.5rem;
     }
 
@@ -414,7 +422,7 @@
     .featured-card:hover {
       border-color: var(--accent-primary);
       transform: translateY(-8px);
-      box-shadow: 0 25px 60px rgba(16, 185, 129, 0.15);
+      box-shadow: 0 25px 60px rgba(184, 233, 74, 0.15);
     }
 
     .featured-image {
@@ -443,8 +451,8 @@
       font-family: var(--font-mono);
       font-size: 0.625rem;
       padding: 0.375rem 0.75rem;
-      background: rgba(168, 85, 247, 0.15);
-      color: #a855f7;
+      background: var(--accent-glow);
+      color: var(--accent-primary);
       border-radius: 100px;
       display: inline-block;
       margin-bottom: 1rem;
@@ -644,7 +652,7 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <p class="hero-label fade-in">// Project Archive</p>
+    <p class="hero-label fade-in">Project Archive</p>
     <h1 class="hero-title fade-in fade-in-delay-1">
       My <span class="accent">Projects</span>
     </h1>
@@ -667,14 +675,52 @@
   <!-- Featured Projects -->
   <section class="section">
     <div class="section-header">
-      <p class="section-label">// Featured</p>
+      <p class="section-label">Featured</p>
       <h2 class="section-title">Featured Projects</h2>
     </div>
     <div class="featured-projects">
+      <!-- Summa -->
+      <div class="featured-card" data-category="fullstack web">
+        <div class="featured-image" style="display:flex;align-items:center;justify-content:center;">
+          <div class="project-image-placeholder">
+            <i class="fas fa-chart-line"></i>
+            <span>Summa</span>
+          </div>
+        </div>
+        <div class="featured-content">
+          <span class="featured-badge">Featured</span>
+          <h3 class="featured-title">Summa</h3>
+          <p class="featured-description">
+            Zero-cost market intelligence platform — a SEC-filing data warehouse with automated
+            GitHub Actions ingestion into Supabase/Postgres and a Next.js 14 research dashboard
+            with a live filings feed.
+          </p>
+          <div class="featured-meta">
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">TypeScript</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">Postgres</span>
+          </div>
+          <div class="featured-links">
+            <a href="https://summa-30h.pages.dev/" target="_blank" class="featured-link primary">
+              <i class="fas fa-arrow-up-right-from-square"></i>
+              Live Demo
+            </a>
+            <a href="https://github.com/Zhichengu1/Summa" target="_blank" class="featured-link secondary">
+              <i class="fab fa-github"></i>
+              Code
+            </a>
+          </div>
+        </div>
+      </div>
+
       <!-- Moodify -->
       <div class="featured-card" data-category="fullstack ml">
-        <div class="featured-image">
-          <img src="moodify.png" alt="Moodify Project">
+        <div class="featured-image" style="display:flex;align-items:center;justify-content:center;">
+          <div class="project-image-placeholder">
+            <i class="fas fa-headphones"></i>
+            <span>Moodify</span>
+          </div>
         </div>
         <div class="featured-content">
           <span class="featured-badge">Featured</span>
@@ -736,14 +782,52 @@
   <!-- All Projects Grid -->
   <section class="section">
     <div class="section-header">
-      <p class="section-label">// Archive</p>
+      <p class="section-label">Archive</p>
       <h2 class="section-title">All Projects</h2>
     </div>
     <div class="projects-grid">
+      <!-- Summa -->
+      <div class="project-card" data-category="fullstack web">
+        <div class="project-image">
+          <div class="project-image-placeholder">
+            <i class="fas fa-chart-line"></i>
+            <span>Summa</span>
+          </div>
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <h3 class="project-title">Summa</h3>
+            <span class="project-year">2026</span>
+          </div>
+          <p class="project-description">
+            SEC-filing data warehouse and market research dashboard — automated ingestion pipelines,
+            20+ warehouse tables, running entirely on free-tier infrastructure.
+          </p>
+          <div class="project-tags">
+            <span class="project-tag">Next.js</span>
+            <span class="project-tag">Python</span>
+            <span class="project-tag">Postgres</span>
+          </div>
+          <div class="project-links">
+            <a href="https://summa-30h.pages.dev/" target="_blank" class="project-link">
+              <i class="fas fa-arrow-up-right-from-square"></i>
+              Live Demo
+            </a>
+            <a href="https://github.com/Zhichengu1/Summa" target="_blank" class="project-link">
+              <i class="fab fa-github"></i>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
       <!-- Project Card 1 -->
       <div class="project-card" data-category="fullstack ml">
         <div class="project-image">
-          <img src="moodify.png" alt="Moodify">
+          <div class="project-image-placeholder">
+            <i class="fas fa-headphones"></i>
+            <span>Moodify</span>
+          </div>
         </div>
         <div class="project-content">
           <div class="project-header">
