@@ -28,8 +28,9 @@
       --panel-2: #1c212b;
 
       --hi:    #eef1f6;
-      --text:  #aeb6c3;
-      --muted: #67707f;
+      --text:  #b9c1cd;
+      /* --muted meets WCAG AA (4.5:1) on both --bg and --panel */
+      --muted: #8b94a4;
 
       --volt:        #b8e94a;
       --volt-bright: #d3f36e;
@@ -67,73 +68,143 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-    /* Carbon noise */
-    body::before {
-      content: ''; position: fixed; inset: -50%; z-index: 2000; pointer-events: none;
+    /* Carbon noise — sits inside the background stack rather than on top of
+       the page, so it doesn't force the whole document into its own layer. */
+    .bg-noise {
+      position: absolute; inset: 0; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
       opacity: 0.035;
     }
-    /* ═══ Ambient background layers ══════════════════ */
+    /* ═══ Animated wallpaper ═════════════════════════
+       A slow-drifting aurora mesh behind the whole page. Long,
+       mismatched cycles (42–63s) so the field never visibly repeats,
+       and low opacity so it reads as depth rather than decoration.
+       Transform/opacity only — stays on the compositor.            */
     .bg-fx {
       position: fixed; inset: 0; z-index: 0;
       pointer-events: none; overflow: hidden;
     }
-    /* Drifting diagonal weave — seamless loop */
+
+    /* Diagonal weave — slow seamless pan */
     .bg-grid {
-      position: absolute; inset: -46px;
+      position: absolute; inset: -60px;
       background-image:
         linear-gradient(45deg, rgba(238, 241, 246, 0.013) 1px, transparent 1px),
         linear-gradient(-45deg, rgba(238, 241, 246, 0.013) 1px, transparent 1px);
       background-size: 46px 46px;
-      animation: gridDrift 30s linear infinite;
+      animation: weavePan 34s linear infinite;
       will-change: transform;
     }
-    @keyframes gridDrift { to { transform: translate(46px, 46px); } }
+    @keyframes weavePan { to { transform: translate3d(46px, 46px, 0); } }
 
-    /* Aurora orbs — slow wandering energy fields */
-    .aurora { position: absolute; border-radius: 50%; will-change: transform; }
+    /* The mesh drifts as a whole with scroll, orbs move within it */
+    .aurora-field {
+      position: absolute; inset: 0;
+      transform: translate3d(0, calc(var(--sp, 0) * -12vh), 0);
+    }
+
+    /* Smooth drift, not waypoint-hopping.
+       A multi-stop keyframe with ease-in-out decelerates to near-zero at every
+       stop, which reads as lurching. Instead each orb superimposes three
+       two-point harmonic motions — horizontal (translate), vertical + scale
+       (transform) and brightness (opacity) — on separate properties with
+       mismatched periods. `alternate` + ease-in-out gives pendulum-smooth
+       reversal, and because the periods never line up the combined path is a
+       slow Lissajous curve with no corners and no visible repeat. */
+    .aurora {
+      position: absolute; border-radius: 50%;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
+      animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    }
     .aurora-1 {
-      top: -18%; left: -12%; width: 58vw; height: 58vw; min-width: 540px; min-height: 540px;
-      background: radial-gradient(circle, rgba(184, 233, 74, 0.05), transparent 62%);
-      animation: aur1 46s ease-in-out infinite alternate;
+      top: -20%; left: -14%; width: 60vw; height: 60vw; min-width: 540px; min-height: 540px;
+      background: radial-gradient(circle, rgba(184, 233, 74, 0.085), transparent 62%);
+      animation-name: swayA, floatA, glowA;
+      animation-duration: 19s, 27s, 23s;
     }
     .aurora-2 {
-      bottom: -24%; right: -14%; width: 52vw; height: 52vw; min-width: 480px; min-height: 480px;
-      background: radial-gradient(circle, rgba(74, 168, 255, 0.04), transparent 62%);
-      animation: aur2 58s ease-in-out infinite alternate;
+      bottom: -26%; right: -16%; width: 54vw; height: 54vw; min-width: 480px; min-height: 480px;
+      background: radial-gradient(circle, rgba(74, 168, 255, 0.07), transparent 62%);
+      animation-name: swayB, floatB, glowB;
+      animation-duration: 23s, 17s, 29s;
     }
     .aurora-3 {
-      top: 36%; left: 54%; width: 38vw; height: 38vw; min-width: 360px; min-height: 360px;
-      background: radial-gradient(circle, rgba(184, 233, 74, 0.035), transparent 60%);
-      animation: aur3 39s ease-in-out infinite alternate;
+      top: 30%; left: 52%; width: 40vw; height: 40vw; min-width: 360px; min-height: 360px;
+      background: radial-gradient(circle, rgba(184, 233, 74, 0.06), transparent 60%);
+      animation-name: swayC, floatC, glowA;
+      animation-duration: 15s, 25s, 19s;
     }
-    @keyframes aur1 { to { transform: translate(15vw, 12vh) scale(1.18); } }
-    @keyframes aur2 { to { transform: translate(-13vw, -13vh) scale(1.12); } }
-    @keyframes aur3 { to { transform: translate(-17vw, 15vh) scale(0.88); } }
+    .aurora-4 {
+      top: 8%; right: 6%; width: 34vw; height: 34vw; min-width: 320px; min-height: 320px;
+      background: radial-gradient(circle, rgba(185, 128, 247, 0.05), transparent 62%);
+      animation-name: swayB, floatC, glowB;
+      animation-duration: 31s, 21s, 23s;
+    }
+    .aurora-5 {
+      bottom: 4%; left: 18%; width: 36vw; height: 36vw; min-width: 320px; min-height: 320px;
+      background: radial-gradient(circle, rgba(88, 214, 141, 0.045), transparent 62%);
+      animation-name: swayA, floatB, glowA;
+      animation-duration: 17s, 29s, 25s;
+    }
 
-    /* Rising data bits */
-    .bit {
-      position: absolute; bottom: -3vh;
-      width: 3px; height: 3px;
+    /* Horizontal sway — the independent `translate` property, so it composes
+       with `transform` below instead of fighting it for the same declaration. */
+    @keyframes swayA { from { translate: -7vw 0; } to { translate: 12vw 0; } }
+    @keyframes swayB { from { translate: 9vw 0; }  to { translate: -11vw 0; } }
+    @keyframes swayC { from { translate: -13vw 0; } to { translate: 6vw 0; } }
+
+    /* Vertical float + scale */
+    @keyframes floatA { from { transform: translateY(7vh) scale(0.9); }  to { transform: translateY(-12vh) scale(1.16); } }
+    @keyframes floatB { from { transform: translateY(-9vh) scale(1.14); } to { transform: translateY(10vh) scale(0.92); } }
+    @keyframes floatC { from { transform: translateY(11vh) scale(1.05); } to { transform: translateY(-8vh) scale(0.88); } }
+
+    /* Brightness breathing */
+    @keyframes glowA { from { opacity: 0.62; } to { opacity: 1; } }
+    @keyframes glowB { from { opacity: 1; }    to { opacity: 0.68; } }
+
+    /* Drifting motes — slow points of light rising through the field */
+    .mote {
+      position: absolute; bottom: -6vh;
+      width: 3px; height: 3px; border-radius: 50%;
       background: var(--volt);
-      box-shadow: 0 0 6px rgba(184, 233, 74, 0.55);
+      box-shadow: 0 0 8px rgba(184, 233, 74, 0.65);
       opacity: 0;
-      animation: bitRise var(--dur, 17s) linear infinite;
-      animation-delay: var(--del, 0s);
+      /* Rise is one linear segment so vertical speed is genuinely constant;
+         the sideways drift is an independent slow sway on its own period. */
+      animation-name: moteRise, moteSway, moteFade;
+      animation-duration: var(--dur, 22s), 8s, var(--dur, 22s);
+      animation-timing-function: linear, cubic-bezier(0.45, 0, 0.55, 1), linear;
+      animation-iteration-count: infinite;
+      animation-direction: normal, alternate, normal;
+      animation-delay: var(--del, 0s), 0s, var(--del, 0s);
     }
-    .bit:nth-child(odd) { width: 2px; height: 2px; }
-    .bit.cool { background: var(--rare); box-shadow: 0 0 6px rgba(74, 168, 255, 0.5); }
-    @keyframes bitRise {
-      0%   { transform: translate(0, 0); opacity: 0; }
-      8%   { opacity: 0.4; }
-      45%  { transform: translate(16px, -48vh); opacity: 0.22; }
-      90%  { opacity: 0.35; }
-      100% { transform: translate(-12px, -108vh); opacity: 0; }
+    .mote.cool { background: var(--rare); box-shadow: 0 0 8px rgba(74, 168, 255, 0.6); }
+    .mote.sm   { width: 2px; height: 2px; }
+    @keyframes moteRise { from { transform: translateY(0); } to { transform: translateY(-116vh); } }
+    @keyframes moteSway { from { translate: -15px 0; } to { translate: 15px 0; } }
+    @keyframes moteFade {
+      0%   { opacity: 0; }
+      14%  { opacity: 0.55; }
+      86%  { opacity: 0.45; }
+      100% { opacity: 0; }
     }
-    /* Save GPU & battery on small screens */
+
+    /* Vignette — pulls focus to the column of content */
+    .bg-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 78% 68% at 50% 45%, transparent 40%, rgba(8, 9, 11, 0.55) 100%);
+    }
+
+    /* Save GPU & battery on small screens; honour reduced-motion */
     @media (max-width: 640px) {
-      .aurora, .bit { display: none; }
-      .bg-grid { animation: none; }
+      .aurora-4, .aurora-5, .mote { display: none; }
+      .aurora, .bg-grid { animation: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .mote { display: none; }
+      .bg-grid, .aurora { animation: none; }
+      .aurora-field { transform: none; }
     }
     img { max-width: 100%; display: block; }
     a { color: inherit; }
@@ -203,9 +274,23 @@
       *, *::before, *::after { animation-duration: 0.001s !important; animation-iteration-count: 1 !important; transition-duration: 0.001s !important; }
     }
 
-    /* ═══ Motion pack II ═════════════════════════════ */
-    /* Velocity warp — page skews with scroll momentum */
-    #warp { will-change: transform; transform-origin: 50% 50%; }
+    /* Skip link — first tab stop for keyboard & screen-reader users */
+    .skip-link {
+      position: fixed; top: 0; left: 50%; transform: translate(-50%, -120%);
+      z-index: 600;
+      background: var(--volt); color: #10130a;
+      font-family: var(--display); font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+      padding: 0.75rem 1.6rem;
+      transition: transform 0.25s var(--ease);
+    }
+    .skip-link:focus { transform: translate(-50%, 0); outline: none; }
+
+    /* Visible focus ring for keyboard navigation */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--volt-bright);
+      outline-offset: 3px;
+    }
 
     /* Targeting reticle — trailing cursor ring */
     .reticle {
@@ -234,8 +319,7 @@
     .scroll-ring {
       position: fixed; right: 1.4rem; bottom: 1.4rem; z-index: 350;
       width: 52px; height: 52px; padding: 0;
-      background: rgba(14, 16, 19, 0.8); border: none; border-radius: 50%;
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      background: #14181f; border: 1px solid var(--line); border-radius: 50%;
       color: var(--volt); font-size: 0.8rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       opacity: 0; transform: translateY(16px) scale(0.85);
@@ -254,22 +338,6 @@
     .scroll-ring i { transition: transform 0.3s var(--ease); }
     .scroll-ring:hover i { transform: translateY(-2px); }
 
-    /* Hero energy streaks */
-    .streak {
-      position: absolute; top: -20%; width: 1px; height: 55%;
-      background: linear-gradient(to bottom, transparent, rgba(184, 233, 74, 0.28), transparent);
-      pointer-events: none;
-      opacity: 0; transform: rotate(26deg);
-    }
-    .streak-1 { left: 30%; animation: streakFall 9s linear infinite 1.4s; }
-    .streak-2 { left: 74%; animation: streakFall 12s linear infinite 5.2s; }
-    @keyframes streakFall {
-      0%   { transform: rotate(26deg) translateY(-140%); opacity: 0; }
-      10%  { opacity: 1; }
-      70%  { opacity: 0.7; }
-      100% { transform: rotate(26deg) translateY(330%); opacity: 0; }
-    }
-
     /* Energy line sweeps across dark sections on reveal */
     .section.tint::after {
       content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
@@ -278,19 +346,6 @@
       pointer-events: none;
     }
     html.js .section.tint.visible::after { transition: transform 1.6s var(--ease) 0.15s; transform: scaleX(1); }
-
-    /* Living gradient on title accents */
-    .section-title .accent, .contact-title .accent {
-      background: linear-gradient(100deg, var(--volt) 20%, #eaffa3 50%, var(--volt) 80%);
-      background-size: 220% 100%;
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradShift 5.5s ease-in-out infinite;
-    }
-    @keyframes gradShift {
-      0%, 100% { background-position: 0% 0; }
-      50%      { background-position: 100% 0; }
-    }
 
     /* Holographic hover spot on project cards */
     .mission::after {
@@ -317,14 +372,13 @@
     .panel:hover::before, .panel:hover::after { border-color: var(--volt); width: 22px; height: 22px; }
 
     /* ═══ Navigation ═════════════════════════════════ */
+    /* Near-opaque instead of backdrop-filter: on a dark page the blur is barely
+       perceptible, but it forces the entire scrolling document to be composited. */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
-      background: rgba(14, 16, 19, 0.78);
-      backdrop-filter: blur(14px) saturate(130%);
-      -webkit-backdrop-filter: blur(14px) saturate(130%);
+      background: #0d0f12;
       border-bottom: 1px solid transparent;
       transition: border-color 0.35s, transform 0.45s var(--ease);
-      will-change: transform;
     }
     .nav.scrolled { border-bottom-color: var(--line); }
     .nav.hidden { transform: translateY(-101%); }
@@ -346,7 +400,7 @@
       letter-spacing: 0.06em; text-transform: uppercase; color: var(--hi); line-height: 1.15;
     }
     .nav-logo .who small {
-      display: block; font-family: var(--mono); font-size: 0.54rem; font-weight: 500;
+      display: block; font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
       letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase;
     }
     .nav-links { display: flex; gap: 1.7rem; list-style: none; }
@@ -367,12 +421,12 @@
     .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
     .nav-right { display: flex; align-items: center; gap: 1.3rem; }
     .nav-clock {
-      font-family: var(--mono); font-size: 0.66rem; color: var(--muted);
+      font-family: var(--mono); font-size: 0.78rem; color: var(--muted);
       letter-spacing: 0.08em; white-space: nowrap; text-transform: uppercase;
     }
     .nav-clock b { color: var(--volt); font-weight: 500; }
     .nav-cta {
-      font-family: var(--display); font-size: 0.78rem; font-weight: 700;
+      font-family: var(--display); font-size: 0.85rem; font-weight: 700;
       letter-spacing: 0.14em; text-transform: uppercase;
       color: #10130a; background: var(--volt); text-decoration: none;
       padding: 0.6rem 1.35rem;
@@ -419,13 +473,13 @@
       margin-bottom: 2.2rem;
     }
     .hero-top .id {
-      font-family: var(--mono); font-size: 0.64rem; font-weight: 500;
+      font-family: var(--mono); font-size: 0.76rem; font-weight: 500;
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--volt);
     }
     .hero-top .rule { flex: 0 0 44px; height: 2px; background: var(--volt); }
     .status-flag {
       display: inline-flex; align-items: center; gap: 0.55rem;
-      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em;
+      font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--volt-bright);
       border: 1px solid var(--volt-line);
       padding: 0.35rem 0.9rem;
@@ -457,18 +511,9 @@
     @keyframes lineUp { to { transform: translateY(0); } }
     .hero-name .accent {
       color: var(--volt); display: inline-block;
-      animation: glitch 7s infinite;
     }
     .hero-name .thin {
       color: var(--muted); font-weight: 500; display: inline-block;
-      animation: blink 1.15s steps(2, start) infinite;
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-    @keyframes glitch {
-      0%, 91%, 100% { transform: none; text-shadow: none; }
-      92% { transform: translate(-3px, 1px) skewX(-5deg); text-shadow: 4px 0 0 rgba(74, 168, 255, 0.7), -4px 0 0 rgba(232, 96, 74, 0.55); }
-      94% { transform: translate(3px, -1px) skewX(4deg);  text-shadow: -4px 0 0 rgba(185, 128, 247, 0.65), 4px 0 0 rgba(74, 168, 255, 0.5); }
-      96% { transform: translate(-1px, 0); text-shadow: 2px 0 0 rgba(74, 168, 255, 0.45); }
     }
 
     .hero-grid {
@@ -482,25 +527,23 @@
     }
     .hero-role .rotator {
       display: inline-block; color: var(--volt-bright); font-weight: 600;
-      transition: opacity 0.35s ease, transform 0.35s ease;
     }
-    .hero-role .rotator.swap { opacity: 0; transform: translateY(9px); }
 
     /* Achievement chips w/ rarity */
     .hero-achv { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-bottom: 2.5rem; }
     .achv {
       --tier: var(--rare);
       display: inline-flex; align-items: center; gap: 0.55rem;
-      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.06em;
+      font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--text); padding: 0.5rem 1rem;
       background: var(--panel); border: 1px solid var(--line);
       border-left: 3px solid var(--tier);
       transition: border-color 0.3s, color 0.3s, transform 0.3s var(--ease), background 0.3s;
     }
-    .achv i { color: var(--tier); font-size: 0.75rem; }
+    .achv i { color: var(--tier); font-size: 0.85rem; }
     .achv small {
-      font-size: 0.5rem; font-weight: 600; letter-spacing: 0.18em;
+      font-size: 0.64rem; font-weight: 600; letter-spacing: 0.18em;
       color: var(--tier); margin-left: 0.2rem;
     }
     .achv:hover { transform: translateY(-3px); color: var(--hi); border-color: var(--line-strong); background: var(--panel-2); }
@@ -550,11 +593,11 @@
     .meter:last-child { margin-bottom: 0; }
     .meter-top {
       display: flex; justify-content: space-between; align-items: baseline;
-      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em;
+      font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em;
       text-transform: uppercase; margin-bottom: 0.45rem;
     }
     .meter-top .lbl { color: var(--text); }
-    .meter-top .val { color: var(--volt-bright); font-size: 0.72rem; }
+    .meter-top .val { color: var(--volt-bright); font-size: 0.82rem; }
     .meter-bar {
       height: 7px; background: var(--bg);
       border: 1px solid var(--line);
@@ -585,49 +628,13 @@
     .hero-scroll {
       position: absolute; bottom: 2.3rem; left: 2.25rem;
       display: flex; align-items: center; gap: 0.9rem;
-      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.24em;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.24em;
       text-transform: uppercase; color: var(--muted);
     }
     .hero-scroll .line {
       width: 56px; height: 2px; background: var(--line-strong);
       position: relative; overflow: hidden;
     }
-    .hero-scroll .line::after {
-      content: ''; position: absolute; inset: 0;
-      background: var(--volt); transform: translateX(-100%);
-      animation: scrollLine 2.4s var(--ease) infinite;
-    }
-    @keyframes scrollLine {
-      0% { transform: translateX(-100%); }
-      55% { transform: translateX(0); }
-      100% { transform: translateX(100%); }
-    }
-
-    /* ═══ Ticker ═════════════════════════════════════ */
-    .ticker {
-      border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-      background: var(--bg-2);
-      overflow: hidden; padding: 1.15rem 0;
-      user-select: none;
-    }
-    .ticker-track {
-      display: flex; align-items: center; gap: 2.6rem; width: max-content;
-      animation: marq 38s linear infinite;
-      will-change: transform;
-    }
-    .ticker:hover .ticker-track { animation-play-state: paused; }
-    .ticker-track > span {
-      font-family: var(--display); font-weight: 700;
-      font-size: clamp(1.4rem, 3vw, 2.1rem); line-height: 1.15;
-      color: var(--hi); white-space: nowrap;
-      letter-spacing: 0.06em; text-transform: uppercase;
-    }
-    .ticker-track > span.ghost {
-      color: transparent;
-      -webkit-text-stroke: 1px var(--line-strong);
-    }
-    .ticker-track > i { color: var(--volt); font-size: 0.6rem; }
-    @keyframes marq { to { transform: translateX(-50%); } }
 
     /* ═══ Sections ═══════════════════════════════════ */
     .section { position: relative; padding: 7.5rem 0; }
@@ -636,7 +643,7 @@
     .section-head { position: relative; margin-bottom: 3.6rem; }
     .sec-tag {
       display: inline-flex; align-items: center; gap: 0.8rem;
-      font-family: var(--mono); font-size: 0.6rem; font-weight: 500;
+      font-family: var(--mono); font-size: 0.74rem; font-weight: 500;
       letter-spacing: 0.24em; text-transform: uppercase; color: var(--volt);
       margin-bottom: 1rem;
     }
@@ -669,23 +676,11 @@
       transition: filter 0.4s;
     }
     .avatar-frame:hover img { filter: saturate(1.05); }
-    .avatar-scan {
-      position: absolute; inset: 10px; overflow: hidden; pointer-events: none;
-    }
-    .avatar-scan::before {
-      content: ''; position: absolute; left: 0; right: 0; top: 0; height: 16%;
-      background: linear-gradient(to bottom, transparent, rgba(184, 233, 74, 0.13), transparent);
-      animation: scanY 5.5s ease-in-out infinite;
-    }
-    @keyframes scanY {
-      0%   { transform: translateY(-110%); }
-      100% { transform: translateY(650%); }
-    }
     .avatar-plate {
       position: absolute; bottom: -14px; left: 50%; transform: translateX(-50%);
       background: var(--volt); color: #10130a;
       clip-path: var(--chamfer);
-      font-family: var(--display); font-weight: 700; font-size: 0.78rem;
+      font-family: var(--display); font-weight: 700; font-size: 0.85rem;
       letter-spacing: 0.16em; text-transform: uppercase;
       padding: 0.5rem 1.4rem; white-space: nowrap; z-index: 2;
     }
@@ -702,7 +697,7 @@
       font-size: 1.8rem; color: var(--hi); line-height: 1.1;
     }
     .stat-lbl {
-      display: block; font-family: var(--mono); font-size: 0.54rem;
+      display: block; font-family: var(--mono); font-size: 0.7rem;
       letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
       margin-top: 0.25rem;
     }
@@ -717,7 +712,7 @@
     .hl-a { color: var(--volt-bright); font-weight: 500; }
     .traits { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
     .chip {
-      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em;
+      font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.1em;
       text-transform: uppercase; padding: 0.42rem 1rem;
       border: 1px solid var(--line); color: var(--text);
       clip-path: var(--chamfer);
@@ -774,7 +769,7 @@
       .quest-side { flex-direction: row; align-items: center; flex-wrap: wrap; text-align: left; }
     }
     .quest-type {
-      font-family: var(--display); font-size: 0.68rem; font-weight: 700;
+      font-family: var(--display); font-size: 0.78rem; font-weight: 700;
       letter-spacing: 0.18em; text-transform: uppercase;
       padding: 0.22rem 0.85rem;
       clip-path: var(--chamfer);
@@ -798,14 +793,9 @@
     }
     .quest-title a { color: inherit; text-decoration: none; transition: color 0.25s; }
     .quest-title a:hover { color: var(--volt-bright); }
-    .quest-title .ext { font-size: 0.6rem; color: var(--muted); margin-left: 0.5rem; vertical-align: 5px; }
+    .quest-title .ext { font-size: 0.7rem; color: var(--muted); margin-left: 0.5rem; vertical-align: 5px; }
     .quest-giver { font-size: 0.88rem; color: var(--text); margin: 0.2rem 0 1.1rem; text-transform: none; font-family: var(--font); }
     .quest-giver span { color: var(--muted); }
-    .quest-summary {
-      font-size: 0.88rem; color: var(--muted); line-height: 1.65;
-      max-width: 62ch; margin-bottom: 1.3rem;
-      padding-left: 0.95rem; border-left: 2px solid var(--line-strong);
-    }
 
     .quest-brief {
       display: flex; align-items: flex-start; gap: 0.9rem;
@@ -816,18 +806,18 @@
     }
     .quest-brief i { color: var(--volt); font-size: 0.9rem; margin-top: 0.22rem; }
     .quest-brief strong { display: block; font-size: 0.9rem; font-weight: 600; color: var(--hi); line-height: 1.45; }
-    .quest-brief span { font-size: 0.79rem; color: var(--text); }
+    .quest-brief span { font-size: 0.88rem; color: var(--text); }
 
     /* Objectives — check off on reveal */
     .obj-label, .reward-label {
-      font-family: var(--mono); font-size: 0.56rem; font-weight: 600;
+      font-family: var(--mono); font-size: 0.72rem; font-weight: 600;
       letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
       display: block; margin-bottom: 0.7rem;
     }
-    .objectives { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.5rem; }
+    .objectives { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; }
     .objectives li {
       position: relative; padding-left: 1.9rem;
-      font-size: 0.9rem; line-height: 1.65;
+      font-size: 0.95rem; line-height: 1.7; max-width: 72ch;
     }
     .objectives li::before {
       content: ''; position: absolute; left: 0; top: 0.28em;
@@ -868,14 +858,14 @@
       font-size: 1.3rem; color: var(--volt-bright); line-height: 1.2;
     }
     .qstat small {
-      display: block; font-family: var(--mono); font-size: 0.52rem;
+      display: block; font-family: var(--mono); font-size: 0.7rem;
       letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
       margin-top: 0.1rem; line-height: 1.5;
     }
 
     .rewards { display: flex; flex-wrap: wrap; gap: 0.45rem; }
     .tag {
-      font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.08em;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em;
       padding: 0.32rem 0.8rem; text-transform: uppercase;
       border: 1px solid var(--line); color: var(--muted);
       clip-path: var(--chamfer); background: var(--bg);
@@ -926,7 +916,7 @@
     }
     .mission:hover .mission-icon { transform: translateY(-2px) scale(1.06); }
     .mission-tier {
-      font-family: var(--mono); font-size: 0.54rem; font-weight: 600;
+      font-family: var(--mono); font-size: 0.7rem; font-weight: 600;
       letter-spacing: 0.2em; text-transform: uppercase; color: var(--tier);
       display: inline-flex; align-items: center; gap: 0.45rem;
     }
@@ -935,10 +925,10 @@
     .mission-body { padding: 0 1.6rem; display: flex; flex-direction: column; flex: 1; }
     .mission-title { font-size: 1.35rem; font-weight: 700; color: var(--hi); line-height: 1.1; }
     .mission-tagline {
-      font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em;
+      font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--muted); margin: 0.35rem 0 0.9rem;
     }
-    .mission-desc { font-size: 0.88rem; line-height: 1.65; margin-bottom: 1.2rem; flex: 1; }
+    .mission-desc { font-size: 0.94rem; line-height: 1.7; margin-bottom: 1.2rem; flex: 1; }
 
     .unlock {
       display: flex; align-items: center; gap: 0.7rem;
@@ -949,10 +939,10 @@
     .unlock i { color: var(--tier); font-size: 0.85rem; flex-shrink: 0; }
     .unlock div { line-height: 1.4; }
     .unlock small {
-      display: block; font-family: var(--mono); font-size: 0.5rem;
+      display: block; font-family: var(--mono); font-size: 0.68rem;
       letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
     }
-    .unlock strong { font-size: 0.76rem; font-weight: 600; color: var(--hi); }
+    .unlock strong { font-size: 0.84rem; font-weight: 600; color: var(--hi); }
     html.js .unlock { opacity: 0; transform: translateX(-14px); transition: opacity 0.5s var(--ease) 0.5s, transform 0.5s var(--ease) 0.5s; }
     html.js .visible .unlock { opacity: 1; transform: none; }
 
@@ -963,7 +953,7 @@
     }
     .mlink {
       flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-      font-family: var(--display); font-size: 0.74rem; font-weight: 700;
+      font-family: var(--display); font-size: 0.82rem; font-weight: 700;
       letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
       padding: 0.6rem 0.9rem;
       clip-path: var(--chamfer);
@@ -988,7 +978,7 @@
       font-size: 0.95rem; font-weight: 700; letter-spacing: 0.18em; color: var(--hi);
     }
     .inv-head .fill { flex: 1; height: 1px; background: var(--line); }
-    .inv-head .count { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.14em; }
+    .inv-head .count { font-family: var(--mono); font-size: 0.74rem; color: var(--muted); letter-spacing: 0.14em; }
     .inv-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 0.7rem;
@@ -1033,7 +1023,7 @@
     .gh-stat i { font-size: 1.15rem; color: var(--volt); margin-bottom: 0.7rem; display: block; }
     .gh-stat .val { font-family: var(--display); font-weight: 700; font-size: 1.7rem; color: var(--hi); }
     .gh-stat .lbl {
-      font-family: var(--mono); font-size: 0.54rem; letter-spacing: 0.16em;
+      font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--muted); margin-top: 0.25rem;
     }
 
@@ -1065,7 +1055,7 @@
     .contact-socials { display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; }
     .social-pill {
       display: inline-flex; align-items: center; gap: 0.6rem;
-      font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
+      font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.12em;
       text-transform: uppercase; color: var(--text); text-decoration: none;
       padding: 0.68rem 1.35rem;
       background: var(--panel); border: 1px solid var(--line);
@@ -1081,7 +1071,7 @@
       display: flex; align-items: center; justify-content: space-between;
       gap: 1.4rem; flex-wrap: wrap;
       padding: 1.6rem 0;
-      font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em;
+      font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--muted);
     }
     .footer a { color: var(--muted); text-decoration: none; transition: color 0.25s; }
@@ -1103,19 +1093,25 @@
 </head>
 <body>
 
+  <a href="#about" class="skip-link">Skip to content</a>
+
   <div class="bg-fx" aria-hidden="true">
     <span class="bg-grid"></span>
-    <span class="aurora aurora-1"></span>
-    <span class="aurora aurora-2"></span>
-    <span class="aurora aurora-3"></span>
-    <span class="bit"       style="left:7%;  --dur:19s; --del:0s;"></span>
-    <span class="bit cool"  style="left:18%; --dur:24s; --del:6s;"></span>
-    <span class="bit"       style="left:31%; --dur:15s; --del:11s;"></span>
-    <span class="bit"       style="left:46%; --dur:22s; --del:3s;"></span>
-    <span class="bit cool"  style="left:59%; --dur:17s; --del:14s;"></span>
-    <span class="bit"       style="left:71%; --dur:26s; --del:8s;"></span>
-    <span class="bit"       style="left:83%; --dur:16s; --del:1.5s;"></span>
-    <span class="bit"       style="left:93%; --dur:21s; --del:10s;"></span>
+    <div class="aurora-field">
+      <span class="aurora aurora-1"></span>
+      <span class="aurora aurora-2"></span>
+      <span class="aurora aurora-3"></span>
+      <span class="aurora aurora-4"></span>
+      <span class="aurora aurora-5"></span>
+    </div>
+    <span class="mote"         style="left:9%;  --dur:24s; --del:0s;"></span>
+    <span class="mote cool sm" style="left:26%; --dur:29s; --del:7s;"></span>
+    <span class="mote sm"      style="left:41%; --dur:21s; --del:14s;"></span>
+    <span class="mote"         style="left:58%; --dur:27s; --del:4s;"></span>
+    <span class="mote cool sm" style="left:74%; --dur:23s; --del:18s;"></span>
+    <span class="mote"         style="left:91%; --dur:26s; --del:10s;"></span>
+    <span class="bg-vignette"></span>
+    <span class="bg-noise"></span>
   </div>
 
   <div id="xp"></div>
@@ -1156,13 +1152,11 @@
     </div>
   </nav>
 
-  <main id="warp">
+  <main>
 
   <!-- ═══ Hero — player card ═══════════════════════════ -->
   <header class="hero" id="top">
     <div class="hero-glow" id="hero-glow"></div>
-    <span class="streak streak-1" aria-hidden="true"></span>
-    <span class="streak streak-2" aria-hidden="true"></span>
 
     <div class="wrap">
       <div class="hero-top reveal">
@@ -1179,8 +1173,8 @@
       <div class="hero-grid">
         <div>
           <p class="hero-role reveal" style="--d:.3s;">
-            Fullstack engineer focused on <span class="rotator" id="role-rotator">fullstack applications</span>.<br>
-            Building software that puts people first.
+            Fullstack engineer building <span class="rotator">AI/ML systems and scalable web apps</span>.<br>
+            Currently at SAS Institute. Previously Google &amp; eBay fellowships.
           </p>
 
           <div class="hero-achv reveal" style="--d:.45s;">
@@ -1224,25 +1218,11 @@
     </div>
   </header>
 
-  <!-- ═══ Ticker ═══════════════════════════════════════ -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track">
-      <span>Fullstack Engineering</span><i class="fas fa-diamond"></i>
-      <span class="ghost">AI &amp; Machine Learning</span><i class="fas fa-diamond"></i>
-      <span>System Design</span><i class="fas fa-diamond"></i>
-      <span class="ghost">Human-centered Products</span><i class="fas fa-diamond"></i>
-      <span>Fullstack Engineering</span><i class="fas fa-diamond"></i>
-      <span class="ghost">AI &amp; Machine Learning</span><i class="fas fa-diamond"></i>
-      <span>System Design</span><i class="fas fa-diamond"></i>
-      <span class="ghost">Human-centered Products</span><i class="fas fa-diamond"></i>
-    </div>
-  </div>
-
   <!-- ═══ Profile ══════════════════════════════════════ -->
   <section class="section" id="about">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="ghost-num">01</span>
+        <span class="ghost-num" aria-hidden="true">01</span>
         <p class="sec-tag"><span class="idx">01 //</span> <span class="decode">About</span></p>
         <h2 class="section-title"><span class="w"><span class="wi">About <span class="accent">me</span></span></span></h2>
       </div>
@@ -1252,32 +1232,26 @@
             <div class="avatar-frame panel">
               <img src="download.png" alt="Zhicheng Yu" loading="lazy" decoding="async"
                 onerror="this.src='https://ui-avatars.com/api/?name=Zhicheng+Yu&background=161a21&color=b8e94a&size=400'">
-              <span class="avatar-scan" aria-hidden="true"></span>
               <span class="avatar-plate">NYC · Available now</span>
             </div>
           </div>
           <div class="about-stats">
             <div class="stat"><span class="stat-val counter" data-target="3">0</span><span class="stat-lbl">Internships</span></div>
-            <div class="stat"><span class="stat-val counter" data-target="6">0</span><span class="stat-lbl">Projects</span></div>
+            <div class="stat"><span class="stat-val counter" data-target="6" data-suffix="+">0</span><span class="stat-lbl">Projects</span></div>
             <div class="stat"><span class="stat-val counter" data-target="2">0</span><span class="stat-lbl">Hackathons</span></div>
           </div>
         </div>
         <div class="reveal" data-fx="right" style="--d:.15s;">
           <h3 class="about-heading">Software engineer &amp;<br><span class="accent">CS student</span></h3>
           <p class="about-text">
-            Hello! I'm <span class="hl">Zhicheng</span>, a computer science student passionate about
-            <span class="hl">full-stack development</span> and <span class="hl">AI/ML</span>.
-            I love working on projects that solve real-world problems while pushing my skills forward.
+            I'm a computer science student who builds <span class="hl">full-stack products</span> and
+            <span class="hl">AI/ML systems</span> — shipped to real users, not left in a repo.
           </p>
           <p class="about-text">
-            I was selected as a <span class="hl-a">Google Software Engineer Fellow</span> (1 of 80 from 2,000+ applicants)
-            and an <span class="hl-a">eBay Technology Pathway Fellow</span> (3% acceptance rate).
-            After building internal tools at the <span class="hl">City University of New York</span>,
-            I'm now at <span class="hl">SAS Institute</span> building real-time risk-monitoring tooling on SAS Viya.
-          </p>
-          <p class="about-text">
-            Outside of coding, I enjoy collaborating with other developers, exploring emerging technologies,
-            and challenging myself to grow both technically and personally.
+            I've been a <span class="hl-a">Google Software Engineer Fellow</span> (1 of 80 from 2,000+ applicants)
+            and an <span class="hl-a">eBay Technology Pathway Fellow</span> (top 3%).
+            After shipping internal tools at <span class="hl">CUNY</span>, I'm now at
+            <span class="hl">SAS Institute</span> building real-time risk-monitoring tooling on Viya.
           </p>
           <div class="traits">
             <span class="chip">Machine Learning</span>
@@ -1296,7 +1270,7 @@
   <section class="section tint" id="experience" data-observe>
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="ghost-num">02</span>
+        <span class="ghost-num" aria-hidden="true">02</span>
         <p class="sec-tag"><span class="idx">02 //</span> <span class="decode">Experience</span></p>
         <h2 class="section-title"><span class="w"><span class="wi">Where I've <span class="accent">worked</span></span></span></h2>
       </div>
@@ -1317,24 +1291,18 @@
               </a>
             </h3>
             <p class="quest-giver">SAS Institute Inc. <span>· Cary, NC</span></p>
-            <p class="quest-summary">
-              Interning with the Risk Testing team at one of the world's largest analytics software
-              companies — building observability tooling that turns raw error telemetry into
-              actionable, real-time insight for engineers.
-            </p>
             <div class="quest-brief">
               <i class="fas fa-shield-halved"></i>
               <div>
                 <strong>Real-time risk monitoring dashboard on the SAS Viya platform</strong>
-                <span>Python automation pipelines &amp; AI model integrations over enterprise data sources</span>
+                <span>Built with the Risk Testing team at one of the largest analytics software companies</span>
               </div>
             </div>
             <span class="obj-label">Highlights</span>
             <ul class="objectives">
-              <li>Developed a custom <strong>risk-monitoring dashboard</strong> built on top of the <mark>SAS Viya platform</mark>, empowering the Risk Testing team with real-time visibility into system degradations.</li>
-              <li>Engineered <strong>Python-based automation pipelines</strong> and <strong>AI model integrations</strong> to continuously extract and process <mark>high-volume error signals</mark> from enterprise data sources.</li>
-              <li>Partnered directly with <strong>Risk Testing engineers</strong> to translate degradation-monitoring needs into dashboard views — shortening the path from raw signal to <mark>actionable triage</mark>.</li>
-              <li>Hardened the platform with <strong>pytest</strong> unit &amp; integration test suites and <strong>Locust load testing</strong> — validating dashboard reliability under <mark>high-volume traffic</mark>.</li>
+              <li>Automated ingestion of <mark>high-volume error telemetry</mark> with <strong>Python pipelines</strong> and <strong>AI model integrations</strong>.</li>
+              <li>Turned Risk Testing engineers' monitoring needs into dashboard views, shortening the path from raw signal to <mark>triage</mark>.</li>
+              <li>Validated reliability under load with <strong>pytest</strong> suites and <strong>Locust</strong> stress testing.</li>
             </ul>
             <div class="quest-stats">
               <div class="qstat"><b>Viya</b><small>Built on SAS platform</small></div>
@@ -1364,10 +1332,6 @@
               </a>
             </h3>
             <p class="quest-giver">City University of New York <span>· New York, NY</span></p>
-            <p class="quest-summary">
-              Owned the front-to-back rebuild of an internal administrative platform serving staff
-              across all 25 CUNY campuses — from API design through UI, accessibility, and launch.
-            </p>
             <div class="quest-brief">
               <i class="fas fa-rocket"></i>
               <div>
@@ -1377,12 +1341,10 @@
             </div>
             <span class="obj-label">Highlights</span>
             <ul class="objectives">
-              <li>Rebuilt an internal dashboard <strong>0→1</strong> with vanilla JavaScript, HTML5 &amp; CSS3 — replacing a legacy system serving <mark>500+ staff</mark> across CUNY's <mark>25-campus</mark> network.</li>
-              <li>Engineered a <strong>REST API integration end-to-end</strong> — Flask backend with real-time CRUD operations and paginated rendering for <mark>10,000+ records</mark>.</li>
-              <li>Implemented <strong>smart pagination</strong>, cutting initial load time by <mark>~60%</mark> and making large datasets fast for non-technical administrators.</li>
-              <li>Redesigned <strong>5+ legacy UI components</strong> (modals, nav bars, data tables) to WCAG accessibility standards, improving usability and visual consistency.</li>
-              <li>Shipped a <strong>Brightspace LMS widget</strong> for one-click cybersecurity certificate downloads — adopted by <mark>500+ active users</mark> within weeks of launch.</li>
-              <li>Worked directly with <strong>non-technical university administrators</strong> to gather requirements and iterate on UI workflows — keeping large datasets fast and approachable.</li>
+              <li>Built a <strong>Flask REST API</strong> end-to-end with real-time CRUD and pagination over <mark>10,000+ records</mark>.</li>
+              <li>Cut initial load time <mark>~60%</mark> with smart pagination, making large datasets usable for non-technical staff.</li>
+              <li>Rebuilt <strong>5+ legacy UI components</strong> (modals, nav, data tables) to <strong>WCAG</strong> standards.</li>
+              <li>Shipped a <strong>Brightspace LMS widget</strong> for one-click certificate downloads — <mark>500+ users</mark> within weeks.</li>
             </ul>
             <div class="quest-stats">
               <div class="qstat"><b>2</b><small>Features shipped</small></div>
@@ -1412,10 +1374,6 @@
               </a>
             </h3>
             <p class="quest-giver">eBay Inc. <span>· Remote</span></p>
-            <p class="quest-summary">
-              A highly selective engineering fellowship pairing each fellow 1:1 with a senior eBay
-              engineer to study how a global marketplace is architected, scaled, and kept reliable.
-            </p>
             <div class="quest-brief">
               <i class="fas fa-star"></i>
               <div>
@@ -1425,10 +1383,9 @@
             </div>
             <span class="obj-label">Highlights</span>
             <ul class="objectives">
-              <li>Competitively selected at a <mark>3% acceptance rate</mark> from 3,000+ nationwide applicants into eBay's Technology Pathway Fellowship.</li>
-              <li>Completed an intensive <strong>system design curriculum</strong> with a Principal Engineer — load balancing, CDN caching, database sharding &amp; microservice orchestration.</li>
-              <li>Analyzed real eBay engineering case studies — how the platform scales to <mark>millions of active listings</mark> and <mark>10× traffic surges</mark> during flash sales.</li>
-              <li>Deepened <strong>DSA expertise</strong> (trees, graphs, dynamic programming) through weekly challenges and structured code reviews with senior engineers.</li>
+              <li>Completed a <strong>system design curriculum</strong> with a Principal Engineer — load balancing, CDN caching, sharding &amp; microservices.</li>
+              <li>Studied how eBay scales to <mark>millions of listings</mark> and <mark>10× traffic surges</mark> during flash sales.</li>
+              <li>Sharpened <strong>DSA</strong> (trees, graphs, DP) through weekly challenges and code reviews with senior engineers.</li>
             </ul>
             <div class="quest-stats">
               <div class="qstat"><b>3%</b><small>Acceptance rate</small></div>
@@ -1456,23 +1413,18 @@
               </a>
             </h3>
             <p class="quest-giver">Google Inc. <span>· Code2Career Program</span></p>
-            <p class="quest-summary">
-              Google's Code2Career fellowship for high-potential CS students — an intensive track of
-              engineer-led workshops, mock interviews, and competitive programming.
-            </p>
             <div class="quest-brief">
               <i class="fab fa-google"></i>
               <div>
                 <strong>1 of 80 selected from 2,000+ applicants nationwide (top 4%)</strong>
-                <span>Direct mentorship &amp; technical guidance from senior Google engineers</span>
+                <span>Code2Career — Google's fellowship for high-potential CS students</span>
               </div>
             </div>
             <span class="obj-label">Highlights</span>
             <ul class="objectives">
-              <li>Competitively selected as <mark>1 of 80 Software Engineer Fellows</mark> from 2,000+ nationwide applicants via Google's Code2Career program.</li>
-              <li>Completed <strong>12+ advanced technical workshops</strong> led by senior Google engineers — algorithms (BFS/DFS, DP, greedy), complexity analysis &amp; system design.</li>
-              <li>Participated in <strong>mock technical interviews</strong> with Google engineers, receiving structured feedback on problem-solving and code clarity.</li>
-              <li>Solved <strong>50+ competitive programming problems</strong> in Python &amp; C++, building interview-level proficiency in algorithms and data structures.</li>
+              <li>Completed <strong>12+ technical workshops</strong> led by senior Google engineers — algorithms, complexity analysis &amp; system design.</li>
+              <li>Ran <strong>mock technical interviews</strong> with Google engineers, with feedback on problem-solving and code clarity.</li>
+              <li>Solved <mark>50+ competitive programming problems</mark> in Python &amp; C++.</li>
             </ul>
             <div class="quest-stats">
               <div class="qstat"><b>1/80</b><small>Fellows selected</small></div>
@@ -1501,23 +1453,19 @@
               </a>
             </h3>
             <p class="quest-giver">Stony Brook University <span>· Stony Brook, NY</span></p>
-            <p class="quest-summary">
-              Teaching assistant for CSE 101 (Intro to Computer Science) under SUNY's AGEP STEM
-              diversity initiative — mentoring first-year students through their first semester of code.
-            </p>
             <div class="quest-brief">
               <i class="fas fa-chart-line"></i>
               <div>
                 <strong>Drove a 15% class-wide score improvement in CSE 101</strong>
-                <span>Designed custom curriculum &amp; mentored 50+ freshmen under SUNY's AGEP STEM program</span>
+                <span>Intro to Computer Science (Python) · SUNY AGEP STEM initiative</span>
               </div>
             </div>
             <span class="obj-label">Highlights</span>
             <ul class="objectives">
-              <li>Supported <mark>50+ freshman students</mark> in CSE 101: Intro to Computer Science (Python) under SUNY's AGEP STEM diversity initiative.</li>
-              <li>Implemented <strong>personalized tutoring plans</strong> for at-risk students via weekly office hours — contributing to a class-wide <mark>15% score improvement</mark>.</li>
-              <li>Designed <strong>10+ custom practice problem sets</strong>, quizzes &amp; study guides distributed to all enrolled students.</li>
-              <li>Collaborated with the lead professor to refine <strong>lecture pacing &amp; curriculum delivery</strong> based on conceptual gaps across the cohort.</li>
+              <li>Taught <mark>50+ freshmen</mark> in CSE 101 (Python) under SUNY's AGEP STEM initiative.</li>
+              <li>Ran <strong>personalized tutoring</strong> for at-risk students — class-wide scores rose <mark>15%</mark>.</li>
+              <li>Wrote <strong>10+ practice problem sets</strong>, quizzes &amp; study guides for the full cohort.</li>
+              <li>Refined <strong>lecture pacing</strong> with the lead professor based on cohort-wide conceptual gaps.</li>
             </ul>
             <div class="quest-stats">
               <div class="qstat"><b>50+</b><small>Students supported</small></div>
@@ -1540,10 +1488,10 @@
   <section class="section" id="projects">
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="ghost-num">03</span>
+        <span class="ghost-num" aria-hidden="true">03</span>
         <p class="sec-tag"><span class="idx">03 //</span> <span class="decode">Projects</span></p>
         <h2 class="section-title"><span class="w"><span class="wi">Featured <span class="accent">projects</span></span></span></h2>
-        <p class="section-sub">A selection of projects I'm proud of — from hackathon wins to full-stack applications.</p>
+        <p class="section-sub">From hackathon wins to full-stack applications.</p>
       </div>
 
       <div class="missions-grid">
@@ -1558,10 +1506,9 @@
             <h3 class="mission-title">Summa</h3>
             <p class="mission-tagline">Zero-cost market intelligence platform</p>
             <p class="mission-desc">
-              SEC-filing data warehouse &amp; research dashboard — GitHub Actions pipelines
-              ingest 10-K/Q filings, insider trades &amp; 13F holdings into Supabase/Postgres,
-              rendered by a Next.js 14 dashboard with a live filings feed. Runs entirely
-              on free tiers.
+              SEC-filing data warehouse and research dashboard. GitHub Actions pipelines pull
+              10-K/Q filings, insider trades and 13F holdings into Postgres; a Next.js 14
+              front end serves a live filings feed.
             </p>
             <div class="unlock">
               <i class="fas fa-database"></i>
@@ -1592,9 +1539,8 @@
             <h3 class="mission-title">GoodHub Platform</h3>
             <p class="mission-tagline">Environmental volunteer finder</p>
             <p class="mission-desc">
-              Full-stack platform connecting environmentally conscious individuals with local volunteer
-              opportunities via an interactive Leaflet map — geolocation filtering, real-time listings,
-              and a complete sign-up flow.
+              Connects volunteers to local environmental projects through an interactive Leaflet
+              map — geolocation filtering, real-time listings and a full sign-up flow.
             </p>
             <div class="unlock">
               <i class="fas fa-trophy"></i>
@@ -1624,9 +1570,8 @@
             <h3 class="mission-title">Moodify</h3>
             <p class="mission-tagline">AI-powered music discovery</p>
             <p class="mission-desc">
-              ML-powered web app that analyzes user mood and listening history to generate
-              hyper-personalized Spotify playlists — NLP emotion detection matched to curated
-              tracks in real time.
+              Generates personalized Spotify playlists from your mood and listening history,
+              using NLP emotion detection to match tracks in real time.
             </p>
             <div class="unlock">
               <i class="fas fa-brain"></i>
@@ -1656,9 +1601,8 @@
             <h3 class="mission-title">Portfolio Website</h3>
             <p class="mission-tagline">My personal developer showcase</p>
             <p class="mission-desc">
-              Hand-crafted from scratch with zero frameworks — a game-inspired design system with
-              quest logs, rarity tiers, and scroll-driven motion. The player profile you're
-              browsing right now.
+              The site you're reading — built from scratch with no frameworks or build step.
+              Custom design system, animated background, scroll-driven motion.
             </p>
             <div class="unlock">
               <i class="fas fa-bolt"></i>
@@ -1688,7 +1632,7 @@
   <section class="section tint" id="skills" data-observe>
     <div class="wrap">
       <div class="section-head reveal">
-        <span class="ghost-num">04</span>
+        <span class="ghost-num" aria-hidden="true">04</span>
         <p class="sec-tag"><span class="idx">04 //</span> <span class="decode">Skills</span></p>
         <h2 class="section-title"><span class="w"><span class="wi">Skills <span class="accent">&amp; tools</span></span></span></h2>
       </div>
@@ -1758,7 +1702,7 @@
   <section class="section">
     <div class="wrap gh-wrap">
       <div class="section-head reveal" style="text-align:center;">
-        <span class="ghost-num" style="right:auto; left:-0.5rem;">05</span>
+        <span class="ghost-num" aria-hidden="true" style="right:auto; left:-0.5rem;">05</span>
         <p class="sec-tag" style="justify-content:center;"><span class="idx">05 //</span> <span class="decode">Open Source</span></p>
         <h2 class="section-title"><span class="w"><span class="wi">GitHub <span class="accent">activity</span></span></span></h2>
       </div>
@@ -1782,8 +1726,7 @@
       <p class="sec-tag"><span class="idx">06 //</span> <span class="decode">Contact</span></p>
       <h2 class="contact-title"><span class="w"><span class="wi">Let's work</span></span><span class="w"><span class="wi"><span class="accent">together</span></span></span></h2>
       <p class="contact-sub">
-        I'm currently looking for new opportunities. Whether you have a question
-        or just want to say hi, my inbox is always open.
+        I'm looking for new opportunities and my inbox is always open.
       </p>
       <a href="mailto:yuzhicheng369@gmail.com" class="contact-email">yuzhicheng369@gmail.com</a>
       <div class="contact-actions">
@@ -1816,10 +1759,10 @@
     /* XP scroll bar + nav state + parallax — rAF-throttled, transform-only */
     const xp = document.getElementById('xp');
     const nav = document.getElementById('nav');
-    const ghosts = [...document.querySelectorAll('.ghost-num')];
+    const field = document.querySelector('.aurora-field');
     const ringBtn = document.getElementById('scroll-ring');
     const ringFg = document.getElementById('ring-fg');
-    let scrollRaf = null, lastY = 0, prevSkewY = window.scrollY, skewTarget = 0;
+    let scrollRaf = null, lastY = 0;
     function onScroll() {
       scrollRaf = null;
       const y = window.scrollY;
@@ -1827,27 +1770,16 @@
       const pct = max > 0 ? Math.min(1, y / max) : 0;
       xp.style.transform = `scaleX(${pct})`;
       nav.classList.toggle('scrolled', y > 24);
+      /* Parallax var is set on the field itself, not :root — setting a custom
+         property on the root element invalidates style for the whole document
+         on every scroll frame. */
+      if (field) field.style.setProperty('--sp', pct.toFixed(3));
       /* Progress ring HUD */
       ringFg.style.strokeDashoffset = 100 - pct * 100;
       ringBtn.classList.toggle('show', y > 420);
-      /* Feed scroll velocity into the warp */
-      if (!reduceMotion) {
-        skewTarget = Math.max(-1.1, Math.min(1.1, (y - prevSkewY) * 0.035));
-        prevSkewY = y;
-      }
       /* Hide nav scrolling down, reveal scrolling up */
       nav.classList.toggle('hidden', y > lastY + 6 && y > 340 && !navLinks.classList.contains('open'));
       if (Math.abs(y - lastY) > 6) lastY = y;
-      /* Ghost numerals drift slower than the page (parallax depth) */
-      if (!reduceMotion) {
-        const vh = window.innerHeight;
-        ghosts.forEach(g => {
-          const r = g.getBoundingClientRect();
-          if (r.bottom < -160 || r.top > vh + 160) return;
-          const c = (r.top + r.height / 2 - vh / 2) / vh;
-          g.style.transform = `translateY(${(c * 52).toFixed(1)}px)`;
-        });
-      }
     }
     window.addEventListener('scroll', () => {
       if (scrollRaf === null) scrollRaf = requestAnimationFrame(onScroll);
@@ -1855,41 +1787,39 @@
     window.addEventListener('load', onScroll);
     ringBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
 
-    /* ── Motion loop: velocity warp + reticle trail ── */
-    const warp = document.getElementById('warp');
+    /* Targeting reticle — trails the cursor, locks onto interactive targets */
     const reticle = document.getElementById('reticle');
     if (finePointer && !reduceMotion) {
-      let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, skew = 0;
+      let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+      let retRaf = null, prev = 0;
+      /* Frame-rate independent easing: a fixed per-frame factor tracks at a
+         different speed on 60Hz vs 120Hz and jerks after a dropped frame.
+         Converting it to a time constant keeps the trail identical everywhere. */
+      function trailReticle(now) {
+        const dt = prev ? Math.min(50, now - prev) : 16.7;
+        prev = now;
+        const k = 1 - Math.pow(1 - 0.16, dt / 16.7);
+        const dx = mx - rx, dy = my - ry;
+        if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+          reticle.style.transform = `translate3d(${mx}px, ${my}px, 0)`;
+          rx = mx; ry = my; retRaf = null; prev = 0;
+          return;
+        }
+        rx += dx * k;
+        ry += dy * k;
+        reticle.style.transform = `translate3d(${rx.toFixed(2)}px, ${ry.toFixed(2)}px, 0)`;
+        retRaf = requestAnimationFrame(trailReticle);
+      }
       document.addEventListener('mousemove', e => {
         mx = e.clientX; my = e.clientY;
         document.body.classList.add('ret-on');
+        if (retRaf === null) { prev = 0; retRaf = requestAnimationFrame(trailReticle); }
       }, { passive: true });
       document.addEventListener('mouseleave', () => document.body.classList.remove('ret-on'));
       document.addEventListener('mouseover', e => {
         reticle.classList.toggle('lock',
           !!e.target.closest('a, button, .slot, .achv, .chip, .tag, .quest-card, .mission'));
       }, { passive: true });
-      let warpActive = false;
-      (function motionLoop() {
-        /* reticle eases toward the cursor — skip writes once settled */
-        const dx = mx - rx, dy = my - ry;
-        if (Math.abs(dx) > 0.12 || Math.abs(dy) > 0.12) {
-          rx += dx * 0.16;
-          ry += dy * 0.16;
-          reticle.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`;
-        }
-        /* warp skew chases scroll velocity, then settles — write only while active */
-        skewTarget *= 0.86;
-        skew += (skewTarget - skew) * 0.12;
-        if (Math.abs(skew) > 0.015) {
-          warp.style.transform = `skewY(${skew.toFixed(3)}deg)`;
-          warpActive = true;
-        } else if (warpActive) {
-          warp.style.transform = '';
-          warpActive = false;
-        }
-        requestAnimationFrame(motionLoop);
-      })();
     }
 
     /* Mobile menu */
@@ -1913,33 +1843,11 @@
     }, { rootMargin: '-40% 0px -55% 0px' });
     spyTargets.forEach(t => spyObs.observe(t.el));
 
-    /* Text decode — labels scramble into place */
-    const GLYPHS = '#$/<>_\\01XZ*+=';
-    function runDecode(scope) {
-      if (reduceMotion) return;
-      scope.querySelectorAll('.decode:not(.done)').forEach(el => {
-        el.classList.add('done');
-        const text = el.textContent;
-        let frame = 0;
-        const total = Math.max(14, text.length * 2);
-        (function step() {
-          frame++;
-          const settled = Math.floor((frame / total) * text.length);
-          el.textContent = text.split('').map((ch, i) =>
-            ch === ' ' || i < settled ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]
-          ).join('');
-          if (settled < text.length) requestAnimationFrame(step);
-          else el.textContent = text;
-        })();
-      });
-    }
-
     /* Scroll reveal */
     const revealObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          runDecode(e.target);
           revealObs.unobserve(e.target);
         }
       });
@@ -1951,32 +1859,18 @@
       entries.forEach(e => {
         if (!e.isIntersecting) return;
         const el = e.target, target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
         const dur = 1100, t0 = performance.now();
         (function tick(now) {
           const p = Math.min(1, (now - t0) / dur);
           const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(eased * target) + '+';
+          el.textContent = Math.round(eased * target) + suffix;
           if (p < 1) requestAnimationFrame(tick);
         })(t0);
         counterObs.unobserve(el);
       });
     }, { threshold: 0.5 });
     document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
-
-    /* Rotating class */
-    (function () {
-      const roles = ['fullstack applications', 'AI/ML solutions', 'scalable systems', 'thoughtful interfaces'];
-      const el = document.getElementById('role-rotator');
-      let i = 0;
-      setInterval(() => {
-        el.classList.add('swap');
-        setTimeout(() => {
-          i = (i + 1) % roles.length;
-          el.textContent = roles[i];
-          el.classList.remove('swap');
-        }, 350);
-      }, 3400);
-    })();
 
     /* Magnetic buttons — rAF-throttled */
     if (finePointer && !reduceMotion) {
