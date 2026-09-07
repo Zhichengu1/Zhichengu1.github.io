@@ -3,41 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GoodHub | Zhicheng Yu</title>
-  <meta name="description" content="GoodHub - A platform connecting volunteers with environmental opportunities">
+  <title>GoodHub — Case Study | Zhicheng Yu</title>
+  <meta name="description" content="Case study: GoodHub, a map-based platform matching volunteers to local environmental projects. First place, Environmental Track, HunterHack 2025.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-  <meta name="theme-color" content="#0e1013">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b8e94a'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-weight='bold' font-size='27' text-anchor='middle' fill='%230e1013'%3EZY%3C/text%3E%3C/svg%3E">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#08090b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2308090b'/%3E%3Crect x='2' y='2' width='60' height='60' fill='none' stroke='%2349d6e8' stroke-width='3'/%3E%3Ctext x='32' y='43' font-family='monospace' font-weight='bold' font-size='26' text-anchor='middle' fill='%2349d6e8'%3EZY%3C/text%3E%3C/svg%3E">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <script>document.documentElement.classList.add('js');</script>
+
   <style>
     /* CSS Variables - Matching Main Site */
     :root {
-      --bg-primary: #0e1013;
-      --bg-secondary: #12151a;
-      --bg-tertiary: #161a21;
-      --bg-card: #161a21;
-      --accent-primary: #b8e94a;
-      --accent-secondary: #d3f36e;
-      --accent-strong: #9fd433;
-      --accent-glow: rgba(184, 233, 74, 0.10);
-      --text-primary: #eef1f6;
-      --text-secondary: #aeb6c3;
-      --text-muted: #67707f;
-      --border-color: #232937;
-      --border-hover: #333c4e;
-      --font-sans: 'Inter', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --font-display: 'Rajdhani', sans-serif;
-      --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      /* INSTRUMENT — the same system as index.html: one four-step
+         chassis, one cyan signal colour, all-mono type, square corners.
+         The variable NAMES are unchanged so every rule further down this
+         stylesheet picks up the new palette without being touched. */
+      --bg-primary:       #08090b;
+      --bg-secondary:     #0c0e11;
+      --bg-tertiary:      #0f1216;
+      --bg-card:          #0f1216;
+      --accent-primary:   #49d6e8;
+      --accent-secondary: #8be7f2;
+      --accent-strong:    #2bc3d6;
+      --accent-glow:      rgba(73, 214, 232, 0.07);
+      --text-primary:     #e8ecf1;
+      --text-secondary:   #a2acb9;
+      /* Raised from #67707f, which fell under WCAG AA on this darker
+         chassis. 5.5:1 on --bg-primary. */
+      --text-muted:       #8a94a2;
+      --border-color:     #1a1f27;
+      --border-hover:     #2a323e;
+      --font-sans:    'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+      --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+      --font-display: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+      --transition-fast: 140ms cubic-bezier(0.22, 1, 0.36, 1);
+      --transition-base: 400ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     * {
@@ -217,7 +225,7 @@
     .btn-primary:hover {
       background: var(--accent-secondary);
       transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(184, 233, 74, 0.25);
+      box-shadow: none;
     }
 
     .btn-secondary {
@@ -306,7 +314,7 @@
     .tech-item:hover {
       border-color: var(--accent-primary);
       transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(184, 233, 74, 0.12);
+      box-shadow: none;
     }
 
     .tech-item i {
@@ -456,7 +464,7 @@
       height: 12px;
       background: var(--accent-primary);
       border-radius: 50%;
-      box-shadow: 0 0 20px rgba(184, 233, 74, 0.5);
+      box-shadow: none;
       transform: translateX(-5px);
     }
 
@@ -594,9 +602,360 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ═══════════════════════════════════════════════════════════
+       INSTRUMENT — shared refinements
+       Applied after every rule above so it overrides the older
+       decorative treatments without editing each one individually.
+       ═══════════════════════════════════════════════════════════ */
+
+    /* Square corners everywhere. An instrument face is milled, not
+       moulded; a rounded pill in this system reads as a foreign part. */
+    *, *::before, *::after { border-radius: 0 !important; }
+
+    body {
+      font-family: var(--font-mono);
+      /* Mono needs more leading than a proportional face to stay
+         readable in multi-line prose. */
+      line-height: 1.78;
+      font-size: 15px;
+      letter-spacing: -0.004em;
+      background: var(--bg-primary);
+    }
+
+    /* Mono sets wide at display size, so headings get negative tracking
+       to pull the counters back to a normal colour on the page. */
+    h1, h2, h3, h4 {
+      font-family: var(--font-mono);
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Figures read as measurements — align them on the digit. */
+    .stat-value, .stat-number, .metric-value, .featured-badge { font-variant-numeric: tabular-nums; }
+
+    /* Rules are hairlines, in the two weights the system allows. */
+    ::selection { background: var(--accent-primary); color: var(--bg-primary); }
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 3px;
+    }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); border-left: 1px solid var(--border-color); }
+    ::-webkit-scrollbar-thumb { background: #1e242e; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+    /* The old build lit cards with coloured glows on hover. This system
+       states elevation with an edge, not a halo. */
+    .nav { background: rgba(8, 9, 11, 0.97); backdrop-filter: none; }
+
+    /* ═══════════════════════════════════════════════════════════
+       READABILITY PASS — matches index.html
+
+       Same reasoning as the home page: monospace is kept for data
+       (labels, tags, years, figures, the terminal) and handed back to a
+       proportional face for anything read as language. Nothing carrying
+       meaning is set below ~11px, and all-caps is reserved for short
+       labels rather than headings and running text.
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --font-sans:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-display: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      /* --font-mono is deliberately left on JetBrains Mono. */
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.65;
+      letter-spacing: 0;
+    }
+
+    /* Headings drop the blanket uppercase from the previous pass. */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      letter-spacing: -0.022em;
+      text-transform: none;
+      line-height: 1.2;
+    }
+
+    /* ── Running text ── */
+    .hero-description     { font-size: 1.05rem; line-height: 1.65; color: var(--text-secondary); }
+    .section-title        { font-size: clamp(1.7rem, 3.6vw, 2.3rem); }
+    .hero-title           { letter-spacing: -0.03em; }
+    .featured-description,
+    .project-description,
+    .feature-description,
+    .challenge-text,
+    .challenge-solution,
+    .overview-text,
+    .timeline-text,
+    .cta-description,
+    .video-caption        { font-size: 0.97rem; line-height: 1.68; color: var(--text-secondary); }
+    .featured-title       { font-size: 1.5rem; }
+    .project-title        { font-size: 1.2rem; }
+    .feature-title,
+    .arch-title,
+    .challenge-title,
+    .timeline-title,
+    .team-name            { font-size: 1.05rem; letter-spacing: -0.015em; }
+    .overview-subtitle    { font-size: 1.1rem; }
+    .arch-list            { font-size: 0.95rem; line-height: 1.7; }
+    .team-role            { font-size: 0.9rem; }
+    .footer-title         { font-size: 1.05rem; }
+    .footer-subtitle,
+    .footer-copy          { font-size: 0.88rem; }
+
+    /* ── Data, labels and chrome stay mono, never under ~11px ── */
+    .section-label, .hero-label, .project-year, .project-tag, .featured-badge,
+    .filter-tab, .badge, .tech-item, .timeline-period, .stat-value, .stat-label,
+    .terminal, .terminal-title, .terminal-line, .terminal-prompt, .terminal-output,
+    .nav-link, .nav-back, .nav-home, .btn, .cta-btn, .featured-link, .project-link,
+    .featured-meta, .footer-text, .project-image-placeholder {
+      font-family: var(--font-mono);
+    }
+    .section-label   { font-size: 0.75rem; letter-spacing: 0.18em; }
+    .hero-label      { font-size: 0.78rem; letter-spacing: 0.18em; }
+    .project-tag     { font-size: 0.75rem; }
+    .tech-item       { font-size: 0.8rem; }
+    .project-year,
+    .timeline-period { font-size: 0.78rem; }
+    .featured-badge  { font-size: 0.72rem; letter-spacing: 0.16em; }
+    .stat-value      { font-size: clamp(1.8rem, 3.4vw, 2.2rem); font-variant-numeric: tabular-nums; }
+    .stat-label      { font-size: 0.74rem; letter-spacing: 0.1em; line-height: 1.4; }
+    .filter-tab      { font-size: 0.78rem; }
+    .nav-link, .nav-back, .nav-home { font-size: 0.8rem; }
+    .btn, .cta-btn, .featured-link, .project-link { font-size: 0.79rem; }
+    .terminal-line, .terminal-output { font-size: 0.88rem; line-height: 1.75; }
+
+    /* ═══ Print — a hiring manager's PDF ═════════════ */
+    @media print {
+      .nav, .filter-section, .cta-buttons, .featured-links,
+      .project-links, .video-container { display: none !important; }
+      html, body { background: #fff !important; color: #1a1a1a !important; font-size: 10.5pt; }
+      .hero { padding: 6mm 0 !important; min-height: 0 !important; }
+      .section, .cta-section { padding: 7mm 0 !important; }
+      .section-alt { background: #fff !important; }
+      .featured-card, .project-card, .feature-card, .arch-card, .challenge-card,
+      .team-card, .stat-item, .terminal, .timeline-item {
+        background: #fff !important; border-color: #c2c2c2 !important;
+      }
+      .hero-title, .section-title, .featured-title, .project-title, .feature-title,
+      .arch-title, .challenge-title, .timeline-title, .team-name, .cta-title,
+      .stat-value, .overview-subtitle { color: #111 !important; }
+      .hero-description, .featured-description, .project-description,
+      .feature-description, .challenge-text, .challenge-solution, .overview-text,
+      .timeline-text, .arch-list, .stat-label, .team-role { color: #333 !important; }
+      .accent, .section-label, .hero-label, .stat-value { color: #0b6470 !important; }
+      .project-tag, .tech-item, .badge { border-color: #c2c2c2 !important; color: #444 !important; }
+      .fade-in { opacity: 1 !important; transform: none !important; }
+      .featured-card, .project-card, .timeline-item, .team-card { break-inside: avoid; }
+      a { text-decoration: none; color: #111 !important; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       INTERACTION LAYER — matches index.html
+       ═══════════════════════════════════════════════════════════ */
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+    [hidden] { display: none !important; }
+
+    /* ── Scroll reveal ───────────────────────────────
+       The .fade-in class used to run its keyframes on page load, which
+       meant everything below the fold finished animating before the
+       reader ever got to it — the motion was spent on an empty screen.
+       Driven by an observer instead, each block animates as it arrives.
+       Gated on html.js so the no-script page stays fully visible. */
+    html.js .fade-in {
+      animation: none;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition-delay: var(--rd, 0s);
+    }
+    html.js .fade-in.in { opacity: 1; transform: none; }
+
+    /* ── Reading progress ────────────────────────────
+       These are long case studies; the bar reports how much is left. */
+    #xp {
+      position: fixed; top: 0; left: 0; z-index: 400;
+      height: 2px; width: 100%;
+      background: var(--accent-primary);
+      transform: scaleX(0); transform-origin: left;
+      will-change: transform;
+    }
+
+    /* ── Back to top ─────────────────────────────────*/
+    .scroll-ring {
+      position: fixed; right: 1.4rem; bottom: 1.4rem; z-index: 350;
+      width: 46px; height: 46px; padding: 0;
+      background: var(--bg-card); border: 1px solid var(--border-hover);
+      color: var(--accent-primary); font-size: 0.72rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(12px); pointer-events: none;
+      transition: opacity 0.35s, transform 0.35s, border-color 0.25s, background 0.25s;
+    }
+    .scroll-ring.show { opacity: 1; transform: none; pointer-events: auto; }
+    .scroll-ring:hover { border-color: var(--accent-primary); background: var(--bg-tertiary); }
+    .scroll-ring svg { position: absolute; inset: 3px; transform: rotate(-90deg); }
+    .scroll-ring circle { fill: none; stroke-width: 1.5; }
+    .scroll-ring .bg { stroke: var(--border-hover); }
+    .scroll-ring .fg { stroke: var(--accent-primary); stroke-dasharray: 100; stroke-dashoffset: 100; }
+    .scroll-ring i { transition: transform 0.25s; }
+    .scroll-ring:hover i { transform: translateY(-2px); }
+
+    /* ── Hover micro-interactions ────────────────────*/
+    .stat-item { position: relative; }
+    .stat-item::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+      background: var(--accent-primary); transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .stat-item:hover::before { transform: scaleY(1); transform-origin: top; transition-duration: 0.14s; }
+    .project-link i, .featured-link i, .cta-btn i, .nav-back i { transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+    .project-link:hover i, .featured-link:hover i, .cta-btn:hover i { transform: translateX(3px); }
+    .nav-back:hover i { transform: translateX(-3px); }
+    .tech-item, .project-tag { transition: border-color 0.25s, color 0.25s, transform 0.25s cubic-bezier(0.22, 1, 0.36, 1); }
+    .tech-item:hover, .project-tag:hover { transform: translateY(-1px); }
+
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--accent-primary); outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html.js .fade-in { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .scroll-ring { transition: none; }
+    }
+    @media print {
+      .scroll-ring, #xp { display: none !important; }
+      html.js .fade-in { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ── Page enter / leave — matches index.html ─────*/
+    html.js body { animation: pageIn 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    html.js.leaving body { opacity: 0; transition: opacity 0.22s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+    .btn:active, .cta-btn:active, .featured-link:active, .project-link:active,
+    .filter-tab:active, .nav-back:active, .nav-home:active, .scroll-ring:active {
+      transform: scale(0.97); transition-duration: 0.06s;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html.js body { animation: none; }
+      html.js.leaving body { opacity: 1; transition: none; }
+    }
+    @media print { html.js body { animation: none; opacity: 1 !important; } }
+
+    /* ── Signal trace ────────────────────────────────
+       On hover a bright segment runs the full circuit of the card's
+       edge. Built as a 1px ring: the element is masked to its own
+       padding box, and a huge conic gradient spins behind that mask.
+       Paused when not hovered, so the infinite animation costs nothing
+       at rest. Injected by script, so a no-JS page simply has no
+       trace — it is decoration, and decoration is never load-bearing. */
+    .trace {
+      position: absolute; inset: 0; z-index: 4; pointer-events: none;
+      padding: 1px; overflow: hidden;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask-composite: exclude;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .trace::before {
+      content: ''; position: absolute; left: 50%; top: 50%;
+      width: 200vmax; height: 200vmax; margin: -100vmax 0 0 -100vmax;
+      background: conic-gradient(from 0deg, transparent 0 74%, var(--accent-primary) 88%, transparent 100%);
+      animation: traceSpin 2.4s linear infinite;
+      animation-play-state: paused;
+    }
+    .featured-card:hover > .trace,
+    .project-card:hover > .trace,
+    .feature-card:hover > .trace,
+    .arch-card:hover > .trace,
+    .challenge-card:hover > .trace,
+    .team-card:hover > .trace,
+    .stat-item:hover > .trace,
+    .timeline-item:hover > .trace,
+    .featured-card:focus-within > .trace,
+    .project-card:focus-within > .trace,
+    .feature-card:focus-within > .trace,
+    .arch-card:focus-within > .trace,
+    .challenge-card:focus-within > .trace,
+    .team-card:focus-within > .trace,
+    .stat-item:focus-within > .trace,
+    .timeline-item:focus-within > .trace { opacity: 1; }
+    .featured-card:hover > .trace::before,
+    .project-card:hover > .trace::before,
+    .feature-card:hover > .trace::before,
+    .arch-card:hover > .trace::before,
+    .challenge-card:hover > .trace::before,
+    .team-card:hover > .trace::before,
+    .stat-item:hover > .trace::before,
+    .timeline-item:hover > .trace::before,
+    .featured-card:focus-within > .trace::before,
+    .project-card:focus-within > .trace::before,
+    .feature-card:focus-within > .trace::before,
+    .arch-card:focus-within > .trace::before,
+    .challenge-card:focus-within > .trace::before,
+    .team-card:focus-within > .trace::before,
+    .stat-item:focus-within > .trace::before,
+    .timeline-item:focus-within > .trace::before { animation-play-state: running; }
+    @keyframes traceSpin { to { transform: rotate(360deg); } }
+
+    /* ── Sheen on the primary buttons ────────────────
+       A single pass of light, on hover only. It came off in the first
+       retheme because it read as gloss on a matte panel; brought back
+       narrower and faster, it reads as a reflection on glass. */
+    .btn-primary, .cta-btn { position: relative; overflow: hidden; }
+    .btn-primary::after, .cta-btn::after {
+      content: ''; position: absolute; top: -20%; bottom: -20%; left: -45%; width: 32%;
+      background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+      transform: skewX(-20deg); opacity: 0; pointer-events: none;
+    }
+    .btn-primary:hover::after, .cta-btn:hover::after { animation: sheen 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes sheen {
+      from { transform: translateX(0) skewX(-20deg); opacity: 1; }
+      to   { transform: translateX(460%) skewX(-20deg); opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .trace { display: none; }
+      .btn-primary:hover::after, .cta-btn:hover::after { animation: none; }
+    }
+    @media print { .trace { display: none; } }
+
+    /* ── Boot sweep — matches index.html ─────────────
+       Pure CSS, starts on paint, no JS dependency. */
+    .boot-sweep {
+      position: fixed; inset: 0; z-index: 900; pointer-events: none;
+      background: linear-gradient(180deg, transparent, rgba(73, 214, 232, 0.14) 46%, transparent 56%);
+      transform: translateY(-100%);
+      animation: bootSweep 1.1s cubic-bezier(0.65, 0, 0.35, 1) 0.15s both;
+    }
+    @keyframes bootSweep {
+      0%   { transform: translateY(-100%); opacity: 0.9; }
+      70%  { opacity: 0.55; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { .boot-sweep { display: none; } }
+    @media print { .boot-sweep { display: none; } }
   </style>
 </head>
 <body>
+
+  <span class="boot-sweep" aria-hidden="true"></span>
+
+  <div id="xp"></div>
+
+  <button class="scroll-ring" id="scroll-ring" aria-label="Back to top">
+    <svg viewBox="0 0 40 40" aria-hidden="true">
+      <circle class="bg" cx="20" cy="20" r="17"/>
+      <circle class="fg" id="ring-fg" cx="20" cy="20" r="17" pathLength="100"/>
+    </svg>
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
 
   <!-- Navigation -->
   <nav class="nav">
@@ -622,8 +981,9 @@
     </h1>
     
     <p class="hero-description fade-in fade-in-delay-2">
-      A comprehensive web application designed to connect environmentally conscious individuals with local 
-      and global volunteer opportunities through an intuitive, interactive map interface.
+A web platform that matches volunteers to environmental projects near them, using an
+      interactive map with geolocation filtering, live listings and an end-to-end sign-up flow.
+      Awarded first place in the Environmental Track at HunterHack 2025.
     </p>
 
     <div class="hero-buttons fade-in fade-in-delay-3">
@@ -706,12 +1066,12 @@
             <span class="stat-value">4 members</span>
           </div>
           <div class="stat-item">
-            <span class="stat-label">Lines of Code</span>
-            <span class="stat-value">5,000+</span>
+            <span class="stat-label">Shipped Features</span>
+            <span class="stat-value">6</span>
           </div>
           <div class="stat-item">
-            <span class="stat-label">Hackathon Rank</span>
-            <span class="stat-value">Top 10</span>
+            <span class="stat-label">Result</span>
+            <span class="stat-value">1st — Environmental Track</span>
           </div>
         </div>
       </div>
@@ -870,8 +1230,125 @@
   <footer class="footer">
     <h3 class="footer-title">GoodHub</h3>
     <p class="footer-subtitle">Built at HunterHack 2025</p>
-    <p class="footer-copy">© 2025 GoodHub. Designed & Built by Zhicheng Yu and Team.</p>
+    <p class="footer-copy">© 2026 GoodHub — designed &amp; built by Zhicheng Yu and team.</p>
   </footer>
 
+  <script>
+  (function () {
+    'use strict';
+    var softMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var EMAIL = 'yuzhicheng369@gmail.com';
+
+    /* ══ Scroll reveal ════════════════════════════════
+       Anything structural that was not already marked up as .fade-in is
+       opted in here, with a stagger inside each group, so a grid deals
+       itself in rather than appearing as one slab. */
+    var GROUPS = '.featured-card, .project-card, .feature-card, .arch-card,' +
+                 '.challenge-card, .team-card, .stat-item, .timeline-item,' +
+                 '.section-header, .terminal, .overview-grid, .video-container';
+    document.querySelectorAll(GROUPS).forEach(function (el) {
+      if (!el.classList.contains('fade-in')) el.classList.add('fade-in');
+    });
+    document.querySelectorAll('.features-grid, .projects-grid, .featured-projects,' +
+                              '.stats-grid, .team-grid, .tech-grid, .arch-grid, .timeline')
+      .forEach(function (grid) {
+        [].forEach.call(grid.children, function (c, i) {
+          c.style.setProperty('--rd', Math.min(i, 8) * 0.06 + 's');
+        });
+      });
+
+    var revealObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        revealObs.unobserve(e.target);
+      });
+    }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(function (el) { revealObs.observe(el); });
+
+    /* ══ Reading progress + back to top ══════════════ */
+    var xp = document.getElementById('xp');
+    var ringBtn = document.getElementById('scroll-ring');
+    var ringFg = document.getElementById('ring-fg');
+    var raf = null;
+    function onScroll() {
+      raf = null;
+      var max = document.body.scrollHeight - window.innerHeight;
+      var pct = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      xp.style.transform = 'scaleX(' + pct + ')';
+      ringFg.style.strokeDashoffset = 100 - pct * 100;
+      ringBtn.classList.toggle('show', window.scrollY > 420);
+    }
+    window.addEventListener('scroll', function () {
+      if (raf === null) raf = requestAnimationFrame(onScroll);
+    }, { passive: true });
+    window.addEventListener('load', onScroll);
+    onScroll();
+    ringBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: softMotion ? 'auto' : 'smooth' });
+    });
+
+    /* ══ Headline figures count up ═══════════════════
+       Only where the value is a plain number; figures like "1st" or
+       "3 days" are left exactly as written rather than being parsed
+       into something the page never claimed. */
+    if (!softMotion) {
+      var countObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          countObs.unobserve(e.target);
+          var el = e.target;
+          var raw = (el.textContent || '').trim();
+          var m = raw.match(/^([0-9]+)([^0-9]*)$/);
+          if (!m) return;
+          var target = parseInt(m[1], 10), suffix = m[2] || '';
+          if (target < 2) return;
+          var t0 = performance.now(), dur = 900;
+          el.textContent = '0' + suffix;
+          (function step(now) {
+            var k = Math.min(1, (now - t0) / dur);
+            el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))) + suffix;
+            if (k < 1) requestAnimationFrame(step);
+            else el.textContent = raw;
+          })(t0);
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll('.stat-value').forEach(function (n) { countObs.observe(n); });
+    }
+
+    /* ══ Signal trace ═════════════════════════════════
+       The ring element is added here rather than in the markup — see
+       the .trace comment in the stylesheet. */
+    document.querySelectorAll('.featured-card, .project-card, .feature-card, .arch-card, .challenge-card, .team-card, .stat-item, .timeline-item').forEach(function (card) {
+      var t = document.createElement('span');
+      t.className = 'trace'; t.setAttribute('aria-hidden', 'true');
+      card.appendChild(t);
+    });
+
+    /* ══ Page transitions ═════════════════════════════
+       Same-site links fade the page out before navigating, and every
+       page fades in on arrival, so moving between the home page and a
+       case study reads as one site rather than two loads. Hash links,
+       new-tab links, modified clicks and anything off-site are left
+       alone. pageshow handles the back button: a bfcache restore would
+       otherwise land on a page still faded to nothing. */
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href]');
+      if (!a || e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (a.target === '_blank' || a.hasAttribute('download')) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || /^(mailto|tel):/.test(href)) return;
+      if (a.origin !== location.origin) return;
+      if (softMotion) return;
+      e.preventDefault();
+      document.documentElement.classList.add('leaving');
+      setTimeout(function () { location.href = a.href; }, 220);
+    });
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) document.documentElement.classList.remove('leaving');
+    });
+  })();
+  </script>
 </body>
 </html>
