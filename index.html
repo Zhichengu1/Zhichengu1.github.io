@@ -538,10 +538,29 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 300;
       background: rgba(8, 9, 11, 0.97);
       border-bottom: 1px solid transparent;
-      transition: border-color 0.35s, transform 0.45s var(--ease);
+      /* The two directions are not the same gesture, so they don't share a
+         curve. Coming back answers the reader asking for it: slower, eased
+         out, fading in over most of the travel. Leaving is shorter and eased
+         in — it accelerates away instead of drifting. */
+      transition: border-color 0.35s,
+                  transform 0.52s var(--ease),
+                  opacity 0.44s var(--ease);
     }
     .nav.scrolled { border-bottom-color: var(--line); }
-    .nav.hidden { transform: translateY(-101%); }
+    .nav.hidden {
+      transform: translateY(-102%);
+      opacity: 0;
+      pointer-events: none;
+      transition: border-color 0.35s,
+                  transform 0.36s cubic-bezier(0.45, 0, 0.85, 0.35),
+                  opacity 0.26s linear;
+    }
+    /* Motion is the whole mechanism here, so with it turned off the bar
+       simply stays put rather than popping in and out. */
+    @media (prefers-reduced-motion: reduce) {
+      .nav { transition: border-color 0.35s; }
+      .nav.hidden { transform: none; opacity: 1; pointer-events: auto; }
+    }
     .nav-inner {
       max-width: 1180px; margin: 0 auto; padding: 0.85rem 2.25rem;
       display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
@@ -863,6 +882,24 @@
     .about-text { font-size: 0.86rem; line-height: 1.9; margin-bottom: 1.05rem; max-width: 66ch; }
     .hl { color: var(--hi); font-weight: 500; }
     .hl-a { color: var(--sig); font-weight: 500; }
+    /* Fact rows — the About section's scannable half. Recruiters read a
+       label column first and only then the value, so the key stays mono and
+       fixed-width while the value carries the language. */
+    .about-facts { margin-top: 1.6rem; border-top: 1px solid var(--line); }
+    .about-facts .fact {
+      display: grid; grid-template-columns: 6.4rem 1fr; gap: 0 1.2rem;
+      padding: 0.78rem 0.4rem; border-bottom: 1px solid var(--line);
+      transition: background var(--t-out) var(--ease);
+    }
+    .about-facts .fact:hover { background: rgba(232, 236, 241, 0.022); transition-duration: var(--t-in); }
+    .about-facts dt {
+      color: var(--muted); text-transform: uppercase;
+      padding-top: 0.16rem; white-space: nowrap;
+    }
+    .about-facts dd { margin: 0; }
+    @media (max-width: 560px) {
+      .about-facts .fact { grid-template-columns: 1fr; gap: 0.3rem; }
+    }
     .traits { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem; }
     .chip {
       font-size: 0.67rem; letter-spacing: 0.12em;
@@ -982,10 +1019,9 @@
       }
       .quest-card.pinned .peek i, .mission.pinned .peek i { transform: none; transition-delay: 0s; }
 
-      /* The description was the flex spacer that kept cards even;
-         with it collapsed, pin the tags/links to the bottom. */
-      .mission-desc { flex: none; }
-      .mission-tags { margin-top: auto; }
+      /* Collapsed, the peek button is the only thing announcing there is
+         more in the card, so it gets the space the paragraph used to. */
+      .mission .peek { margin: 0 0 0.2rem; }
 
       /* Stretched grid rows meant expanding one card grew the one
          beside it too, shoving that card's tags and links down — a
@@ -1406,6 +1442,7 @@
     /* ── Running text ── */
     .section-sub     { font-size: 1rem;    line-height: 1.6;  color: var(--text); }
     .about-text      { font-size: 1rem;    line-height: 1.72; }
+    .about-facts dd  { font-size: 0.95rem; line-height: 1.6; }
     .objectives li   { font-size: 0.97rem; line-height: 1.65; padding-left: 1.75rem; }
     .mission-desc    { font-size: 0.95rem; line-height: 1.65; }
     .mission-tagline { font-size: 0.93rem; line-height: 1.55; color: var(--text); max-width: 44ch; }
@@ -1426,6 +1463,7 @@
     .lbl, .spec-key, .stat-lbl, .stat-num, .sec-rule .idx, .sec-rule .name,
     .sec-rule .count, .quest-date, .quest-type, .mission-id, .mission-tier,
     .tag, .chip, .peek, .expand-all, .obj-label, .reward-label, .unlock small,
+    .about-facts dt,
     .achv .n, .achv .meta, .nav-links a, .nav-cta, .btn, .mlink,
     .social-pill, .footer-inner, .avatar-cap, .sq-tier,
     .sq-status, .contact-mail, .hero-scroll {
@@ -1435,6 +1473,7 @@
     .sec-rule .name  { font-size: 0.75rem; letter-spacing: 0.18em; }
     .sec-rule .count { font-size: 0.72rem; color: var(--muted); }
     .spec-key        { font-size: 0.72rem; letter-spacing: 0.16em; min-width: 6rem; }
+    .about-facts dt  { font-size: 0.7rem;  letter-spacing: 0.16em; }
     .stat-lbl        { font-size: 0.72rem; letter-spacing: 0.1em;  line-height: 1.4; }
     .stat-num        { font-size: clamp(1.9rem, 3.6vw, 2.3rem); }
     .achv .n         { font-size: 0.72rem; }
@@ -1465,10 +1504,11 @@
        panel no longer needs a top margin of its own. */
     .quest-card .objectives { margin-bottom: 1.1rem; }
     .quest-card .peek { margin-top: 0.2rem; }
-    /* mission-desc is the flex spacer that keeps the project cards even
-       again, now that nothing in them collapses. */
-    .mission-desc { flex: 1; }
-    .mission-tags { margin-top: 0; }
+    /* The description collapses again, so it can't be the spacer that
+       keeps a card's tags and links on its bottom edge — the tags take
+       that job in both hover and touch modes. */
+    .mission-desc { flex: none; margin-bottom: 0; }
+    .mission-tags { margin-top: auto; padding-top: 1.1rem; }
 
     /* ═══ Print — a hiring manager's PDF ═════════════
        Reviewers save pages. Printed, this drops every atmospheric layer,
@@ -1499,7 +1539,7 @@
       }
       .section-sub, .about-text, .objectives li, .mission-desc,
       .spec-key, .stat-lbl, .quest-giver, .mission-tagline, .sq-desc,
-      .contact-sub, .achv { color: #333 !important; }
+      .contact-sub, .achv, .about-facts dt, .about-facts dd { color: #333 !important; }
       .accent, .sec-rule .idx, .objectives mark, .hl-a, .mission-id { color: #0b6470 !important; }
       .tag, .chip { border-color: #c2c2c2 !important; color: #444 !important; }
 
@@ -1740,7 +1780,12 @@
     html.js .reveal.visible .objectives li:nth-child(6) { animation-delay: 0.72s; }
 
     html.js .reveal.visible .about-text { animation: riseIn 0.6s var(--ease) backwards; }
-    html.js .reveal.visible .about-text:nth-of-type(2) { animation-delay: 0.12s; }
+    html.js .reveal.visible .about-facts .fact { animation: riseIn 0.5s var(--ease) backwards; }
+    html.js .reveal.visible .about-facts .fact:nth-child(1) { animation-delay: 0.10s; }
+    html.js .reveal.visible .about-facts .fact:nth-child(2) { animation-delay: 0.17s; }
+    html.js .reveal.visible .about-facts .fact:nth-child(3) { animation-delay: 0.24s; }
+    html.js .reveal.visible .about-facts .fact:nth-child(4) { animation-delay: 0.31s; }
+    html.js .reveal.visible .about-facts .fact:nth-child(5) { animation-delay: 0.38s; }
 
     html.js .reveal.visible .traits .chip {
       animation: nudgeIn 0.5s var(--ease) backwards;
@@ -1750,6 +1795,7 @@
         @media (prefers-reduced-motion: reduce) {
       html.js .reveal.visible .objectives li,
       html.js .reveal.visible .about-text,
+      html.js .reveal.visible .about-facts .fact,
       html.js .reveal.visible .traits .chip,
       html.js .visible .unlock { animation: none !important; }
       .quest-fill { display: none; }
@@ -2525,25 +2571,30 @@
           <h3 class="about-heading">Software engineer &amp;<br><span class="accent">CS student</span></h3>
           <p class="about-text">
             I build <span class="hl">full-stack products</span> and <span class="hl">data pipelines</span>
-            end to end — the API, the data model, and the interface people actually use. What counts
-            is what reaches production.
+            end to end — API, data model, and the interface people actually use.
           </p>
-          <p class="about-text">
-            <span class="hl-a">Google Software Engineer Fellow</span> and
-            <span class="hl-a">eBay Technology Pathway Fellow</span>, both under 5% acceptance. At
-            <span class="hl">CUNY</span> I built a Flask REST API 0→1 that serves <span class="hl">500+ users</span>
-            across <span class="hl">25 campuses</span> over 10,000+ records; at <span class="hl">SAS Institute</span>
-            I built real-time risk-monitoring tooling on Viya.
-          </p>
-          <p class="about-text">
-            Outside work I run <span class="hl">Summa</span>, a Postgres warehouse that ingests SEC filings
-            from EDGAR — 20+ tables, fully automated, on free-tier infrastructure. Underneath all of it is
-            <span class="hl">algorithms and system design</span>: 12+ workshops at Google Code2Career and a
-            1:1 system-design curriculum with an eBay Principal Engineer, covering sharding, caching and load
-            balancing. <span class="hl-a">AI/ML</span> is the area I'm actively building toward rather than a
-            shipped speciality — currently an LLM project (see Projects) that holds narrative state across
-            long interactions.
-          </p>
+          <dl class="about-facts">
+            <div class="fact">
+              <dt>Previous</dt>
+              <dd>SWE Intern at <span class="hl">SAS Institute</span> — real-time risk monitoring on Viya</dd>
+            </div>
+            <div class="fact">
+              <dt>Shipped</dt>
+              <dd>Flask REST API 0→1 at <span class="hl">CUNY</span> — <span class="hl">500+ users</span>, 25 campuses, 10,000+ records</dd>
+            </div>
+            <div class="fact">
+              <dt>Selected</dt>
+              <dd><span class="hl-a">Google</span> SWE Fellow (top 4%) · <span class="hl-a">eBay</span> Technology Pathway Fellow (top 3%)</dd>
+            </div>
+            <div class="fact">
+              <dt>Building</dt>
+              <dd><span class="hl">Summa</span> — automated SEC-filing warehouse, 20+ Postgres tables, $0 infrastructure</dd>
+            </div>
+            <div class="fact">
+              <dt>Studying</dt>
+              <dd>System design 1:1 with an eBay Principal Engineer — sharding, caching, load balancing</dd>
+            </div>
+          </dl>
           <div class="traits">
             <span class="chip">System design</span>
             <span class="chip">REST APIs</span>
@@ -2567,7 +2618,7 @@
           <span class="count">5 roles</span>
         </div>
         <h2 class="section-title"><span class="w"><span class="wi">Where I've <span class="accent">worked</span></span></span></h2>
-        <p class="section-sub">Most recent first. Hover a role to read it in full — click to keep it there.</p>
+        <p class="section-sub">Most recent first. Hover to read in full · click to pin.</p>
         <button class="expand-all" id="expand-all" type="button" aria-pressed="false" aria-controls="quest-list">
           <i class="fas fa-chevron-down" aria-hidden="true"></i><span>Expand all details</span>
         </button>
@@ -2598,14 +2649,14 @@
               <i class="fas fa-shield-halved" aria-hidden="true"></i>
               <div>
                 <strong>Real-time risk monitoring dashboard on the SAS Viya platform</strong>
-                <span>Built with the Risk Testing team to give engineers one view of API health</span>
+                <span>One view of API health for the Risk Testing team</span>
               </div>
             </div>
             <span class="obj-label">What I did</span>
             <ul class="objectives">
-              <li>Automated ingestion of <mark>high-volume error telemetry</mark> with <strong>Python pipelines</strong>, surfacing API failure rates and response times.</li>
-              <li>Turned Risk Testing engineers' monitoring needs into dashboard views, shortening the path from raw signal to <mark>triage</mark>.</li>
-              <li>Validated reliability under load with <strong>pytest</strong> suites and <strong>Locust</strong> stress testing.</li>
+              <li>Automated <mark>high-volume error telemetry</mark> ingestion with <strong>Python pipelines</strong>, surfacing API failure rates and latency.</li>
+              <li>Turned engineers' monitoring needs into dashboard views — raw signal to <mark>triage</mark> in one screen.</li>
+              <li>Validated reliability under load with <strong>pytest</strong> and <strong>Locust</strong> stress tests.</li>
             </ul>
             <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
             <div class="detail">
@@ -2642,15 +2693,15 @@
               <i class="fas fa-rocket" aria-hidden="true"></i>
               <div>
                 <strong>2 production features · 500+ users · 25 campuses</strong>
-                <span>Built a full internal dashboard 0→1, replacing a decade-old legacy UI</span>
+                <span>Internal dashboard built 0→1, replacing a decade-old legacy UI</span>
               </div>
             </div>
             <span class="obj-label">What I did</span>
             <ul class="objectives">
-              <li>Built a <strong>Flask REST API</strong> end-to-end with real-time CRUD and pagination over <mark>10,000+ records</mark>.</li>
-              <li>Cut initial load time <mark>~60%</mark> with pagination, making large datasets usable for non-technical staff.</li>
-              <li>Rebuilt <strong>5+ legacy UI components</strong> (modals, nav, data tables) to <strong>WCAG</strong> standards.</li>
-              <li>Shipped a <strong>Brightspace LMS widget</strong> for one-click certificate downloads — <mark>500+ users</mark> within weeks.</li>
+              <li>Built a <strong>Flask REST API</strong> 0→1 — CRUD and pagination over <mark>10,000+ records</mark>.</li>
+              <li>Cut initial load time <mark>~60%</mark> with pagination.</li>
+              <li>Rebuilt <strong>5+ legacy UI components</strong> to <strong>WCAG</strong> standards.</li>
+              <li>Shipped a <strong>Brightspace LMS widget</strong> for one-click certificates — <mark>500+ users</mark>.</li>
             </ul>
             <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
             <div class="detail">
@@ -2691,8 +2742,8 @@
             </div>
             <span class="obj-label">What I did</span>
             <ul class="objectives">
-              <li>Completed a <strong>system design curriculum</strong> with a Principal Engineer — load balancing, CDN caching, sharding, microservices.</li>
-              <li>Studied how eBay scales to <mark>millions of listings</mark> and <mark>10× traffic surges</mark> during flash sales.</li>
+              <li><strong>System design curriculum</strong> 1:1 with a Principal Engineer — load balancing, caching, sharding, microservices.</li>
+              <li>Studied eBay's scaling to <mark>millions of listings</mark> and <mark>10× traffic surges</mark>.</li>
             </ul>
             <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
             <div class="detail">
@@ -2731,8 +2782,8 @@
             </div>
             <span class="obj-label">What I did</span>
             <ul class="objectives">
-              <li>Completed <strong>12+ technical workshops</strong> led by senior Google engineers — algorithms, complexity analysis, system design.</li>
-              <li>Ran <strong>mock technical interviews</strong> with Google engineers, with feedback on problem-solving and code clarity.</li>
+              <li><strong>12+ technical workshops</strong> with senior Google engineers — algorithms, complexity, system design.</li>
+              <li><strong>Mock technical interviews</strong> with Google engineers, with feedback on code clarity.</li>
             </ul>
             <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
             <div class="detail">
@@ -2771,9 +2822,9 @@
             </div>
             <span class="obj-label">What I did</span>
             <ul class="objectives">
-              <li>Taught <mark>50+ freshmen</mark> in CSE 101 (Python) under SUNY's AGEP STEM initiative.</li>
-              <li>Ran <strong>personalized tutoring</strong> for at-risk students — class-wide scores rose <mark>15%</mark>.</li>
-              <li>Wrote <strong>10+ practice problem sets</strong>, quizzes &amp; study guides for the full cohort.</li>
+              <li>Taught <mark>50+ freshmen</mark> in CSE 101 (Python), SUNY AGEP STEM initiative.</li>
+              <li>Tutored at-risk students 1:1 — class-wide scores rose <mark>15%</mark>.</li>
+              <li>Wrote <strong>10+ problem sets</strong>, quizzes and study guides.</li>
             </ul>
             <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
             <div class="detail">
@@ -2816,7 +2867,7 @@
           <span class="count">4 shipped</span>
         </div>
         <h2 class="section-title"><span class="w"><span class="wi">Featured <span class="accent">projects</span></span></span></h2>
-        <p class="section-sub">Designed, built and deployed end to end.</p>
+        <p class="section-sub">Designed, built and deployed end to end. Hover a card for detail · click to pin.</p>
       </div>
 
       <div class="missions-grid">
@@ -2831,18 +2882,22 @@
           <div class="mission-body">
             <h3 class="mission-title">Summa</h3>
             <p class="mission-tagline">Automated SEC-filing warehouse with a live research dashboard.</p>
-            <p class="mission-desc">
-                Scheduled pipelines pull 10-K/10-Q filings, insider trades and 13F holdings from
-                EDGAR into a normalised Postgres warehouse; a Next.js 14 front end serves the live
-                feed. Runs entirely on free tiers.
-              </p>
-              <div class="unlock">
-                <i class="fas fa-database" aria-hidden="true"></i>
-                <div>
-                  <small>Highlight</small>
-                  <strong>20+ warehouse tables · fully automated ingestion · $0 infrastructure</strong>
-                </div>
+            <div class="unlock">
+              <i class="fas fa-database" aria-hidden="true"></i>
+              <div>
+                <small>Highlight</small>
+                <strong>20+ warehouse tables · fully automated ingestion · $0 infrastructure</strong>
               </div>
+            </div>
+            <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            <div class="detail">
+              <div class="detail-inner">
+                <p class="mission-desc">
+                  Scheduled pipelines pull 10-K/10-Q filings, insider trades and 13F holdings from EDGAR
+                  into a normalised Postgres warehouse, served by a Next.js 14 front end.
+                </p>
+              </div>
+            </div>
             <div class="mission-tags">
               <span class="tag">Next.js</span><span class="tag">TypeScript</span>
               <span class="tag">Python</span><span class="tag">Postgres</span>
@@ -2865,18 +2920,22 @@
           <div class="mission-body">
             <h3 class="mission-title">GoodHub</h3>
             <p class="mission-tagline">Map-based finder for local environmental volunteering.</p>
-            <p class="mission-desc">
-                Matches volunteers to nearby environmental projects on a Leaflet map — geolocation
-                filtering, live listings, end-to-end sign-up. Built and demoed under hackathon
-                time pressure.
-              </p>
-              <div class="unlock">
-                <i class="fas fa-trophy" aria-hidden="true"></i>
-                <div>
-                  <small>Highlight</small>
-                  <strong>1st Place — Environmental Track · HunterHack 2025</strong>
-                </div>
+            <div class="unlock">
+              <i class="fas fa-trophy" aria-hidden="true"></i>
+              <div>
+                <small>Highlight</small>
+                <strong>1st Place — Environmental Track · HunterHack 2025</strong>
               </div>
+            </div>
+            <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            <div class="detail">
+              <div class="detail-inner">
+                <p class="mission-desc">
+                  Matches volunteers to nearby environmental projects on a Leaflet map — geolocation
+                  filtering, live listings, end-to-end sign-up.
+                </p>
+              </div>
+            </div>
             <div class="mission-tags">
               <span class="tag">React</span><span class="tag">Python</span>
               <span class="tag">Flask</span><span class="tag">Leaflet</span>
@@ -2898,18 +2957,22 @@
           <div class="mission-body">
             <h3 class="mission-title">Moodify</h3>
             <p class="mission-tagline">Mood-driven playlist generator on the Spotify Web API.</p>
-            <p class="mission-desc">
-                Reads a listener's history, top genres and artists through the Spotify Web API,
-                then builds a playlist around a chosen mood — weighted to their taste, not a
-                generic chart.
-              </p>
-              <div class="unlock">
-                <i class="fab fa-spotify" aria-hidden="true"></i>
-                <div>
-                  <small>Highlight</small>
-                  <strong>8 API endpoints · Spotify OAuth with automatic token refresh</strong>
-                </div>
+            <div class="unlock">
+              <i class="fab fa-spotify" aria-hidden="true"></i>
+              <div>
+                <small>Highlight</small>
+                <strong>8 API endpoints · Spotify OAuth with automatic token refresh</strong>
               </div>
+            </div>
+            <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            <div class="detail">
+              <div class="detail-inner">
+                <p class="mission-desc">
+                  Reads listening history, top genres and artists through the Spotify Web API, then builds
+                  a playlist around a chosen mood — weighted to the listener's taste.
+                </p>
+              </div>
+            </div>
             <div class="mission-tags">
               <span class="tag">Python</span><span class="tag">Flask</span>
               <span class="tag">Spotify API</span><span class="tag">OAuth</span>
@@ -2931,18 +2994,22 @@
           <div class="mission-body">
             <h3 class="mission-title">This site</h3>
             <p class="mission-tagline">Hand-built portfolio — no framework, no build step.</p>
-            <p class="mission-desc">
-                Written from scratch in HTML, CSS and vanilla JavaScript. Design-token system,
-                GPU-composited background, scroll-driven motion — profiled to hold 60fps and gated
-                behind <code>prefers-reduced-motion</code>.
-              </p>
-              <div class="unlock">
-                <i class="fas fa-bolt" aria-hidden="true"></i>
-                <div>
-                  <small>Highlight</small>
-                  <strong>No framework · no build step · 60fps · WCAG AA contrast</strong>
-                </div>
+            <div class="unlock">
+              <i class="fas fa-bolt" aria-hidden="true"></i>
+              <div>
+                <small>Highlight</small>
+                <strong>No framework · no build step · 60fps · WCAG AA contrast</strong>
               </div>
+            </div>
+            <button class="peek" type="button" aria-pressed="false"><span>Details</span><i class="fas fa-chevron-down" aria-hidden="true"></i></button>
+            <div class="detail">
+              <div class="detail-inner">
+                <p class="mission-desc">
+                  Hand-written HTML, CSS and vanilla JavaScript — design tokens, GPU-composited
+                  background, scroll-driven motion gated behind <code>prefers-reduced-motion</code>.
+                </p>
+              </div>
+            </div>
             <div class="mission-tags">
               <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span>
             </div>
@@ -2963,10 +3030,9 @@
           </div>
           <h3 class="sq-title">The AI Dungeon Master</h3>
           <p class="sq-desc">
-            An LLM that runs a tabletop campaign on philosophical rather than tactical
-            encounters — improvising the world and building each scene from the player's
-            last decision. The problem I am actually chasing is state: keeping a coherent
-            world across hundreds of turns without the model losing the thread.
+            An LLM that runs a tabletop campaign on philosophical rather than tactical encounters,
+            building each scene from the player's last decision. The real problem: holding coherent
+            world state across hundreds of turns.
           </p>
           <div class="sq-tags">
             <span class="tag">TypeScript</span><span class="tag">LLMs</span>
@@ -2990,9 +3056,7 @@
         <span class="name">Contact</span>
       </div>
       <h2 class="contact-title"><span class="w"><span class="wi">Let's work</span></span><span class="w"><span class="wi"><span class="accent">together</span></span></span></h2>
-      <p class="contact-sub">
-        Open to software engineering roles and internships. I reply to every message.
-      </p>
+      <p class="contact-sub">Open to software engineering roles and internships.</p>
       <div class="contact-actions">
         <a href="mailto:yuzhicheng369@gmail.com" class="btn btn-solid"><i class="fas fa-envelope"></i>Email me</a>
         <button type="button" class="btn btn-line copy-mail" id="copy-mail"
@@ -3043,6 +3107,51 @@
     const ringBtn = document.getElementById('scroll-ring');
     const ringFg = document.getElementById('ring-fg');
     let scrollRaf = null, lastY = 0;
+
+    /* ── Auto-hiding nav ──────────────────────────────
+       Comparing this frame's y against the previous one is too twitchy to
+       drive a half-second transition: a trackpad glide moves 2-4px per
+       frame, so a per-frame threshold either never trips or flickers the
+       bar on every jitter. Intent is accumulated instead — travel in one
+       direction adds up, reversing starts a fresh run, and the bar only
+       moves once a run passes its threshold. Leaving costs more travel
+       than coming back, because a reader who reverses wants the nav now. */
+    const NAV_HIDE_AFTER = 72;   /* px of continuous downward travel */
+    const NAV_SHOW_AFTER = 28;   /* px of upward travel */
+    const NAV_TOP_ZONE   = 340;  /* pinned above this — the hero owns it */
+    let navRun = 0, navHidden = false, navHoldUntil = 0;
+
+    function setNavHidden(state) {
+      if (state === navHidden) return;
+      navHidden = state;
+      nav.classList.toggle('hidden', state);
+    }
+    /* Anything that should out-rank the scroll direction for a moment:
+       an in-page jump, a pointer reaching for the bar, focus landing in
+       it. Without this a smooth-scrolled anchor hides the nav mid-flight. */
+    function holdNav(ms) {
+      navHoldUntil = performance.now() + ms;
+      setNavHidden(false);
+    }
+
+    function updateNav(y) {
+      const dy = y - lastY;
+      if (Math.abs(dy) < 1) return;              /* sub-pixel noise */
+      navRun = (dy > 0) === (navRun > 0) ? navRun + dy : dy;
+      lastY = y;
+
+      if (y < NAV_TOP_ZONE ||
+          navLinks.classList.contains('open') ||
+          nav.contains(document.activeElement) ||
+          performance.now() < navHoldUntil ||
+          y + window.innerHeight >= document.body.scrollHeight - 4) {
+        setNavHidden(false);
+        return;
+      }
+      if (navRun >  NAV_HIDE_AFTER) setNavHidden(true);
+      else if (navRun < -NAV_SHOW_AFTER) setNavHidden(false);
+    }
+
     function onScroll() {
       scrollRaf = null;
       const y = window.scrollY;
@@ -3061,15 +3170,27 @@
       /* Progress gauge */
       ringFg.style.strokeDashoffset = 100 - pct * 100;
       ringBtn.classList.toggle('show', y > 420);
-      /* Hide nav scrolling down, reveal scrolling up */
-      nav.classList.toggle('hidden', y > lastY + 6 && y > 340 && !navLinks.classList.contains('open'));
-      if (Math.abs(y - lastY) > 6) lastY = y;
+      updateNav(y);
     }
     window.addEventListener('scroll', () => {
       if (scrollRaf === null) scrollRaf = requestAnimationFrame(onScroll);
     }, { passive: true });
     window.addEventListener('load', onScroll);
     ringBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' }));
+
+    /* A hidden bar must not be a focus trap: tabbing into it brings it back
+       before the ring would land off-screen. */
+    nav.addEventListener('focusin', () => holdNav(0));
+    /* An in-page jump scrolls down hundreds of px — hold through the glide. */
+    document.addEventListener('click', e => {
+      if (e.target.closest('a[href^="#"]')) holdNav(reduceMotion ? 120 : 900);
+    }, true);
+    /* Reaching for the top edge asks for the nav back without scrolling. */
+    if (finePointer) {
+      document.addEventListener('mousemove', e => {
+        if (navHidden && e.clientY < 64) holdNav(600);
+      }, { passive: true });
+    }
 
     /* Cursor reticle — trails the pointer, brackets interactive targets */
     const reticle = document.getElementById('reticle');

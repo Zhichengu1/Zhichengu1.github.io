@@ -1070,9 +1070,9 @@
     </h1>
     
     <p class="hero-description fade-in fade-in-delay-2">
-A playlist generator built on the Spotify Web API. It reads a listener's history, top genres
-      and favourite artists, then assembles a playlist around a chosen mood — weighted to their own
-      taste rather than a generic chart. Eight API endpoints behind OAuth, with silent token refresh.
+A playlist generator on the Spotify Web API. Reads listening history, top genres and artists,
+      then builds a playlist around a chosen mood — weighted to the listener's taste, not a generic
+      chart. 8 endpoints behind OAuth, with silent token refresh.
     </p>
 
     <div class="hero-buttons fade-in fade-in-delay-3">
@@ -1098,7 +1098,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
       </iframe>
     </div>
     <p class="video-caption">
-      <i class="fas fa-info-circle"></i> Full application demo showcasing mood selection and playlist generation
+            <i class="fas fa-info-circle"></i> Mood selection and playlist generation, end to end
     </p>
   </section>
 
@@ -1147,16 +1147,14 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
     <div class="overview-grid">
       <div>
         <h3 class="overview-subtitle">The Challenge</h3>
-        <p class="overview-text">
-          Music streaming users often struggle to discover new music that matches their current mood. 
-          While Spotify has millions of songs, finding the right tracks for a specific emotional state 
-          can be time-consuming and frustrating.
+                <p class="overview-text">
+          Spotify holds millions of songs, but finding tracks that fit a specific mood means digging
+          through them by hand.
         </p>
         <h3 class="overview-subtitle">The Solution</h3>
-        <p class="overview-text">
-          Moodify leverages the Spotify Web API to analyze your listening history, top genres, and favorite 
-          artists to generate highly personalized playlists that truly match your mood while introducing you 
-          to new tracks aligned with your taste.
+                <p class="overview-text">
+          Moodify reads listening history, top genres and artists through the Spotify Web API, then
+          generates a mood playlist weighted to that taste.
         </p>
       </div>
       <div>
@@ -1197,7 +1195,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           </div>
           <h3 class="feature-title">Spotify OAuth</h3>
           <p class="feature-description">
-            Secure authentication using Spotify's OAuth 2.0 flow with automatic token refresh for seamless user experience.
+                        Spotify OAuth 2.0 with automatic token refresh — no manual re-login.
           </p>
         </div>
         <div class="feature-card">
@@ -1206,7 +1204,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           </div>
           <h3 class="feature-title">Personalized Analysis</h3>
           <p class="feature-description">
-            Analyzes your top tracks, favorite artists, and listening patterns to understand your unique music taste.
+                        Reads top tracks, favourite artists and listening patterns to model taste.
           </p>
         </div>
         <div class="feature-card">
@@ -1215,7 +1213,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           </div>
           <h3 class="feature-title">Smart Genre Matching</h3>
           <p class="feature-description">
-            Intelligent genre normalization system that maps your favorite genres to Spotify's recommendation seeds.
+                        Maps 50+ non-standard genre tags onto Spotify's recommendation seeds.
           </p>
         </div>
         <div class="feature-card">
@@ -1224,7 +1222,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           </div>
           <h3 class="feature-title">Dynamic Playlists</h3>
           <p class="feature-description">
-            Generate fresh, mood-based playlists using the Search API with randomized results for variety.
+                        Mood playlists built on the Search API with randomised offsets for variety.
           </p>
         </div>
         <div class="feature-card">
@@ -1233,7 +1231,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           </div>
           <h3 class="feature-title">Mood Selection</h3>
           <p class="feature-description">
-            Choose from multiple moods (Chill, Energetic, Focus, Sad, Happy) with an intuitive visual mood selector.
+                        Five moods — Chill, Energetic, Focus, Sad, Happy — behind a visual selector.
           </p>
         </div>
         <div class="feature-card">
@@ -1242,7 +1240,7 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           </div>
           <h3 class="feature-title">Auto Token Refresh</h3>
           <p class="feature-description">
-            Automatic token refresh system ensures uninterrupted API access without requiring manual re-authentication.
+                        Refresh tokens renew access 60s before expiry, so API calls never 401.
           </p>
         </div>
       </div>
@@ -1307,24 +1305,24 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
           <h3 class="timeline-title">Week 1: Foundation & Authentication</h3>
           <p class="timeline-period">Days 1-7</p>
           <p class="timeline-text">
-            Set up Spotify Developer account, implemented OAuth 2.0 flow, created Flask backend structure, 
-            and built token management system with automatic refresh functionality.
+                        Spotify Developer setup, OAuth 2.0 flow, Flask backend, and token management with
+            automatic refresh.
           </p>
         </div>
         <div class="timeline-item">
           <h3 class="timeline-title">Week 2: Data Analysis & Genre System</h3>
           <p class="timeline-period">Days 8-14</p>
           <p class="timeline-text">
-            Developed data fetching utilities for user's top tracks and artists, created comprehensive genre 
-            normalization system with 50+ mappings, and built recommendation generation logic.
+                        Data fetching for top tracks and artists, a 50+ mapping genre normaliser, and the
+            recommendation logic.
           </p>
         </div>
         <div class="timeline-item">
           <h3 class="timeline-title">Week 3: Frontend & Polish</h3>
           <p class="timeline-period">Days 15-21</p>
           <p class="timeline-text">
-            Built React frontend with Tailwind CSS, created responsive dashboard with mood selector, 
-            implemented error handling, and conducted end-to-end testing.
+                        React + Tailwind front end, responsive dashboard with the mood selector, error handling,
+            and end-to-end testing.
           </p>
         </div>
       </div>
@@ -1340,34 +1338,29 @@ A playlist generator built on the Spotify Web API. It reads a listener's history
     <div class="challenge-card">
       <h3 class="challenge-title">Genre Normalization</h3>
       <p class="challenge-text">
-        Spotify artists have hundreds of non-standard genre tags that don't match the Recommendations API's 
-        limited seed genre list, causing failed API calls and poor recommendation quality.
+                Artists carry hundreds of non-standard genre tags that don't match the Recommendations API's
+        limited seed list — failed calls and weak recommendations.
       </p>
       <p class="challenge-solution">
-        <strong>Solution:</strong> Created an extensive genre mapping dictionary with 50+ transformations, 
-        implemented fuzzy matching logic, and added fallback mechanisms.
+                <strong>Solution:</strong> A 50+ entry genre mapping dictionary, fuzzy matching, and fallbacks.
       </p>
     </div>
     <div class="challenge-card">
       <h3 class="challenge-title">Token Expiration</h3>
       <p class="challenge-text">
-        Spotify access tokens expire after one hour, causing API calls to fail with 401 errors and requiring 
-        manual re-authentication.
+                Access tokens expire after an hour, so calls fail with 401 and users have to log in again.
       </p>
       <p class="challenge-solution">
-        <strong>Solution:</strong> Implemented an automatic token refresh system using refresh tokens with a 
-        60-second buffer before expiration.
+                <strong>Solution:</strong> Automatic refresh on a 60-second buffer before expiry.
       </p>
     </div>
     <div class="challenge-card">
       <h3 class="challenge-title">Playlist Variety</h3>
       <p class="challenge-text">
-        Using the Recommendations API with fixed seed parameters resulted in repetitive playlists with the 
-        same songs appearing repeatedly.
+                Fixed seed parameters on the Recommendations API returned the same songs every time.
       </p>
       <p class="challenge-solution">
-        <strong>Solution:</strong> Switched to the Search API with randomized offset parameters (0-950), 
-        allowing discovery of different tracks on each generation.
+                <strong>Solution:</strong> Switched to the Search API with randomised offsets (0–950).
       </p>
     </div>
   </section>
