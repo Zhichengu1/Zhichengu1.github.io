@@ -1,0 +1,194 @@
+/* Projects
+   ────────
+   A six-column bento grid: Summa (.mission.feature) spans the full width
+   with its data-flow diagram (.schematic), the rest take two columns
+   each. Below it, the in-progress card (.sidequest). */
+
+/* ── Grid ──────────────────────────────────────── */
+.missions-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.3rem; }
+.missions-more { margin-top: 2.6rem; text-align: center; }
+
+/* ── Project card ──────────────────────────────── */
+.mission {
+  position: relative;
+  grid-column: span 2;
+  display: flex; flex-direction: column;
+  background-color: var(--panel); border: 1px solid var(--line);
+  transition: border-color var(--t-out), background var(--t-out);
+}
+.mission > * { position: relative; z-index: 1; }
+.mission:hover, .mission:focus-within {
+  border-color: var(--line-2); background: var(--panel-2);
+  transition-duration: var(--t-in);
+}
+/* A record line: an ID and a category over a rule. The ID is the only
+   ornament, and it carries information. */
+.mission-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+  margin-bottom: 1.15rem; padding: 0.8rem 1.35rem;
+  border-bottom: 1px solid var(--line);
+}
+.mission-id { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.12em; color: var(--sig); }
+.mission-tier {
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--muted);
+}
+.mission-body { flex: 1; display: flex; flex-direction: column; padding: 0 1.35rem; }
+.mission-title { font-size: 1.35rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.022em; color: var(--hi); }
+.mission-tagline { max-width: 44ch; margin: 0.4rem 0 1rem; font-size: 0.93rem; line-height: 1.55; color: var(--text); }
+.mission-desc { flex: none; margin-bottom: 0; font-size: 0.95rem; line-height: 1.65; }
+/* The tags hold the links on the card's bottom edge (margin-top: auto),
+   because the description above them collapses on desktop. */
+.mission-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: auto; margin-bottom: 1.2rem; padding-top: 1.1rem; }
+.mission .qflow { margin: 1.1rem 0 0.2rem; }
+
+/* The one measured claim per project, on its own plate. */
+.unlock {
+  display: flex; align-items: center; gap: 0.7rem;
+  margin-bottom: 1.1rem; padding: 0.6rem 0.85rem;
+  background: var(--bg); border: 1px solid var(--line);
+  border-left: 2px solid var(--sig);
+}
+.unlock i { color: var(--sig); font-size: 0.8rem; flex-shrink: 0; }
+.unlock div { line-height: 1.55; }
+.unlock small { display: block; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.unlock strong { font-size: 0.9rem; font-weight: 600; color: var(--hi); }
+
+/* Links share the card's bottom edge as one segmented control. */
+.mission-links { display: flex; gap: 0; padding: 0; border-top: 1px solid var(--line); }
+.mlink {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.9rem 0.8rem;
+  font-size: 0.76rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; text-decoration: none;
+  background: transparent; color: var(--muted);
+  transition: background var(--t-out), color var(--t-out);
+}
+.mlink + .mlink { border-left: 1px solid var(--line); }
+.mlink:hover, .mlink:focus-visible { color: var(--sig); background: var(--sig-soft); transition-duration: var(--t-in); }
+.mlink.primary { color: var(--hi); }
+.mlink.primary:hover, .mlink.primary:focus-visible { color: var(--ink); background: var(--sig); }
+
+@media (hover: hover) and (pointer: fine) {
+  /* Collapsed, "Details" is the only sign there is more in the card. */
+  .mission .peek { margin: 0 0 0.2rem; }
+  /* Each card sizes to its own content, so opening one never stretches
+     its neighbour. */
+  .missions-grid { align-items: start; }
+}
+
+/* Entrances: the head rule draws across, the ID and highlight plate
+   arrive after it. */
+html.js .mission.reveal.visible .mission-head { animation: ruleDraw 0.7s var(--ease) 0.25s backwards; }
+html.js .mission.reveal.visible .mission-id { animation: riseIn 0.5s var(--ease) 0.2s backwards; }
+html.js .visible .unlock { animation: slideIn 0.5s var(--ease) 0.5s backwards; }
+
+/* ── Featured card (Summa) ─────────────────────── */
+.mission.feature {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "head head" "body fig" "links fig";
+}
+.feature .mission-head  { grid-area: head; margin-bottom: 0; }
+.feature .mission-body  { grid-area: body; padding-top: 1.4rem; padding-bottom: 0.4rem; }
+.feature .mission-links { grid-area: links; }
+.feature .mission-title { font-size: clamp(1.8rem, 3vw, 2.4rem); letter-spacing: -0.035em; }
+.feature .mission-tagline { font-size: 1.02rem; max-width: 46ch; }
+.feat-flag {
+  margin-left: 0.6rem; padding: 0.12rem 0.5rem;
+  border: 1px solid var(--sig-line); background: var(--sig-soft);
+  font-size: 0.66rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
+}
+.schematic {
+  grid-area: fig; position: relative; margin: 0;
+  display: flex; align-items: center; justify-content: center;
+  padding: 2.6rem 1.4rem 1.4rem;
+  border-left: 1px solid var(--line);
+  background:
+    linear-gradient(90deg, rgba(232, 236, 241, 0.035) 1px, transparent 1px) 0 0 / 20px 20px,
+    linear-gradient(0deg,  rgba(232, 236, 241, 0.035) 1px, transparent 1px) 0 0 / 20px 20px,
+    radial-gradient(ellipse at 50% 50%, rgba(73, 214, 232, 0.05), transparent 70%),
+    rgba(8, 9, 11, 0.6);
+}
+.schematic .vf-wrap { width: 100%; max-width: 380px; }
+.schematic svg { width: 100%; max-width: 520px; height: auto; display: block; overflow: visible; }
+.schematic figcaption {
+  position: absolute; top: 0.85rem; left: 1.1rem;
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* ── In-progress card ──────────────────────────── */
+.sidequest {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 1.6rem; align-items: start;
+  margin-top: 1.3rem; padding: 1.6rem 1.7rem;
+  background-color: var(--panel); border: 1px solid var(--line);
+  border-left: 2px solid var(--sig-line);
+  transition: background var(--t-out), border-color var(--t-out);
+}
+.sidequest:hover, .sidequest:focus-within {
+  background: var(--panel-2); border-left-color: var(--sig);
+  transition-duration: var(--t-in);
+}
+/* An identifier, not an icon: it says what the thing is. */
+.sq-sigil {
+  display: inline-flex; flex-direction: column; flex: none;
+  align-items: center; justify-content: center;
+  width: 56px; height: 56px;
+  border: 1px solid var(--line-2); color: var(--muted);
+  font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+  line-height: 1.35; text-align: center;
+  transition: color var(--t-out), border-color var(--t-out);
+}
+.sidequest:hover .sq-sigil { color: var(--sig); border-color: var(--sig-line); }
+html.js .sidequest.reveal.visible .sq-sigil { animation: popIn 0.55s var(--ease-back) 0.2s backwards; }
+.sq-top { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.sq-tier { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.sq-status {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sig);
+}
+.sq-status .dot {
+  width: 6px; height: 6px; background: var(--sig);
+  animation: ledPulse 2.4s ease-out infinite;
+}
+.sq-title { margin-bottom: 0.5rem; font-size: 1.4rem; font-weight: 700; line-height: 1.2; letter-spacing: -0.022em; color: var(--hi); }
+.sq-desc { max-width: 66ch; margin-bottom: 1.1rem; font-size: 0.97rem; line-height: 1.68; }
+.sq-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+/* ── Keyframes ─────────────────────────────────── */
+@keyframes ruleDraw {
+  from { border-bottom-color: transparent; }
+  to   { border-bottom-color: var(--line); }
+}
+@keyframes slideIn { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.82); } to { opacity: 1; transform: none; } }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 1000px) {
+  .mission { grid-column: span 3; }
+  .mission:last-child:not(.feature) { grid-column: 1 / -1; }
+}
+@media (max-width: 940px) {
+  .sidequest { grid-template-columns: 1fr; gap: 1.2rem; }
+}
+@media (max-width: 760px) {
+  .mission, .mission:last-child:not(.feature) { grid-column: 1 / -1; }
+  .mission.feature {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "body" "fig" "links";
+  }
+  .schematic { border-left: none; border-top: 1px solid var(--line); margin-top: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sq-status .dot { animation: none; }
+  html.js .mission.reveal.visible .mission-head,
+  html.js .mission.reveal.visible .mission-id,
+  html.js .visible .unlock,
+  html.js .sidequest.reveal.visible .sq-sigil { animation: none !important; }
+}
