@@ -1,0 +1,66 @@
+/* Data-flow diagrams
+   ──────────────────
+   Styles for the SVG that js/flows.js draws into [data-flow] elements
+   (class .vf), and the numbered step list beside it (.qf-steps). The
+   diagram *content* lives in js/flows.js — never edit SVG by hand.
+
+   SVG parts: .fn node (rect, .no number tab, .nn number, .k kicker,
+   .v value) · .fe wire (.dash for checks / loops) · .ff moving packet
+   on a wire · .vb badge text beside a wire. */
+
+.qflow { margin: 0.2rem 0 1.25rem; }
+.vf-wrap { max-width: 400px; }
+.vf {
+  display: block; width: 100%; max-width: 1040px; height: auto;
+  margin: 0 auto; overflow: visible;
+}
+
+/* ── Diagram parts ─────────────────────────────── */
+.fe { fill: none; stroke: rgba(232, 236, 241, 0.24); stroke-width: 1; transition: opacity 0.25s, stroke 0.25s; }
+.fe.dash { stroke-dasharray: 4 4; }
+/* A short dash travelling the wire's whole length (pathLength = 100). */
+.ff {
+  fill: none; stroke: var(--sig); stroke-width: 1.8; stroke-linecap: square;
+  stroke-dasharray: 12 88; animation: schFlow 2.6s linear infinite;
+  transition: opacity 0.25s;
+}
+@keyframes schFlow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+.fn { cursor: default; transition: opacity 0.25s; }
+.fn rect { fill: #0f1216; stroke: rgba(232, 236, 241, 0.2); stroke-width: 1; transition: stroke 0.25s, fill 0.25s; }
+.fn rect.no { fill: rgba(73, 214, 232, 0.1); stroke: rgba(73, 214, 232, 0.38); }
+.fn:hover rect:not(.no) { stroke: #49d6e8; }
+.fn text { font-family: var(--mono); }
+.fn .nn { font-size: 10px; font-weight: 700; fill: #49d6e8; }
+.fn .k { font-size: 9px; letter-spacing: 0.12em; fill: #98a2b0; }
+.fn .v { font-size: 13px; fill: #e8ecf1; }
+.vb { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.04em; fill: #8be7f2; }
+
+/* ── Tracing ───────────────────────────────────── */
+/* Resting on a step or a node lights that node and the wire into it
+   (.on, set by js/flows.js); everything else recedes. */
+.vf.tracing .fn:not(.on),
+.vf.tracing .fe:not(.on),
+.vf.tracing .ff:not(.on),
+.vf.tracing .vb { opacity: 0.22; }
+.fn.on rect:not(.no) { stroke: #49d6e8; fill: #121a20; }
+.fn.on rect.no { fill: #49d6e8; }
+.fn.on .nn { fill: #08090b; }
+.fe.on { stroke: rgba(73, 214, 232, 0.6); }
+.ff.on { animation-duration: 1.2s; }
+
+/* ── Step list ─────────────────────────────────── */
+.qf-label { margin-top: 1rem; }
+.qf-steps { list-style: none; border-top: 1px solid var(--line); }
+.qf-step {
+  display: grid; grid-template-columns: 1.9rem minmax(0, 1fr); gap: 0.5rem;
+  padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--line);
+  font-size: 0.9rem; line-height: 1.5; color: var(--text);
+  transition: background var(--t-out), box-shadow var(--t-out);
+}
+.qf-step .n { padding-top: 0.15rem; font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--sig); }
+.qf-step b { color: var(--hi); font-weight: 600; }
+.qf-step:hover, .qf-step.on { background: var(--sig-soft); box-shadow: inset 2px 0 0 var(--sig); transition-duration: var(--t-in); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ff { animation: none; opacity: 0; }
+}
