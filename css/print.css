@@ -1,0 +1,62 @@
+/* Print
+   ─────
+   Reviewers save pages as PDF. Printed, the page drops every
+   atmospheric layer and control, prints ink on white, and forces open
+   everything that normally waits for hover or a click, so the export is
+   the complete record. Loaded last. */
+
+@media print {
+  /* Atmosphere and controls */
+  .bg-fx, .boot-sweep, .hero-field, .reticle, #xp, .scroll-ring, .skillbar,
+  .nav, .hero-scroll, .hero-socials, .to-top,
+  .peek, .expand-all, .mission-links, .contact-actions, .contact-socials,
+  .quest-pane, .quest-cursor, .tl-pop, .quest-head, .blip, .rings,
+  .spot, .scan, .panel::before, .panel::after, .section-head[data-idx]::before,
+  .sk-pips, .ff { display: none !important; }
+
+  /* Ink on white */
+  html, body { background: #fff !important; color: #1a1a1a !important; font-size: 10.5pt; }
+  html.js body { animation: none; opacity: 1 !important; }
+  .wrap { max-width: none; padding: 0 10mm; }
+  .hero { min-height: 0 !important; padding: 6mm 0 !important; }
+  .section { padding: 7mm 0 !important; }
+  .section.tint { background: #fff !important; }
+  .panel, .mission, .quest-card, .sidequest, .unlock, .quest-brief,
+  .imp, .tline, .sk-group, .brief {
+    background: #fff !important; border-color: #c2c2c2 !important;
+  }
+  .schematic { background: #fff !important; }
+  a { text-decoration: none; color: #111 !important; }
+  .hero-name, .section-title, .mission-title, .sq-title, .contact-title,
+  .quest-title, .quest-title a, .objectives strong, .quest-brief strong, .unlock strong,
+  .imp-num, .sk-name, .tl-name, .brief-row dd {
+    color: #111 !important;
+  }
+  .section-sub, .objectives li, .mission-desc, .quest-giver, .mission-tagline,
+  .sq-desc, .contact-sub, .imp-what, .sk-where, .brief-row dt { color: #333 !important; }
+  .accent, .sec-rule .idx, .objectives mark, .hl-a, .mission-id { color: #0b6470 !important; }
+  .tag { border-color: #c2c2c2 !important; color: #444 !important; }
+
+  /* Everything prints open */
+  .detail { display: block !important; grid-template-rows: none !important; opacity: 1 !important; }
+  .detail-inner { visibility: visible !important; overflow: visible !important; }
+  html.js .reveal, html.js .reveal .wi, html.js .unlock { opacity: 1 !important; transform: none !important; }
+  html.js .objectives li::after { opacity: 1 !important; transform: none !important; }
+  body.skill-filter .tag:not(.skill-on),
+  body.skill-filter .quest-card:not(.skill-hit),
+  body.skill-filter .mission:not(.skill-hit) { opacity: 1 !important; }
+
+  /* Undo pane mode: full-width rows with every part visible. */
+  .pane-mode .quests-wrap { display: block; }
+  .pane-mode .quest { grid-template-columns: 210px 1fr; }
+  .pane-mode .quest-brief span { display: block; }
+  .pane-mode .quest-card .obj-label,
+  .pane-mode .quest-card .objectives,
+  .pane-mode .quest-card .detail,
+  .pane-mode .quest-card .qflow {
+    position: static !important; width: auto !important; height: auto !important;
+    margin: 0 !important; overflow: visible !important; clip: auto !important; white-space: normal !important;
+  }
+
+  .quest, .mission, .sidequest, .imp, .tline, .sk-group { break-inside: avoid; }
+}
