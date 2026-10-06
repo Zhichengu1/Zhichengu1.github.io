@@ -1,0 +1,442 @@
+/* Components
+   ──────────
+   Building blocks shared by several sections: scroll reveal, panels, the
+   card layers (surface, scan, spot, edge), the hover-intent "Details"
+   disclosure, buttons, tags, section headers, and keyframes used in more
+   than one file.
+
+   Card classes: .quest-card (a role), .mission (a project), .sidequest
+   (the in-progress project), .stat-panel (the recruiter brief). */
+
+/* ── Scroll reveal ─────────────────────────────── */
+/* Content is hidden only once JS has confirmed it can reveal it (html.js),
+   and js/site.js adds .visible as each block scrolls in. Entrances fail
+   open: everything else states the finished look at rest and animates
+   only from .visible, with fill-mode `backwards` (not `both`, which would
+   pin the end state above normal rules and kill later hover transforms). */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+html.js .reveal[data-fx="left"]   { transform: translateX(-30px); }
+html.js .reveal[data-fx="right"]  { transform: translateX(30px); }
+html.js .reveal[data-fx="zoom"]   { transform: translateY(14px); }
+html.js .reveal[data-fx="tiltup"] { transform: translateY(26px); }
+html.js .reveal.visible { opacity: 1; transform: none; }
+
+/* Heading lines wipe up from a clipped line box (.w > .wi). */
+.w { display: block; overflow: hidden; }
+.wi { display: inline-block; }
+html.js .reveal.visible .wi { animation: wipeUp 0.85s var(--ease) 0.06s backwards; }
+html.js .reveal.visible .w:nth-child(2) .wi { animation-delay: 0.18s; }
+
+/* ── Panels ────────────────────────────────────── */
+/* A flat plate with a hairline edge and two registration marks at the
+   corners, which tighten to cyan on hover. No shadow, no glow. */
+.panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+.panel::before, .panel::after {
+  content: ''; position: absolute; width: 9px; height: 9px;
+  border: 1px solid var(--line-2);
+  transition: border-color var(--t-out), width var(--t-out) var(--ease), height var(--t-out) var(--ease);
+  pointer-events: none;
+}
+.panel::before { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+.panel::after  { bottom: 4px; right: 4px; border-left: none; border-top: none; }
+.panel:hover::before, .panel:hover::after {
+  border-color: var(--sig); width: 15px; height: 15px;
+  transition-duration: var(--t-in);
+}
+
+/* ── Card layers ───────────────────────────────── */
+/* Surface: a faint top-lit gradient so cards read as objects with a face.
+   Card rules elsewhere set background-color, never the `background`
+   shorthand, so this survives. */
+.mission, .quest-card, .sidequest, .stat-panel, .quest-pane {
+  background-image: linear-gradient(180deg, rgba(232, 236, 241, 0.022), transparent 42%);
+}
+.quest-card, .mission, .sidequest { transition: opacity var(--t-out), border-color var(--t-out), background var(--t-out); }
+
+/* Scan: a soft wash under the pointer. js/cards.js writes --mx / --my —
+   the card itself never moves (an instrument face is bolted down). */
+.mission > .scan, .quest-card > .scan, .stat-panel > .scan {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(73, 214, 232, 0.075), transparent 50%);
+  opacity: 0; transition: opacity var(--t-out);
+}
+.mission:hover > .scan,
+.quest-card:hover > .scan,
+.stat-panel:hover > .scan { opacity: 1; transition-duration: var(--t-in); }
+
+/* Spot: a 1px ring masked to the card edge, lit at the pointer, so the
+   border light follows the cursor. Injected by js/cards.js. */
+.mission > .spot,
+.quest-card > .spot,
+.sidequest > .spot,
+.stat-panel > .spot {
+  position: absolute; inset: -1px; z-index: 4; pointer-events: none;
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%),
+              rgba(139, 231, 242, 0.85), rgba(73, 214, 232, 0.18) 45%, transparent 72%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  opacity: 0; transition: opacity var(--t-out);
+}
+.mission:hover > .spot,
+.quest-card:hover > .spot,
+.sidequest:hover > .spot,
+.stat-panel:hover > .spot { opacity: 1; transition-duration: var(--t-in); }
+
+/* Edge: a hairline that draws across the top as you enter a card. */
+.mission > .edge, .quest-card > .edge {
+  position: absolute; top: -1px; left: -1px; right: -1px; height: 1px;
+  background: var(--sig); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--t-out) var(--ease);
+  pointer-events: none; z-index: 3;
+}
+.mission:hover > .edge,
+.quest-card:hover > .edge,
+.mission:focus-within > .edge,
+.quest-card:focus-within > .edge {
+  transform: scaleX(1); transition-duration: 0.45s;
+}
+
+/* Skill filter (js/skills.js): non-matching cards dim; cards a filter
+   finds get a marked edge and pulse once, so results are findable even
+   on cards already scrolled past. */
+body.skill-filter .quest-card:not(.skill-hit),
+body.skill-filter .mission:not(.skill-hit),
+body.skill-filter .sidequest:not(.skill-hit) { opacity: 0.55; }
+.quest-card.skill-hit, .mission.skill-hit, .sidequest.skill-hit {
+  border-color: var(--sig-line);
+  animation: hitPulse 0.7s var(--ease);
+}
+/* Landing on a card from a key result or the timeline: one pulse so the
+   eye finds where it arrived. */
+.flash { animation: hitPulse 0.8s var(--ease) 2; }
+
+/* ── "Details" disclosure ──────────────────────── */
+/* Secondary detail opens on hover *intent*, expressed entirely in
+   transition-delay: opening waits --dwell, closing waits --grace, so a
+   cursor sweeping the page costs no timers, layout or paint. Height
+   animates via grid-template-rows 0fr → 1fr (intrinsic height without a
+   magic max-height). The .peek button pins a card open — it is also how
+   keyboard and touch get the same result. Touch never sees any of this:
+   without a fine pointer the detail simply stays open. */
+.peek { display: none; font-size: 0.72rem; }
+@media (hover: hover) and (pointer: fine) {
+  .quest-card, .mission {
+    --dwell: 0.17s;   /* rest this long before a card opens */
+    --grace: 0.3s;    /* forgiveness before it closes again */
+  }
+  .quest-card.pinned, .mission.pinned { --dwell: 0s; }   /* a pin never waits */
+
+  .detail {
+    display: grid; grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.44s var(--ease) var(--grace),
+                opacity 0.2s var(--ease) var(--grace);
+  }
+  .quest-card:hover .detail,
+  .mission:hover .detail,
+  .quest-card:focus-within .detail,
+  .mission:focus-within .detail,
+  .quest-card.pinned .detail,
+  .mission.pinned .detail {
+    grid-template-rows: 1fr; opacity: 1;
+    transition: grid-template-rows 0.44s var(--ease) var(--dwell),
+                opacity 0.34s var(--ease) calc(var(--dwell) + 0.07s);
+  }
+  /* Collapsed content is inert, not just invisible, so nothing focusable
+     hides in the tab order behind a zero-height box. */
+  .detail-inner { overflow: hidden; min-height: 0; visibility: hidden; transition: visibility 0s linear 0.74s; }
+  .quest-card:hover .detail-inner,
+  .mission:hover .detail-inner,
+  .quest-card:focus-within .detail-inner,
+  .mission:focus-within .detail-inner,
+  .quest-card.pinned .detail-inner,
+  .mission.pinned .detail-inner {
+    visibility: visible; transition: visibility 0s linear var(--dwell);
+  }
+
+  .peek {
+    display: inline-flex; align-items: center; align-self: flex-start; gap: 0.5rem;
+    margin-bottom: 1rem; padding: 0.34rem 0.75rem;
+    background: transparent; border: 1px solid var(--line-2); cursor: pointer;
+    font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    transition: color var(--t-out), border-color var(--t-out), background var(--t-out);
+  }
+  .peek i { font-size: 0.58rem; transition: transform var(--t-out) var(--ease); }
+  .peek:hover { color: var(--sig); border-color: var(--sig-line); }
+  .peek:focus-visible { outline: 2px solid var(--sig); outline-offset: 4px; }
+  /* The chevron turns on the same dwell as the panel opens. */
+  .quest-card:hover .peek, .mission:hover .peek {
+    color: var(--hi); border-color: var(--line-2);
+    transition-duration: var(--t-in);
+  }
+  .quest-card:hover .peek i, .mission:hover .peek i {
+    transform: rotate(180deg); transition-delay: var(--dwell);
+  }
+  /* Pinned looks different from merely open, so the click visibly did something. */
+  .quest-card.pinned .peek, .mission.pinned .peek {
+    color: var(--sig); border-color: var(--sig-line); background: var(--sig-soft);
+  }
+  .quest-card.pinned .peek i, .mission.pinned .peek i { transform: none; transition-delay: 0s; }
+}
+
+/* Pin every role at once. Only shown where cards can collapse. */
+.expand-all {
+  display: none; align-items: center; gap: 0.55rem;
+  margin-top: 1.3rem; padding: 0.45rem 0.9rem; cursor: pointer;
+  background: transparent; border: 1px solid var(--line-2); color: var(--muted);
+  font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  transition: color var(--t-out), border-color var(--t-out), background var(--t-out);
+}
+.expand-all:hover, .expand-all:focus-visible {
+  color: var(--sig); border-color: var(--sig-line); background: var(--sig-soft);
+  transition-duration: var(--t-in);
+}
+.expand-all:focus-visible { outline: 2px solid var(--sig); outline-offset: 3px; }
+.expand-all i { font-size: 0.58rem; transition: transform var(--t-out) var(--ease); }
+.expand-all[aria-pressed="true"] { color: var(--sig); border-color: var(--sig-line); background: var(--sig-soft); }
+@media (hover: hover) and (pointer: fine) { .expand-all { display: inline-flex; } }
+.pane-mode .expand-all { display: none; }
+
+/* ── Buttons ───────────────────────────────────── */
+.btn {
+  position: relative; overflow: visible;
+  display: inline-flex; align-items: center; gap: 0.65rem;
+  padding: 0.9rem 1.7rem;
+  font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; border: 1px solid transparent;
+  transition: background var(--t-out), color var(--t-out),
+              border-color var(--t-out), transform var(--t-out) var(--ease);
+}
+.btn i { font-size: 0.68rem; transition: transform var(--t-out) var(--ease); }
+.btn:hover { transition-duration: var(--t-in); transform: translateY(var(--lift-md)); }
+.btn:hover i { transform: translateX(3px); }
+
+.btn-solid { background: var(--sig); color: var(--ink); border-color: var(--sig); }
+.btn-solid:hover { background: var(--sig-hi); border-color: var(--sig-hi); }
+
+/* Sheen: a single pass of light across solid buttons on hover. */
+.btn-solid, .nav-cta { position: relative; overflow: hidden; }
+.btn-solid::after, .nav-cta::after {
+  content: ''; position: absolute; top: -20%; bottom: -20%; left: -45%; width: 32%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.42), transparent);
+  transform: skewX(-20deg); opacity: 0; pointer-events: none;
+}
+.btn-solid:hover::after, .nav-cta:hover::after { animation: sheen 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
+
+.btn-line { background: transparent; color: var(--hi); border-color: var(--line-2); }
+.btn-line:hover { color: var(--sig); border-color: var(--sig-line); background: var(--sig-soft); }
+/* Corner brackets snap in on hover — the panels' registration marks,
+   applied to things you can press. */
+.btn-line::before, .btn-line::after {
+  content: ''; position: absolute; width: 9px; height: 9px;
+  border-color: var(--sig); border-style: solid; border-width: 0;
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--t-out), transform var(--t-out) var(--ease);
+}
+.btn-line::before { top: -1px; left: -1px; border-left-width: 2px; border-top-width: 2px; transform: translate(4px, 4px); }
+.btn-line::after { bottom: -1px; right: -1px; border-right-width: 2px; border-bottom-width: 2px; transform: translate(-4px, -4px); }
+.btn-line:hover::before,
+.btn-line:hover::after,
+.btn-line:focus-visible::before,
+.btn-line:focus-visible::after {
+  opacity: 1; transform: none; transition-duration: var(--t-in);
+}
+
+/* Icons in social pills and project links lift on approach. */
+.social-pill i, .mlink i { transition: transform var(--t-out) var(--ease), color var(--t-out); }
+.social-pill:hover i, .mlink:hover i { transform: translateY(-2px); }
+
+/* Press feedback: 0.97 registers as a press without reading as a bounce. */
+.btn:active,
+.nav-cta:active,
+.mlink:active,
+.social-pill:active,
+.peek:active,
+.expand-all:active,
+.copy-mail:active,
+.tag:active,
+.skillbar button:active,
+.scroll-ring:active {
+  transform: scale(0.97);
+  transition-duration: 0.06s;
+}
+
+/* ── Tags ──────────────────────────────────────── */
+/* Labels in the markup; js/skills.js promotes them to filter buttons. */
+.tag {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border: 1px solid var(--line); color: var(--muted);
+  background: var(--bg);
+  cursor: pointer; user-select: none;
+  transition: border-color var(--t-out), color var(--t-out);
+}
+.tag:hover { border-color: var(--sig-line); color: var(--sig); transition-duration: var(--t-in); }
+.tag:focus-visible { outline: 2px solid var(--sig); outline-offset: 2px; }
+body.skill-filter .tag:not(.skill-on) { opacity: 0.25; }
+.tag.skill-on {
+  border-color: var(--sig); color: var(--sig);
+  background: var(--sig-soft);
+}
+/* Tags deal in left to right as their card arrives (--ti set by JS). */
+html.js .reveal.visible .rewards .tag,
+html.js .reveal.visible .mission-tags .tag {
+  animation: nudgeIn 0.4s var(--ease) backwards;
+  animation-delay: calc(var(--ti, 0) * 0.045s + 0.3s);
+}
+
+/* ── Mono for data ─────────────────────────────── */
+/* Anything read as data — labels, dates, IDs, tags, controls — is set in
+   the mono face; everything read as language inherits the sans body. */
+.sec-rule .idx,
+.sec-rule .name,
+.sec-rule .count,
+.quest-date,
+.quest-type,
+.mission-id,
+.mission-tier,
+.tag,
+.peek,
+.expand-all,
+.obj-label,
+.reward-label,
+.unlock small,
+.nav-links a,
+.nav-cta,
+.btn,
+.mlink,
+.social-pill,
+.footer-inner,
+.sq-tier,
+.sq-status,
+.hero-scroll {
+  font-family: var(--mono);
+}
+
+/* ── Sections and section headers ──────────────── */
+.section { position: relative; padding: 6.5rem 0; }
+.section.tint { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+/* A signal traces the top edge of a tinted band as it scrolls in. */
+.section.tint::after {
+  content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, var(--sig), transparent 70%);
+  transform: scaleX(0); transform-origin: left;
+  pointer-events: none;
+}
+html.js .section.tint.visible::after { transition: transform 1.5s var(--ease) 0.15s; transform: scaleX(1); }
+@media (max-width: 640px) { .section { padding: 4.8rem 0; } }
+
+.section-head { position: relative; margin-bottom: 2.8rem; isolation: isolate; }
+/* Ghost index: the section number at poster scale, outlined, behind the
+   heading — the way a printed catalogue folios a plate. */
+.section-head[data-idx]::before {
+  content: attr(data-idx);
+  position: absolute; right: -0.04em; top: 0.9rem; z-index: -1;
+  font-family: var(--serif); font-style: italic; font-weight: 400;
+  font-size: clamp(7rem, 17vw, 14rem); line-height: 0.8;
+  color: transparent; -webkit-text-stroke: 1px rgba(232, 236, 241, 0.09);
+  pointer-events: none; user-select: none;
+}
+html.js .section-head.reveal[data-idx]::before { opacity: 0; transform: translateY(24px); }
+html.js .section-head.reveal.visible[data-idx]::before {
+  opacity: 1; transform: none;
+  transition: opacity 1.2s var(--ease) 0.2s, transform 1.2s var(--ease) 0.2s;
+}
+
+/* The labelled rule: index, name, a line to the edge, a count. */
+.sec-rule { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 1.3rem; }
+.sec-rule .idx { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; color: var(--sig); }
+.sec-rule .name {
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.sec-rule .count { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.sec-rule .line { flex: 1; height: 1px; background: var(--line); position: relative; }
+/* The line draws out to the margin as the section arrives, with a point
+   riding its tip that fades once it lands. */
+html.js .section-head.reveal .sec-rule .line { transform: scaleX(0); transform-origin: left; }
+html.js .section-head.reveal.visible .sec-rule .line {
+  transform: scaleX(1);
+  transition: transform 1.1s var(--ease) 0.28s;
+}
+html.js .section-head.reveal .sec-rule .line::after {
+  content: ''; position: absolute; right: 0; top: 50%; width: 6px; height: 6px;
+  transform: translate(50%, -50%);
+  background: var(--sig); box-shadow: 0 0 8px 2px rgba(73, 214, 232, 0.45);
+  opacity: 0;
+}
+html.js .section-head.reveal.visible .sec-rule .line::after {
+  animation: scanDot 1.7s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+}
+
+.section-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700;
+  line-height: 1.05; letter-spacing: -0.035em; color: var(--hi);
+}
+.section-title .accent { color: var(--sig); }
+.section-sub { margin-top: 0.85rem; max-width: 560px; font-size: 1rem; line-height: 1.6; color: var(--text); }
+
+/* Accent words in headings: an underline draws in as the heading lands
+   (the serif accents switch it off in base.css). */
+.section-title .accent, .contact-title .accent {
+  background-image: linear-gradient(var(--sig), var(--sig));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0 2px;
+}
+html.js .reveal.visible .section-title .accent,
+html.js .reveal.visible .contact-title .accent {
+  animation: underlineIn 0.6s var(--ease) 0.55s forwards;
+}
+.section-title .serif, .contact-title .serif { font-size: 1.1em; line-height: 0.9; }
+
+/* ── Shared keyframes ──────────────────────────── */
+@keyframes wipeUp  { from { transform: translateY(115%); } to { transform: none; } }
+@keyframes riseIn  { from { opacity: 0; transform: translateY(8px); }  to { opacity: 1; transform: none; } }
+@keyframes nudgeIn { from { transform: translateY(6px); }              to { transform: none; } }
+@keyframes ledPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(73, 214, 232, 0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(73, 214, 232, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(73, 214, 232, 0); }
+}
+@keyframes hitPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(73, 214, 232, 0.45); }
+  100% { box-shadow: 0 0 0 10px rgba(73, 214, 232, 0); }
+}
+@keyframes underlineIn { to { background-size: 100% 2px; } }
+@keyframes scanDot { 0% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes sheen {
+  from { transform: translateX(0) skewX(-20deg); opacity: 1; }
+  to   { transform: translateX(460%) skewX(-20deg); opacity: 1; }
+}
+
+/* ── Reduced motion ────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal, html.js .reveal[data-fx] { opacity: 1; transform: none; transition: none; }
+  html.js .reveal.visible .wi { animation: none !important; }
+  .mission > .edge, .quest-card > .edge { transition: none; }
+  .quest-card.skill-hit, .mission.skill-hit, .sidequest.skill-hit, .flash { animation: none !important; }
+  html.js .reveal.visible .rewards .tag,
+  html.js .reveal.visible .mission-tags .tag { animation: none !important; }
+  .btn-solid:hover::after, .nav-cta:hover::after { animation: none; }
+  html.js .section-head.reveal .sec-rule .line { transform: none; }
+  html.js .section-head.reveal.visible .sec-rule .line::after { animation: none; }
+  html.js .section-head.reveal[data-idx]::before { opacity: 1; transform: none; }
+  html.js .reveal.visible .section-title .accent,
+  html.js .reveal.visible .contact-title .accent { animation: none; background-size: 100% 2px; }
+}

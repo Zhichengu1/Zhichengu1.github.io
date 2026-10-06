@@ -1,0 +1,464 @@
+/* Experience
+   ──────────
+   1. Timeline chart (.tline) and its hover popover (.tl-pop)
+   2. Role list (.quests > .quest) with the scroll-linked rail
+   3. Role card (.quest-card)
+   4. Pane mode: on a desktop with a fine pointer, js/experience.js adds
+      .pane-mode to #experience — rows compact, and a sticky side pane
+      (.quest-pane) shows the selected role's data flow.
+   Class names (quest, mission…) are historical; js/ depends on them. */
+
+/* ── 1. Timeline ───────────────────────────────── */
+.tline {
+  position: relative; z-index: 5;   /* lets the popover overlap the roles below */
+  margin: 0 0 2.8rem; padding: 1.2rem 1.4rem 0.9rem;
+  border: 1px solid var(--line); background: var(--panel);
+  background-image: linear-gradient(180deg, rgba(232, 236, 241, 0.022), transparent 42%);
+}
+.tl-cap {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem 1.5rem;
+  margin-bottom: 0.9rem;
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+.tl-legend { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 0.45rem; }
+.tl-legend .k { display: inline-block; width: 14px; height: 8px; margin-left: 0.7rem; }
+.tl-legend .k:first-child { margin-left: 0; }
+/* Role types, shared by the legend swatches and the bars. */
+.tline .intern { background: var(--sig); }
+.tline .fellow {
+  background: repeating-linear-gradient(135deg, rgba(73, 214, 232, 0.6) 0 2px, transparent 2px 5px);
+  box-shadow: inset 0 0 0 1px var(--sig-line);
+}
+.tline .teach { box-shadow: inset 0 0 0 1px var(--muted); }
+
+/* Axis and rows share one grid: name | track | duration. Bars are placed
+   by --s / --e (start / end, % of the axis) set inline in index.html. */
+.tl-axis, .tl-row {
+  display: grid; grid-template-columns: 8.5rem minmax(0, 1fr) 3.6rem;
+  align-items: center; gap: 1rem;
+}
+.tl-axis .tl-track { position: relative; height: 1.3rem; }
+.tl-axis b {
+  position: absolute; top: 0; bottom: 0; left: calc(var(--x) * 1%);
+  padding-left: 0.4rem; border-left: 1px solid var(--line-2);
+  font-family: var(--mono); font-weight: 500; font-size: 0.68rem; color: var(--muted);
+}
+.tl-rows { list-style: none; }
+.tl-row {
+  padding: 0.5rem 0.3rem;
+  border-top: 1px solid var(--line);
+  text-decoration: none;
+  transition: background var(--t-out);
+}
+.tl-row .tl-name {
+  font-size: 0.92rem; color: var(--hi);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: color var(--t-out);
+}
+/* Year gridlines (2025 and 2026) drawn into every track. */
+.tl-row .tl-track {
+  position: relative; height: 12px;
+  background:
+    linear-gradient(90deg, transparent calc(33.333% - 0.5px), var(--line-2) 0 calc(33.333% + 0.5px), transparent 0),
+    linear-gradient(90deg, transparent calc(73.333% - 0.5px), var(--line-2) 0 calc(73.333% + 0.5px), transparent 0);
+}
+.tl-bar {
+  position: absolute; top: 0; bottom: 0;
+  left: calc(var(--s) * 1%); width: calc((var(--e) - var(--s)) * 1%); min-width: 6px;
+  transform-origin: left; transition: box-shadow var(--t-out);
+}
+.tl-dur { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); text-align: right; }
+.tl-row:hover, .tl-row:focus-visible { background: rgba(232, 236, 241, 0.03); transition-duration: var(--t-in); }
+.tl-row:hover .tl-name, .tl-row:focus-visible .tl-name { color: var(--sig); }
+.tl-row:hover .tl-bar { box-shadow: 0 0 0 1px var(--sig), 0 0 12px rgba(73, 214, 232, 0.35); }
+.tl-row:focus-visible { outline-offset: -2px; }
+.tl-row.is-pop { background: rgba(73, 214, 232, 0.05); }
+.tl-row.is-pop .tl-name { color: var(--sig); }
+.tl-row.is-pop .tl-bar { box-shadow: 0 0 0 1px var(--sig), 0 0 12px rgba(73, 214, 232, 0.35); }
+/* Bars grow in, top row first. */
+html.js .tline.visible .tl-bar { animation: barIn 0.9s var(--ease) backwards; }
+html.js .tline.visible li:nth-child(1) .tl-bar { animation-delay: 0.15s; }
+html.js .tline.visible li:nth-child(2) .tl-bar { animation-delay: 0.25s; }
+html.js .tline.visible li:nth-child(3) .tl-bar { animation-delay: 0.35s; }
+html.js .tline.visible li:nth-child(4) .tl-bar { animation-delay: 0.45s; }
+html.js .tline.visible li:nth-child(5) .tl-bar { animation-delay: 0.55s; }
+
+/* Popover: resting on a bar opens that role's readout under it. It is a
+   view of the role card (js/experience.js fills it from the card), so it
+   is aria-hidden and takes no pointer events — it can never sit between
+   the cursor and the next bar. Fine pointers only. */
+.tl-pop {
+  position: absolute; top: 0; left: 0; z-index: 30;
+  width: min(400px, calc(100% - 24px));
+  padding: 1rem 1.15rem 0.95rem;
+  background: #10141a; border: 1px solid var(--sig-line);
+  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(8, 9, 11, 0.6);
+  pointer-events: none;
+  opacity: 0; transform: translateY(6px); visibility: hidden;
+  transition: opacity 0.16s var(--ease), transform 0.22s var(--ease), visibility 0s linear 0.22s;
+}
+.tl-pop.show {
+  opacity: 1; transform: none; visibility: visible;
+  transition: opacity 0.16s var(--ease), transform 0.22s var(--ease), visibility 0s;
+}
+/* Notch aimed at the middle of its bar (--ax is set by JS); .above flips
+   it when the popover opens upwards. */
+.tl-pop::before {
+  content: ''; position: absolute; top: -6px; left: var(--ax, 24px);
+  width: 10px; height: 10px; margin-left: -5px;
+  background: #10141a; border-left: 1px solid var(--sig-line); border-top: 1px solid var(--sig-line);
+  transform: rotate(45deg);
+}
+.tl-pop.above::before { top: auto; bottom: -6px; transform: rotate(225deg); }
+.tp-meta {
+  display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  margin-bottom: 0.45rem;
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted);
+}
+.tp-meta .d { color: var(--sig); letter-spacing: 0.04em; }
+.tp-title { font-size: 1.08rem; font-weight: 600; color: var(--hi); line-height: 1.3; letter-spacing: -0.015em; }
+.tp-org { margin: 0.1rem 0 0.7rem; font-size: 0.86rem; color: var(--text); }
+.tp-brief {
+  margin-bottom: 0.7rem; padding: 0.45rem 0.7rem;
+  border-left: 2px solid var(--sig); background: var(--sig-soft);
+  font-size: 0.86rem; font-weight: 600; color: var(--hi); line-height: 1.45;
+}
+.tp-list { list-style: none; display: grid; gap: 0.35rem; }
+.tp-list li { position: relative; padding-left: 1rem; font-size: 0.85rem; line-height: 1.5; color: var(--text); }
+.tp-list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 5px; height: 5px; background: var(--sig); }
+.tp-list strong { color: var(--hi); font-weight: 600; }
+.tp-list mark { background: none; color: var(--sig); }
+.tp-hint {
+  margin-top: 0.75rem; padding-top: 0.55rem; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* ── 2. Role list and rail ─────────────────────── */
+/* Dates on the left, cards on the right, a rail between them. The rail
+   (::before) draws in once; .quest-fill tracks how far you have read and
+   .quest-head rides its tip (js/experience.js writes --p); each node
+   latches on (.passed) as you scroll past it. */
+.quests { position: relative; display: flex; flex-direction: column; max-width: 1040px; }
+.quests::before {
+  content: ''; position: absolute; top: 8px; bottom: 8px;
+  left: calc(210px + 1.5rem); width: 1px;
+  background: linear-gradient(to bottom, var(--sig-line), var(--line) 40%, transparent);
+}
+html.js .quests::before { transform: scaleY(0); transform-origin: top; transition: transform 1.8s var(--ease) 0.2s; }
+html.js .quests.visible::before { transform: scaleY(1); }
+.quest-fill {
+  position: absolute; top: 8px; left: calc(210px + 1.5rem);
+  width: 1px; height: calc(100% - 16px);
+  background: var(--sig);
+  transform: scaleY(0); transform-origin: top;
+  will-change: transform;
+}
+/* Its own element positioned by --p, so it keeps its shape instead of
+   squashing with the fill's scale. */
+.quest-head {
+  position: absolute; left: calc(210px + 1.5rem); width: 7px; height: 7px;
+  top: calc(8px + var(--p, 0) * (100% - 16px));
+  transform: translate(-3px, -50%);
+  background: var(--sig-hi);
+  box-shadow: 0 0 10px 3px rgba(73, 214, 232, 0.5);
+  opacity: var(--p, 0);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease);
+}
+
+.quest {
+  position: relative;
+  display: grid; grid-template-columns: 210px 1fr;
+  gap: 3rem;
+  padding-bottom: 2.6rem;
+}
+.quest:last-child { padding-bottom: 0; }
+/* Rail node: square, like everything else in this system. */
+.quest::after {
+  content: ''; position: absolute; top: 7px;
+  left: calc(210px + 1.5rem - 4px); width: 9px; height: 9px;
+  background: var(--bg); border: 1px solid var(--sig);
+  transition: background var(--t-out);
+}
+.quest:hover::after { background: var(--sig); }
+html.js .quest::after { opacity: 0; transform: scale(0.4); }
+html.js .quest.visible::after {
+  opacity: 1; transform: scale(1);
+  transition: opacity 0.3s 0.3s, transform 0.45s var(--ease-back) 0.3s, background var(--t-out);
+}
+.quest.passed::after { background: var(--sig); animation: nodePing 0.55s var(--ease); }
+
+.quest-side {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 0.5rem; text-align: right; padding-top: 1px;
+}
+.quest-date {
+  font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em; line-height: 1.4;
+  color: var(--hi); font-variant-numeric: tabular-nums;
+}
+.quest-type {
+  padding: 0.22rem 0.65rem;
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase;
+  border: 1px solid var(--line-2); color: var(--muted);
+}
+.quest-type.active {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  color: var(--sig); border-color: var(--sig-line);
+}
+.quest-type.active::before {
+  content: ''; width: 5px; height: 5px; background: var(--sig);
+  animation: ledPulse 2.6s ease-out infinite;
+}
+
+/* ── 3. Role card ──────────────────────────────── */
+.quest-card {
+  position: relative;
+  padding: 1.7rem 1.8rem;
+  transition: opacity var(--t-out), border-color var(--t-out), background var(--t-out);
+}
+.quest-card > * { position: relative; z-index: 1; }
+.quest-card::before { z-index: 2; }   /* registration mark above the content */
+.quest-card:hover, .quest-card:focus-within {
+  border-color: var(--line-2); background: var(--panel-2);
+  transition-duration: var(--t-in);
+}
+.quest-title { font-size: 1.3rem; font-weight: 700; line-height: 1.35; letter-spacing: -0.035em; color: var(--hi); }
+.quest-title a { color: inherit; text-decoration: none; transition: color var(--t-out); }
+.quest-title a:hover { color: var(--sig); }
+.quest-title .ext { font-size: 0.62rem; color: var(--muted); margin-left: 0.5rem; vertical-align: 3px; }
+.quest-giver { margin: 0.3rem 0 1rem; font-size: 0.92rem; color: var(--text); }
+.quest-giver span { color: var(--muted); }
+
+/* The headline result of the role, set apart from the prose. */
+.quest-brief {
+  display: flex; align-items: flex-start; gap: 0.8rem;
+  margin-bottom: 1.2rem; padding: 0.75rem 1rem;
+  border-left: 2px solid var(--sig);
+  background: var(--sig-soft);
+}
+.quest-brief i { color: var(--sig); font-size: 0.82rem; margin-top: 0.3rem; }
+.quest-brief strong { display: block; font-size: 0.97rem; font-weight: 600; line-height: 1.5; color: var(--hi); }
+.quest-brief span { font-size: 0.9rem; color: var(--text); }
+
+.obj-label, .reward-label {
+  display: block; margin-bottom: 0.7rem;
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+.objectives { list-style: none; display: flex; flex-direction: column; gap: 0.65rem; margin-bottom: 1.1rem; }
+.objectives li { position: relative; max-width: 68ch; padding-left: 1.75rem; font-size: 0.97rem; line-height: 1.65; }
+/* A hairline square that fills with the signal colour as the card
+   reveals — a checkbox drawn in CSS, no icon font. */
+.objectives li::before {
+  content: ''; position: absolute; left: 0; top: 0.55em;
+  width: 8px; height: 8px;
+  border: 1px solid var(--line-2);
+}
+.objectives li::after {
+  content: ''; position: absolute; left: 2px; top: calc(0.55em + 2px);
+  width: 4px; height: 4px; background: var(--sig);
+}
+html.js .objectives li::after { opacity: 0; transform: scale(0.2); }
+html.js .visible .objectives li::after { animation: tick 0.3s var(--ease-back) forwards; }
+html.js .visible .objectives li:nth-child(1)::after { animation-delay: 0.45s; }
+html.js .visible .objectives li:nth-child(2)::after { animation-delay: 0.6s; }
+html.js .visible .objectives li:nth-child(3)::after { animation-delay: 0.75s; }
+html.js .visible .objectives li:nth-child(4)::after { animation-delay: 0.9s; }
+html.js .visible .objectives li:nth-child(5)::after { animation-delay: 1.05s; }
+html.js .visible .objectives li:nth-child(6)::after { animation-delay: 1.2s; }
+.objectives strong { color: var(--hi); font-weight: 600; }
+/* Figures are the one thing in body copy allowed the signal colour,
+   because a number is a measurement. */
+.objectives mark { background: none; color: var(--sig); font-weight: 500; }
+.quest-card .peek { margin-top: 0.2rem; }
+.rewards { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+/* Entrances: the date column arrives from the left and the card from the
+   right, so the two halves close on the rail; bullets rise in order.
+   Transform only — the parent .reveal owns the fade, and an opacity
+   animation here would outrank the skill filter's dimming. */
+html.js .quest.reveal.visible .quest-side { animation: inFromLeft 0.7s var(--ease) backwards; }
+html.js .quest.reveal.visible .quest-card { animation: inFromRight 0.7s var(--ease) 0.06s backwards; }
+html.js .reveal.visible .objectives li { animation: riseIn 0.5s var(--ease) backwards; }
+html.js .reveal.visible .objectives li:nth-child(1) { animation-delay: 0.22s; }
+html.js .reveal.visible .objectives li:nth-child(2) { animation-delay: 0.32s; }
+html.js .reveal.visible .objectives li:nth-child(3) { animation-delay: 0.42s; }
+html.js .reveal.visible .objectives li:nth-child(4) { animation-delay: 0.52s; }
+html.js .reveal.visible .objectives li:nth-child(5) { animation-delay: 0.62s; }
+html.js .reveal.visible .objectives li:nth-child(6) { animation-delay: 0.72s; }
+
+/* ── 4. Pane mode ──────────────────────────────── */
+/* Rows keep every word in the DOM; the long parts are clipped with the
+   sr-only pattern (not removed), so screen readers and print still get
+   the full record. The pane is aria-hidden — it is a view, not a copy. */
+.quest-pane, .quest-cursor { display: none; }
+.pane-mode .quests-wrap {
+  display: grid; grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 2rem; align-items: start;
+}
+.pane-mode .quests { max-width: none; }
+.pane-mode .quests::before,
+.pane-mode .quest-fill,
+.pane-mode .quest-head { left: calc(150px + 1.5rem); }
+.pane-mode .quest::after { left: calc(150px + 1.5rem - 4px); }
+.pane-mode .quest { grid-template-columns: 150px 1fr; gap: 2.2rem; padding-bottom: 1rem; }
+.pane-mode .quest-side { padding-top: 0.85rem; }
+
+/* Compact rows: title, company, headline result; click to select. */
+.pane-mode .quest-card {
+  padding: 0.95rem 1.15rem 1rem; cursor: pointer;
+  transition: border-color var(--t-out), background var(--t-out), box-shadow var(--t-out);
+}
+.pane-mode .quest-card:focus-visible { outline: 2px solid var(--sig); outline-offset: 2px; }
+.pane-mode .quest-card.is-active { border-color: var(--sig-line); background: var(--panel-2); box-shadow: inset 2px 0 0 var(--sig); }
+.pane-mode .quest-card.is-active .quest-title a { color: var(--sig); }
+.pane-mode .quest-title { font-size: 1.02rem; line-height: 1.3; }
+.pane-mode .quest-card .quest-title { padding-right: 9.5rem; }   /* room for the row prompt */
+.pane-mode .quest-giver { margin: 0.15rem 0 0.65rem; font-size: 0.84rem; }
+.pane-mode .quest-brief { padding: 0.5rem 0.8rem; margin-bottom: 0; }
+.pane-mode .quest-brief strong { font-size: 0.86rem; line-height: 1.5; }
+.pane-mode .quest-brief span { display: none; }
+.pane-mode .quest-card .obj-label,
+.pane-mode .quest-card .objectives,
+.pane-mode .quest-card .peek,
+.pane-mode .quest-card .detail,
+.pane-mode .quest-card .qflow {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Row prompt (.qc-cta, injected by JS): "View data flow →" on hover,
+   "Viewing" on the selected row. */
+.qc-cta { display: none; }
+.pane-mode .qc-cta {
+  display: block; position: absolute; top: 0.95rem; right: 1.1rem; z-index: 2;
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  pointer-events: none;
+}
+.qc-cta b { font-weight: 500; transition: opacity var(--t-out), transform var(--t-out) var(--ease); }
+.qc-cta .h { color: var(--muted); opacity: 0; display: inline-block; transform: translateX(-4px); }
+.qc-cta .v { color: var(--sig); display: none; }
+.pane-mode .quest-card:hover .qc-cta .h { opacity: 1; transform: none; transition-duration: var(--t-in); }
+.pane-mode .quest-card.is-active .qc-cta .h { display: none; }
+.pane-mode .quest-card.is-active .qc-cta .v { display: inline; }
+
+/* Cursor bracket: glides to the selected row, with a connector into the
+   pane. Positioned from the row's real box by JS. */
+.pane-mode .quest-cursor {
+  display: block; position: absolute; left: 0; top: 0; width: 0; height: 0;
+  pointer-events: none; opacity: 0; z-index: 2;
+  transition: top 0.42s var(--ease), height 0.42s var(--ease),
+              left 0.42s var(--ease), width 0.42s var(--ease), opacity 0.3s;
+}
+.pane-mode .quest-cursor.on { opacity: 1; }
+.quest-cursor::before {
+  content: ''; position: absolute; right: -1px; top: 0; bottom: 0; width: 2px;
+  background: var(--sig); box-shadow: 0 0 10px rgba(73, 214, 232, 0.5);
+}
+.quest-cursor::after {
+  content: ''; position: absolute; left: 100%; top: 50%; width: 2rem; height: 1px;
+  background: linear-gradient(90deg, var(--sig), rgba(73, 214, 232, 0.25));
+}
+
+/* The pane. It can run past the fold on a short screen, so it scrolls
+   inside itself rather than clipping. */
+.pane-mode .quest-pane {
+  display: block; position: sticky; top: 96px;
+  padding: 1.2rem 1.4rem 1.25rem;
+  max-height: calc(100vh - 112px); overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: #1e242e transparent;
+}
+.qp-head {
+  display: flex; align-items: center; gap: 0.8rem;
+  padding-bottom: 0.7rem; margin-bottom: 1rem; border-bottom: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--muted);
+}
+.qp-idx { color: var(--sig); font-weight: 700; }
+.qp-date { margin-left: auto; color: var(--text); letter-spacing: 0.04em; text-transform: none; }
+.qp-idx, .qp-date { transition: opacity 0.3s var(--ease); }
+.quest-pane.is-empty .qp-idx { color: var(--muted); }
+.qp-title { margin-bottom: 0.9rem; font-size: 1.05rem; line-height: 1.3; letter-spacing: -0.02em; color: var(--hi); }
+.quest-pane .qflow { margin: 0; }
+.qp-empty {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 2.2rem 0.4rem; font-size: 0.95rem; color: var(--text);
+}
+.qp-empty .arrow { font-family: var(--mono); color: var(--sig); }
+/* Fallback for a role with no flow (js/experience.js). */
+.qp-none {
+  margin-bottom: 1.1rem; padding: 0.4rem 0 0.4rem 0.8rem;
+  border-left: 2px solid var(--line-2);
+  font-size: 0.92rem; line-height: 1.55; color: var(--text);
+}
+.qp-hint {
+  margin-top: 1rem; padding-top: 0.7rem; border-top: 1px solid var(--line);
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* Swapping roles: the old content fades down (.swap-out), JS animates
+   the measured height between the two, then the new content settles in
+   (.swap-in) with the diagram's nodes and steps arriving in flow order. */
+.qp-body { position: relative; overflow: hidden; transition: height 0.5s var(--ease); }
+.qp-body.swap-out {
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.19s var(--ease), transform 0.19s var(--ease), height 0.5s var(--ease);
+}
+.qp-body.swap-in { animation: paneSettle 0.55s var(--ease) both; }
+.qp-body.swap-in .vf .fn,
+.qp-body.swap-in .qf-step,
+.qp-body.swap-in .rewards .tag {
+  animation: riseIn 0.5s var(--ease) backwards;
+}
+.qp-body.swap-in .vf .fn[data-step="1"], .qp-body.swap-in .qf-step:nth-child(1) { animation-delay: 0.10s; }
+.qp-body.swap-in .vf .fn[data-step="2"], .qp-body.swap-in .qf-step:nth-child(2) { animation-delay: 0.16s; }
+.qp-body.swap-in .vf .fn[data-step="3"], .qp-body.swap-in .qf-step:nth-child(3) { animation-delay: 0.22s; }
+.qp-body.swap-in .vf .fn[data-step="4"], .qp-body.swap-in .qf-step:nth-child(4) { animation-delay: 0.28s; }
+.qp-body.swap-in .vf .fn[data-step="5"], .qp-body.swap-in .qf-step:nth-child(5) { animation-delay: 0.34s; }
+.qp-body.swap-in .vf .fn[data-step="6"], .qp-body.swap-in .qf-step:nth-child(6) { animation-delay: 0.40s; }
+.qp-body.swap-in .vf .fe, .qp-body.swap-in .vf .vb { animation: fadeIn 0.6s var(--ease) 0.2s backwards; }
+
+/* ── Keyframes ─────────────────────────────────── */
+@keyframes barIn { from { transform: scaleX(0); } to { transform: none; } }
+@keyframes nodePing {
+  0%   { box-shadow: 0 0 0 0 rgba(73, 214, 232, 0.55); }
+  100% { box-shadow: 0 0 0 9px rgba(73, 214, 232, 0); }
+}
+@keyframes tick { to { opacity: 1; transform: scale(1); } }
+@keyframes inFromLeft  { from { transform: translateX(-14px); } to { transform: none; } }
+@keyframes inFromRight { from { transform: translateX(14px); }  to { transform: none; } }
+@keyframes paneSettle { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 999px) { .quest-pane, .quest-cursor { display: none !important; } }
+@media (max-width: 900px) {
+  .quests::before, .quest::after, .quest-fill, .quest-head { display: none; }
+  .quest { grid-template-columns: 1fr; gap: 0.9rem; padding-bottom: 2.2rem; }
+  .quest-side { flex-direction: row; align-items: center; flex-wrap: wrap; text-align: left; }
+}
+@media (max-width: 640px) { .quest-card { padding: 1.35rem 1.25rem; } }
+@media (max-width: 560px) {
+  .tline { padding: 1rem 1rem 0.7rem; }
+  .tl-axis, .tl-row { grid-template-columns: 5.6rem minmax(0, 1fr) 2.8rem; gap: 0.6rem; }
+  .tl-row .tl-name { font-size: 0.8rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quest-fill, .quest-head { display: none; }
+  .quest-type.active::before { animation: none; }
+  .quest.passed::after { animation: none; }
+  html.js .quest.reveal.visible .quest-side,
+  html.js .quest.reveal.visible .quest-card,
+  html.js .reveal.visible .objectives li,
+  html.js .tline.visible .tl-bar { animation: none !important; }
+  .tl-pop, .tl-pop.show { transition: none; transform: none; }
+  .pane-mode .quest-cursor { transition: none; }
+  .qp-body, .qp-body.swap-out { transition: none; }
+  .qp-body.swap-out { opacity: 1; transform: none; }
+  .qp-body.swap-in, .qp-body.swap-in * { animation: none !important; }
+}

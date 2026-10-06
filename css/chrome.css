@@ -1,0 +1,258 @@
+/* Chrome
+   ──────
+   Everything fixed to the viewport rather than to content: the nav, the
+   scroll progress bar, the cursor reticle, the back-to-top gauge, the
+   skill-filter bar, the footer, and the page enter/leave fade.
+   Behaviour lives in js/site.js (nav, progress, menu) and js/cursor.js. */
+
+/* ── Nav bar ───────────────────────────────────── */
+/* Opaque rather than blurred: on a page this dark a backdrop blur is
+   barely visible, but it forces the whole scrolling document to be
+   composited. */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  background: rgba(8, 9, 11, 0.97);
+  border-bottom: 1px solid transparent;
+  /* Coming back answers a reader asking for it: slower, eased out.
+     Leaving (.hidden) is shorter and eased in — it accelerates away. */
+  transition: border-color 0.35s,
+              transform 0.52s var(--ease),
+              opacity 0.44s var(--ease);
+}
+.nav.scrolled { border-bottom-color: var(--line); }
+.nav.hidden {
+  transform: translateY(-102%);
+  opacity: 0;
+  pointer-events: none;
+  transition: border-color 0.35s,
+              transform 0.36s cubic-bezier(0.45, 0, 0.85, 0.35),
+              opacity 0.26s linear;
+}
+.nav-inner {
+  max-width: 1180px; margin: 0 auto; padding: 0.85rem 2.25rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;
+}
+.nav-right { display: flex; align-items: center; gap: 1.1rem; }
+
+/* Wordmark badge: a standby LED breathing at idle, inverting on hover so
+   it reads as a key you can press. */
+.nav-logo { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; }
+.nav-logo .badge {
+  width: 30px; height: 30px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: var(--sig);
+  border: 1px solid var(--sig-line);
+  font-size: 0.74rem; font-weight: 700;
+  transition: background var(--t-out), color var(--t-out), transform var(--t-out) var(--ease);
+  animation: standbyGlow 3.4s ease-in-out infinite;
+}
+.nav-logo:hover .badge { background: var(--sig); color: var(--ink); animation-play-state: paused; }
+.nav-logo:active .badge { transform: scale(0.94); }
+@keyframes standbyGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(73, 214, 232, 0); }
+  50%      { box-shadow: 0 0 7px 1px rgba(73, 214, 232, 0.35); }
+}
+
+/* ── Nav links ─────────────────────────────────── */
+.nav-links { position: relative; display: flex; gap: 0.35rem; list-style: none; }
+.nav-links a {
+  position: relative; display: inline-flex; align-items: center;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.8rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color var(--t-out);
+}
+.nav-links a:hover, .nav-links a:focus-visible, .nav-links a.active { color: var(--hi); }
+
+/* Per-link underline: hover feedback only on desktop, where the sliding
+   indicator below already marks the active section. */
+.nav-links a::after {
+  content: ''; position: absolute; left: 0.75rem; right: 0.75rem; bottom: 0.16rem;
+  height: 1px; background: var(--sig);
+  transform: scaleX(0); transform-origin: right;
+  transition: transform 0.3s var(--ease);
+}
+.nav-links a.active::after { transform-origin: left; }
+.nav-links a:hover::after, .nav-links a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+/* Sliding active-section indicator: one bar that travels between links
+   as you scroll, so it reads as a position report. It is the list's own
+   ::after because <ul> may only contain <li>; js/site.js writes --w / --x
+   from the active link's box. */
+.nav-links::after {
+  content: ''; position: absolute; left: 0; bottom: 0.16rem; height: 1px;
+  width: var(--w, 0); transform: translateX(var(--x, 0));
+  background: var(--sig);
+  opacity: 0; pointer-events: none;
+  transition: transform 0.42s var(--ease), width 0.42s var(--ease), opacity 0.3s;
+}
+.nav-links.has-active::after { opacity: 1; }
+
+.nav-cta {
+  padding: 0.62rem 1.25rem;
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase; white-space: nowrap;
+  color: var(--ink); background: var(--sig); text-decoration: none;
+  transition: background var(--t-out);
+}
+.nav-cta:hover { background: var(--sig-hi); }
+
+/* ── Mobile menu ───────────────────────────────── */
+.nav-toggle {
+  display: none; background: none; border: 1px solid var(--line-2); cursor: pointer;
+  color: var(--hi); font-size: 0.85rem; padding: 0.35rem 0.55rem;
+}
+.nav-toggle i { display: block; transition: transform 0.3s var(--ease); }
+.nav-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+@media (max-width: 1000px) {
+  /* The link list becomes a full-width panel that drops under the bar. */
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; gap: 0;
+    background: var(--bg-2); border-bottom: 1px solid var(--line);
+    padding: 0.5rem 2.25rem 0.9rem;
+  }
+  .nav-links.open { display: flex; animation: menuIn 0.28s var(--ease) both; }
+  .nav-links.open li { animation: riseIn 0.4s var(--ease) backwards; }
+  .nav-links.open li:nth-child(2) { animation-delay: 0.05s; }
+  .nav-links.open li:nth-child(3) { animation-delay: 0.10s; }
+  .nav-links a { padding: 0.62rem 0; }
+  .nav-links a::after { left: 0; right: 0; }
+  .nav-links a.active::after { transform: scaleX(1); transform-origin: left; }
+  .nav-links::after { display: none; }
+  .nav-toggle { display: block; }
+}
+@media (max-width: 640px) {
+  .nav-inner { padding: 0.8rem 1.35rem; }
+}
+@keyframes menuIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* ── Scroll progress ───────────────────────────── */
+#xp {
+  position: fixed; top: 0; left: 0; z-index: 400;
+  height: 2px; width: 100%;
+  background: var(--sig);
+  transform: scaleX(0); transform-origin: left;
+  will-change: transform;
+}
+
+/* ── Cursor reticle ────────────────────────────── */
+/* A crosshair that trails the pointer and squares up on anything
+   actionable. Hidden on touch and under reduced motion. */
+.reticle {
+  position: fixed; top: 0; left: 0; z-index: 500;
+  width: 30px; height: 30px; margin: -15px 0 0 -15px;
+  pointer-events: none; opacity: 0;
+  transition: opacity 0.3s;
+}
+body.ret-on .reticle { opacity: 1; }
+.reticle .ring {
+  position: absolute; inset: 0;
+  border: 1px solid rgba(73, 214, 232, 0.4);
+  transition: transform 0.28s var(--ease), border-color 0.28s;
+}
+/* The crosshair arms make it read as a sight rather than a bubble. */
+.reticle .ring::before, .reticle .ring::after {
+  content: ''; position: absolute; background: rgba(73, 214, 232, 0.4);
+  transition: background 0.28s;
+}
+.reticle .ring::before { left: 50%; top: -5px; bottom: -5px; width: 1px; margin-left: -0.5px; }
+.reticle .ring::after  { top: 50%; left: -5px; right: -5px; height: 1px; margin-top: -0.5px; }
+.reticle .tick { position: absolute; width: 6px; height: 6px; opacity: 0; transition: opacity 0.22s; }
+.reticle .tick::before { content: ''; position: absolute; inset: 0; border: 1.5px solid var(--sig); }
+.reticle .tick.tl { top: -4px; left: -4px; }     .reticle .tick.tl::before { border-right: none; border-bottom: none; }
+.reticle .tick.tr { top: -4px; right: -4px; }    .reticle .tick.tr::before { border-left: none; border-bottom: none; }
+.reticle .tick.bl { bottom: -4px; left: -4px; }  .reticle .tick.bl::before { border-right: none; border-top: none; }
+.reticle .tick.br { bottom: -4px; right: -4px; } .reticle .tick.br::before { border-left: none; border-top: none; }
+/* Locked on a target: the ring drops away and the corner marks bracket it. */
+.reticle.lock .ring { transform: scale(1.5); border-color: transparent; }
+.reticle.lock .ring::before, .reticle.lock .ring::after { background: transparent; }
+.reticle.lock .tick { opacity: 1; }
+@media (hover: none), (prefers-reduced-motion: reduce) { .reticle { display: none; } }
+
+/* ── Back-to-top gauge ─────────────────────────── */
+/* The ring fills with scroll progress (stroke-dashoffset set by JS). */
+.scroll-ring {
+  position: fixed; right: 1.4rem; bottom: 1.4rem; z-index: 350;
+  width: 46px; height: 46px; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--panel); border: 1px solid var(--line-2);
+  color: var(--sig); font-size: 0.72rem; cursor: pointer;
+  opacity: 0; transform: translateY(12px); pointer-events: none;
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease),
+              border-color var(--t-out), background var(--t-out);
+}
+.scroll-ring.show { opacity: 1; transform: none; pointer-events: auto; }
+.scroll-ring:hover { border-color: var(--sig-line); background: var(--panel-2); }
+.scroll-ring svg { position: absolute; inset: 3px; transform: rotate(-90deg); }
+.scroll-ring circle { fill: none; stroke-width: 1.5; }
+.scroll-ring .bg { stroke: var(--line-2); }
+.scroll-ring .fg { stroke: var(--sig); stroke-dasharray: 100; stroke-dashoffset: 100; }
+.scroll-ring i { transition: transform var(--t-out) var(--ease); }
+.scroll-ring:hover i { transform: translateY(-2px); }
+
+/* ── Skill-filter bar ──────────────────────────── */
+/* Appears while a skill filter is active (js/skills.js). */
+.skillbar {
+  position: fixed; left: 50%; bottom: 1.4rem; z-index: 360;
+  max-width: calc(100vw - 2rem);
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.6rem 0.7rem 0.6rem 1rem;
+  background: var(--panel); border: 1px solid var(--sig-line);
+  font-family: var(--mono); font-size: 0.75rem; color: var(--text);
+  opacity: 0; pointer-events: none;
+  transform: translateX(-50%) translateY(14px);
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.skillbar.show { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.skillbar b { color: var(--sig); font-weight: 500; }
+.skillbar .n { color: var(--muted); }
+.skillbar button {
+  background: none; border: 1px solid var(--line-2); cursor: pointer;
+  color: var(--muted); padding: 0.2rem 0.5rem;
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color var(--t-out), border-color var(--t-out);
+}
+.skillbar button:hover { color: var(--sig); border-color: var(--sig-line); }
+@media (max-width: 640px) { .skillbar { bottom: 5rem; } }
+
+/* ── Footer ────────────────────────────────────── */
+.footer { position: relative; z-index: 1; border-top: 1px solid var(--line); background: var(--bg-2); }
+.footer-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.2rem; flex-wrap: wrap;
+  padding-top: 1.3rem; padding-bottom: 1.3rem;   /* sides come from .wrap */
+  font-size: 0.75rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+.footer-inner .fld { display: inline-flex; align-items: center; gap: 0.5rem; }
+.footer-inner .fld b { color: var(--text); font-weight: 400; }
+.footer a { color: var(--muted); text-decoration: none; transition: color var(--t-out); }
+.footer a:hover { color: var(--sig); }
+.footer .name { color: var(--text); }
+.to-top { display: inline-flex; align-items: center; gap: 0.5rem; }
+.to-top i { transition: transform var(--t-out) var(--ease); }
+.to-top:hover i { transform: translateY(-3px); }
+
+/* ── Page enter / leave ────────────────────────── */
+/* Enter fills `both`, so with animations off the body simply stays at
+   opacity 1. Leave is a class js/site.js sets before following a
+   same-site link — the only place content deliberately fades out. */
+html.js body { animation: pageIn 0.45s var(--ease) both; }
+html.js.leaving body { opacity: 0; transition: opacity 0.22s var(--ease); }
+@keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Motion is the whole mechanism of the auto-hiding bar, so without it
+     the bar stays put. */
+  .nav { transition: border-color 0.35s; }
+  .nav.hidden { transform: none; opacity: 1; pointer-events: auto; }
+  .nav-toggle i { transition: none; }
+  .nav-links::after { transition: none; }
+  .nav-links.open, .nav-links.open li { animation: none !important; }
+  .skillbar { transition: none; }
+  html.js body { animation: none; }
+  html.js.leaving body { opacity: 1; transition: none; }
+}
