@@ -19,6 +19,7 @@
   --accent-secondary: #8be7f2;
   --accent-strong:    #2bc3d6;
   --accent-glow:      rgba(73, 214, 232, 0.07);
+  --accent-line:      rgba(73, 214, 232, 0.38);   /* = --sig-line on the home page */
   --text-primary:     #e8ecf1;
   --text-secondary:   #a2acb9;
   /* Raised from #67707f, which fell under WCAG AA on this darker
@@ -149,16 +150,10 @@ body {
   padding: 0.5rem 1rem;
   background: var(--accent-glow);
   color: var(--accent-primary);
-  border: 1px solid rgba(184, 233, 74, 0.3);
+  border: 1px solid var(--accent-line);
   border-radius: 100px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-}
-
-.badge.hackathon {
-  background: var(--accent-glow);
-  color: var(--accent-primary);
-  border-color: rgba(184, 233, 74, 0.3);
 }
 
 .hero-title {
