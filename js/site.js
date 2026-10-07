@@ -22,6 +22,8 @@
   const hero = document.querySelector('.hero');
   const ringBtn = document.getElementById('scroll-ring');
   const ringFg = document.getElementById('ring-fg');
+  const smap = document.getElementById('smap');
+  const smapFill = document.getElementById('smap-fill');
   let scrollRaf = null, lastY = 0;
 
   /* ── Auto-hiding nav ──────────────────────────────
@@ -86,6 +88,8 @@
     /* Progress gauge */
     ringFg.style.strokeDashoffset = 100 - pct * 100;
     ringBtn.classList.toggle('show', y > 420);
+    if (smapFill) smapFill.style.transform = `scaleY(${pct.toFixed(4)})`;
+    if (smap) smap.classList.toggle('show', y > 420);
     updateNav(y);
   }
   window.addEventListener('scroll', () => {
@@ -135,7 +139,11 @@
   (function () {
     const zones = [...document.querySelectorAll('.bg-zone')];
     if (!zones.length || !('IntersectionObserver' in window)) return;
-    const show = id => zones.forEach(z => z.classList.toggle('on', z.dataset.zone === id));
+    const marks = [...document.querySelectorAll('.smap a')];
+    const show = id => {
+      zones.forEach(z => z.classList.toggle('on', z.dataset.zone === id));
+      marks.forEach(m => m.classList.toggle('on', m.dataset.sec === id));
+    };
     const zoneObs = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) show(e.target.id); });
     }, { rootMargin: '-45% 0px -45% 0px' });
@@ -144,6 +152,28 @@
       if (el) zoneObs.observe(el);
     });
     show('top');
+  })();
+
+  /* Grid lens: the background grid lights up around the pointer. The
+     light trails the cursor with easing (each frame closes 14% of the
+     gap) and the loop stops once it settles, so a still mouse costs
+     nothing. Fine pointers only; off under reduced motion. */
+  (function () {
+    const lens = document.getElementById('bg-lens');
+    if (!lens || !finePointer || reduceMotion) return;
+    let tx = innerWidth / 2, ty = innerHeight / 2, x = tx, y = ty, raf = null;
+    function frame() {
+      x += (tx - x) * 0.14; y += (ty - y) * 0.14;
+      lens.style.setProperty('--lx', x.toFixed(1) + 'px');
+      lens.style.setProperty('--ly', y.toFixed(1) + 'px');
+      raf = (Math.abs(tx - x) + Math.abs(ty - y) > 0.5) ? requestAnimationFrame(frame) : null;
+    }
+    document.addEventListener('mousemove', e => {
+      tx = e.clientX; ty = e.clientY;
+      lens.classList.add('on');
+      if (raf === null) raf = requestAnimationFrame(frame);
+    }, { passive: true });
+    document.addEventListener('mouseout', e => { if (!e.relatedTarget) lens.classList.remove('on'); });
   })();
 
   /* Scrollspy */

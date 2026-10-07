@@ -44,6 +44,55 @@
 .mission-desc.feats code { font-family: var(--mono); font-size: 0.82em; color: var(--read); }
 .sq-desc { color: var(--read); }
 .imp-what { font-size: 0.92rem; line-height: 1.55; }
+/* Key results as an instrument readout, not cards. The figures stand
+   on an open scale: one hairline, a tick above each
+   figure and a rule that fades down between them. Hovering (or focusing)
+   a figure lights its tick, draws the scale across its column in cyan
+   and lets the number glow. Each figure is still a link to its source. */
+.kr-label { margin-bottom: 0; }
+.kr-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0; margin-top: 0.9rem;
+  background: none; border: none; border-top: 1px solid var(--line);
+}
+.kr-grid li { position: relative; }
+/* Tick on the scale above each figure. */
+.kr-grid li::before {
+  content: ''; position: absolute; left: 0; top: -4px; z-index: 1;
+  width: 1px; height: 7px; background: var(--line-2);
+  transition: background var(--t-out), box-shadow var(--t-out);
+}
+.kr-grid li:has(.imp:hover)::before,
+.kr-grid li:has(.imp:focus-visible)::before {
+  background: var(--sig); box-shadow: 0 0 8px rgba(73, 214, 232, 0.7); transition-duration: var(--t-in);
+}
+/* Rules between figures fade out downward instead of boxing them in. */
+.kr-grid li + li::after {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(var(--line-2), transparent 85%); pointer-events: none;
+}
+.imp, .imp:hover, .imp:focus-visible { background: transparent; }
+.imp { padding: 1.35rem 1.4rem 0.5rem; overflow: visible; }
+.kr-grid li:first-child .imp { padding-left: 0; }
+/* The hover rule rides the scale itself. */
+.imp::before { top: -1px; height: 1px; background: linear-gradient(90deg, var(--sig), transparent 90%); }
+.imp-num { font-size: clamp(2.2rem, 3.6vw, 3rem); transition: color var(--t-out), text-shadow var(--t-out); }
+.imp:hover .imp-num, .imp:focus-visible .imp-num { color: var(--sig); text-shadow: 0 0 28px rgba(73, 214, 232, 0.35); }
+.imp-src { letter-spacing: 0.1em; white-space: nowrap; }
+/* Figures arrive one after another along the scale. */
+html.js .key-results.visible .imp { animation: riseIn 0.5s var(--ease) backwards; animation-delay: calc(var(--d, 0s) + 0.6s); }
+
+/* Tablet: two columns, the most recent role across the top; each row
+   gets its own scale line, and the between-figure rules step aside. */
+@media (max-width: 1100px) {
+  .kr-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; border-top: none; }
+  .kr-grid li:first-child { grid-column: 1 / -1; }
+  .kr-grid li { border-top: 1px solid var(--line); }
+  .kr-grid li + li::after { display: none; }
+  .imp, .kr-grid li:first-child .imp { padding: 1.15rem 0 1rem; }
+}
+@media (max-width: 520px) { .kr-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { html.js .key-results.visible .imp { animation: none; } }
 
 /* ══ 2. Technology tags ═══════════════════════════ */
 /* Compact and quiet at rest, lit on approach. */
@@ -155,10 +204,6 @@
 }
 .footer a:not(.to-top):hover, .footer a:not(.to-top):focus-visible { background-size: 100% 1px; }
 
-/* Social icons: a small scale and glow. */
-.hero-socials a i { transition: transform var(--t-out) var(--ease); }
-.hero-socials a:hover, .hero-socials a:focus-visible { box-shadow: 0 0 20px -6px rgba(73, 214, 232, 0.6); }
-.hero-socials a:hover i, .hero-socials a:focus-visible i { transform: scale(1.12); }
 .social-pill:hover, .social-pill:focus-visible { box-shadow: 0 10px 24px -16px rgba(73, 214, 232, 0.6); }
 
 /* ══ 6. Navigation ════════════════════════════════ */
@@ -196,6 +241,25 @@
 }
 .pane-mode .quest-card:hover:not(.is-active) { border-color: var(--line-2); }
 .qc-cta .h { color: var(--sig); }
+
+/* The pane is exactly as tall as the role list beside it, so the two
+   columns start and end on the same lines. `contain: size` stops the
+   pane's own content from sizing the grid row — the list decides the
+   height, the pane stretches to it, and longer detail scrolls inside. */
+.pane-mode .quest-pane {
+  position: relative; top: auto; align-self: stretch;
+  contain: size; max-height: none; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.pane-mode .quest-pane .qp-body { flex: 1 0 auto; }
+.pane-mode .quest-pane .qp-hint {
+  /* Pinned to the pane's bottom edge over a fade, so longer detail visibly
+     continues under it and the prompt is always in view. */
+  margin-top: auto; position: sticky; bottom: -1.25rem; z-index: 2;
+  margin-bottom: -1.25rem; padding: 1.8rem 0 1.1rem;
+  background: linear-gradient(transparent, var(--panel) 45%);
+}
+.pane-mode .quest:last-child { padding-bottom: 0; }   /* list ends on its last card, like the pane */
 
 /* The pane now carries the role's bullets and stack, not only its diagram. */
 .qp-title { margin-bottom: 0.15rem; font-size: 1.12rem; }
@@ -272,8 +336,13 @@ html.js .reveal.visible .wi { animation-duration: 0.7s; }
     radial-gradient(55% 60% at 88% 35%, rgba(167, 150, 255, 0.06), transparent 70%),
     radial-gradient(45% 50% at 10% 90%, rgba(73, 214, 232, 0.045), transparent 70%);
 }
-.bg-zone[data-zone="contact-section"] {
+.bg-zone[data-zone="contact"] {
   background: radial-gradient(70% 60% at 50% 88%, rgba(73, 214, 232, 0.07), transparent 70%);
+}
+.bg-zone[data-zone="about"] {
+  background:
+    radial-gradient(50% 55% at 85% 45%, rgba(167, 150, 255, 0.065), transparent 70%),
+    radial-gradient(40% 45% at 12% 70%, rgba(73, 214, 232, 0.04), transparent 70%);
 }
 /* The footer rule fades at both ends instead of cutting edge to edge. */
 .footer { border-top-color: transparent; }
@@ -282,7 +351,369 @@ html.js .reveal.visible .wi { animation-duration: 0.7s; }
   background: linear-gradient(90deg, transparent, var(--line-2) 20%, var(--line-2) 80%, transparent);
 }
 
-/* ══ 13. Touch and small screens ══════════════════ */
+/* ══ 13. One readout language ═════════════════════ */
+/* The key results' open scale — hairline, ticks, a cyan rule that draws
+   on approach — carried through the page, so every section reads as part
+   of the same instrument rather than a stack of boxes. */
+
+/* Section rules become rulers: a fine tick every 28px under the line,
+   fading out towards the count. */
+.sec-rule .line {
+  height: 7px;
+  background:
+    linear-gradient(var(--line-2), var(--line-2)) 0 50% / 100% 1px no-repeat,
+    repeating-linear-gradient(90deg, rgba(232, 236, 241, 0.16) 0 1px, transparent 1px 28px) 0 100% / 100% 3px no-repeat;
+  -webkit-mask: linear-gradient(90deg, #000 55%, transparent);
+          mask: linear-gradient(90deg, #000 55%, transparent);
+}
+
+/* Recruiter brief: a cyan rule draws down beside the row you read. */
+.brief-row { position: relative; }
+.brief-row::before {
+  content: ''; position: absolute; left: -0.55rem; top: 0.5rem; bottom: 0.5rem; width: 1px;
+  background: var(--sig); box-shadow: 0 0 6px rgba(73, 214, 232, 0.6);
+  transform: scaleY(0); transform-origin: top; transition: transform 0.35s var(--ease);
+}
+.brief-row:first-child::before { top: 0; }
+.brief-row:hover::before { transform: scaleY(1); }
+.brief-row dt { transition: color var(--t-out); }
+.brief-row:hover dt { color: var(--sig); transition-duration: var(--t-in); }
+
+/* Timeline: out of its box and onto the scale. Rows are divided by rules
+   that fade to the right; the year marks become ticks. */
+.tline { background: transparent; border: none; padding: 0.2rem 0 0; }
+.tl-axis { border-bottom: 1px solid var(--line-2); }
+.tl-axis b { border-left-color: rgba(232, 236, 241, 0.28); }
+.tl-row { border-top: 1px solid transparent; border-image: linear-gradient(90deg, var(--line-2), transparent 92%) 1; }
+.tl-rows li:first-child .tl-row { border-image: none; border-top-color: transparent; }
+
+/* Role list: approaching a role draws a cyan connector from its node on
+   the rail to the card; the selected role in pane mode keeps it lit. */
+.quest::before {
+  content: ''; position: absolute; top: 11px; z-index: 1;
+  left: calc(210px + 1.5rem + 5px); width: calc(1.5rem - 5px); height: 1px;
+  background: linear-gradient(90deg, var(--sig), rgba(73, 214, 232, 0.25));
+  transform: scaleX(0); transform-origin: left; transition: transform 0.35s var(--ease);
+  pointer-events: none;
+}
+.quest:hover::before, .quest:focus-within::before,
+.pane-mode .quest:has(.is-active)::before { transform: scaleX(1); }
+.pane-mode .quest::before { left: calc(150px + 1.5rem + 5px); width: calc(0.7rem - 5px); top: calc(0.85rem + 3px); }
+.pane-mode .quest:has(.is-active)::after { background: var(--sig); box-shadow: 0 0 8px rgba(73, 214, 232, 0.6); }
+@media (max-width: 900px) { .quest::before { display: none; } }
+
+/* Featured project: its header rule draws cyan as you approach, the
+   same gesture as a key result. */
+.mission-head { position: relative; }
+.mission-head::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, var(--sig), transparent 85%);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--ease);
+}
+.mission:hover .mission-head::after, .mission:focus-within .mission-head::after { transform: scaleX(1); }
+
+/* Contact: the same anatomy as every section, and the channels as an
+   open readout on the key results' scale — a channel name and its
+   action, with a tick that lights and a rule that draws when you reach
+   for one. Addresses live only in the links, never on screen. */
+.contact-block {
+  display: block; padding: 0; overflow: visible;
+  background: none; border: none; box-shadow: none;
+}
+.rings {
+  left: 84%; width: 900px; height: 900px; margin: -450px 0 0 -450px;
+  -webkit-mask: radial-gradient(circle, #000 25%, transparent 68%);
+          mask: radial-gradient(circle, #000 25%, transparent 68%);
+}
+.ct-grid {
+  list-style: none; position: relative; z-index: 1;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+.ct-grid li { position: relative; display: flex; flex-direction: column; }
+.ct-grid li::before {
+  content: ''; position: absolute; left: 0; top: -4px; z-index: 1;
+  width: 1px; height: 7px; background: var(--line-2);
+  transition: background var(--t-out), box-shadow var(--t-out);
+}
+.ct-grid li:has(.ct:hover)::before, .ct-grid li:has(.ct:focus-visible)::before {
+  background: var(--sig); box-shadow: 0 0 8px rgba(73, 214, 232, 0.7); transition-duration: var(--t-in);
+}
+.ct-grid li + li::after {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(var(--line-2), transparent 85%); pointer-events: none;
+}
+.ct {
+  position: relative; display: flex; flex-direction: column; gap: 0.5rem;
+  padding: 1.5rem 1.5rem 0.9rem; text-decoration: none;
+}
+.ct-grid li:first-child .ct { padding-left: 0; }
+.ct::before {
+  content: ''; position: absolute; left: 0; right: 0; top: -1px; height: 1px;
+  background: linear-gradient(90deg, var(--sig), transparent 90%);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease);
+}
+.ct:hover::before, .ct:focus-visible::before { transform: scaleX(1); }
+.ct:focus-visible { outline-offset: -2px; }
+.ct-v {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-size: clamp(1.35rem, 2.2vw, 1.75rem); font-weight: 600; letter-spacing: -0.025em;
+  line-height: 1.2; color: var(--hi);
+  transition: color var(--t-out), text-shadow var(--t-out);
+}
+.ct-v i { color: var(--sig); font-size: 0.72em; }
+.ct:hover .ct-v, .ct:focus-visible .ct-v { color: var(--sig); text-shadow: 0 0 24px rgba(73, 214, 232, 0.35); }
+.ct-go {
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem;
+  font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); transition: color var(--t-out);
+}
+.ct-go i { color: var(--sig); font-size: 0.64rem; transition: transform var(--t-out) var(--ease); }
+.ct:hover .ct-go, .ct:focus-visible .ct-go { color: var(--text); }
+.ct:hover .ct-go .fa-arrow-right, .ct:focus-visible .ct-go .fa-arrow-right { transform: translateX(4px); }
+.ct:hover .ct-go .fa-arrow-up-right-from-square,
+.ct:focus-visible .ct-go .fa-arrow-up-right-from-square { transform: translate(2px, -2px); }
+html.js .contact-block.visible .ct-grid li { animation: riseIn 0.5s var(--ease) backwards; }
+html.js .contact-block.visible .ct-grid li:nth-child(2) { animation-delay: 0.08s; }
+html.js .contact-block.visible .ct-grid li:nth-child(3) { animation-delay: 0.16s; }
+@media (max-width: 760px) {
+  .ct-grid { grid-template-columns: 1fr; border-top: none; }
+  .ct-grid li { border-top: 1px solid var(--line); }
+  .ct-grid li + li::after { display: none; }
+  .ct { padding-left: 0; padding-right: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .contact-block.visible .ct-grid li { animation: none; }
+}
+
+/* About: the same readout, but nothing here is a link, so it carries no
+   hover affordance — no lit tick, no drawn rule, no glow. */
+.about-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.about-grid .ct::before { display: none; }
+.about-grid .ct:hover .ct-v { color: var(--hi); text-shadow: none; }
+.about-grid .ct-go { text-transform: none; letter-spacing: 0.02em; font-size: 0.78rem; }
+html.js .about-grid.visible li { animation: riseIn 0.5s var(--ease) backwards; }
+html.js .about-grid.visible li:nth-child(2) { animation-delay: 0.06s; }
+html.js .about-grid.visible li:nth-child(3) { animation-delay: 0.12s; }
+html.js .about-grid.visible li:nth-child(4) { animation-delay: 0.18s; }
+/* Two by two on tablets (each row on its own scale line), one per row on phones. */
+@media (max-width: 1000px) {
+  .about-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; border-top: none; }
+  .about-grid li { border-top: 1px solid var(--line); }
+  .about-grid li + li::after { display: none; }
+  .about-grid .ct { padding-left: 0; padding-right: 0; }
+}
+@media (max-width: 520px) { .about-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { html.js .about-grid.visible li { animation: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .brief-row::before, .quest::before, .mission-head::after { transition: none; }
+}
+
+/* Footer: the page ends on it. Contact hands straight over (less bottom
+   padding), and body is a column so the footer stays on the bottom edge
+   even when the page is shorter than the screen. */
+body { display: flex; flex-direction: column; min-height: 100vh; }
+main { flex: 1 0 auto; }
+.footer { flex: none; margin-top: auto; }
+#contact { padding-bottom: 3.5rem; }
+/* The transmit rings are larger than the section; clip them to it so they
+   never add scroll space below the footer (they had been adding ~290px). */
+#contact { overflow: clip; }
+
+/* Alignment: every block shares the wrap's left and right content edges,
+   and every section boundary has the same rhythm. */
+.tl-row { padding-left: 0; padding-right: 0; }          /* names and durations flush with the edges */
+.hero { padding-bottom: 5.5rem; }                        /* hero → 01 matches the 176px between sections */
+.hero .wrap { width: 100%; }   /* in the hero's flex column, auto margins had shrunk it to its content */
+@media (max-width: 900px) { .brief { max-width: none; } }   /* stacked: the brief spans the same edges as the key results */
+@media (max-width: 640px) { .hero { padding-bottom: 4.2rem; } }
+
+/* ══ 14. Scroll-linked motion ═════════════════════ */
+/* Effects tied to scroll position rather than played once: they move as
+   you scroll and reverse when you scroll back. Native CSS scroll
+   timelines — no JavaScript, off the main thread. Browsers without them
+   (Firefox today) keep the static page; reduced motion opts out. */
+@property --gy { syntax: '<length>'; inherits: false; initial-value: 0px; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Each section head is a view timeline its decorations read from. */
+    .section-head { view-timeline: --head block; }
+
+    /* The ghost section number drifts slower than the page — depth. */
+    .section-head[data-idx]::before {
+      animation: ghostDrift linear both;
+      animation-timeline: --head;
+    }
+    /* The ruler slides under its line as the header crosses the screen,
+       like a dial turning. */
+    .sec-rule .line {
+      animation: rulerSlide linear both;
+      animation-timeline: --head;
+    }
+    /* The thread from the previous section grows with your scroll
+       instead of drawing on its own. */
+    .sec-rule::before {
+      transition: none;
+      animation: threadGrow linear both;
+      animation-timeline: --head;
+      animation-range: entry 0% cover 40%;
+    }
+    /* Headings recede as they pass under the nav, handing the screen to
+       the content below (fill none: untouched until they start leaving). */
+    .section-title, .section-sub {
+      animation: headExit linear none;
+      animation-timeline: view();
+      animation-range: exit 20% exit 100%;
+    }
+
+    /* Key results: the scale line and ticks drift a touch as the hero
+       scrolls away, and the figures part slightly. */
+    .key-results { view-timeline: --kr block; }
+    .kr-grid li:nth-child(odd)  .imp-num { animation: krRise linear both; animation-timeline: --kr; }
+    .kr-grid li:nth-child(even) .imp-num { animation: krSink linear both; animation-timeline: --kr; }
+
+    /* Timeline bars stretch to length as the chart scrolls in. */
+    .tline { view-timeline: --tl block; }
+    html.js .tline.visible .tl-bar {
+      animation: barScrub linear both;
+      animation-timeline: --tl;
+      animation-range: entry 10% cover 45%;
+      animation-delay: 0s !important;   /* time delays mean nothing on a scroll timeline */
+    }
+
+    /* Role cards: each eases up into place as it crosses the lower
+       third, and the date column trails a beat behind. */
+    .quest { view-timeline: --role block; }
+    html.js .quest.reveal.visible .quest-card,
+    html.js .quest .quest-card { animation: roleRise linear both; animation-timeline: --role; animation-range: entry 0% cover 30%; }
+    html.js .quest.reveal.visible .quest-side,
+    html.js .quest .quest-side { animation: roleRise linear both; animation-timeline: --role; animation-range: entry 10% cover 35%; }
+
+    /* Featured project: the schematic's grid scrolls past the diagram at
+       its own speed, so the drawing floats over its paper. */
+    .schematic {
+      background-position: 0 var(--gy), 0 var(--gy), 0 0, 0 0;
+      animation: gridDrift linear both;
+      animation-timeline: view();
+    }
+    .mission.feature { animation: featureIn linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+
+  }
+}
+@keyframes ghostDrift  { from { translate: 0 60px; } to { translate: 0 -60px; } }
+@keyframes rulerSlide  { from { background-position: 0 50%, 0 100%; } to { background-position: 0 50%, -84px 100%; } }
+@keyframes threadGrow  { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes headExit    { to { opacity: 0.15; translate: 0 -18px; } }
+@keyframes krRise      { from { translate: 0 0; } to { translate: 0 -10px; } }
+@keyframes krSink      { from { translate: 0 0; } to { translate: 0 6px; } }
+@keyframes barScrub    { from { transform: scaleX(0); } to { transform: none; } }
+/* transform, not translate: the hover lift owns `translate`. No opacity
+   either, so the skill filter's dimming still applies to the cards. */
+@keyframes roleRise    { from { transform: translateY(34px); } to { transform: none; } }
+@keyframes gridDrift   { from { --gy: 0px; } to { --gy: 120px; } }
+@keyframes featureIn   { from { opacity: 0.3; scale: 0.97; } to { opacity: 1; scale: 1; } }
+
+/* ══ 15. Scroll guides ════════════════════════════ */
+/* Section map: a vertical scale on the right edge. The cyan fill is how
+   far down the page you are; the section you are in lights up and shows
+   its name; hovering any mark reveals it. Wide screens only, where the
+   margin is free; appears once you leave the hero. */
+.smap {
+  position: fixed; right: 1.6rem; top: 50%; z-index: 340;
+  display: flex; flex-direction: column; gap: 1.6rem;
+  padding: 0.6rem 0 0.6rem 0.9rem;
+  opacity: 0; transform: translate(8px, -50%); pointer-events: none;
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.smap.show { opacity: 1; transform: translate(0, -50%); pointer-events: auto; }
+.smap-track { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--line-2); }
+.smap-fill {
+  position: absolute; inset: 0; background: linear-gradient(var(--sig), var(--violet));
+  transform: scaleY(0); transform-origin: top; box-shadow: 0 0 8px rgba(73, 214, 232, 0.5);
+}
+.smap a {
+  position: relative; display: flex; align-items: center; gap: 0.6rem;
+  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+}
+.smap a::before {   /* the tick on the scale */
+  content: ''; position: absolute; left: -0.9rem; top: 50%; width: 7px; height: 1px;
+  background: var(--line-2); transition: background 0.3s, width 0.3s var(--ease);
+}
+.smap b { font-weight: 700; transition: color 0.3s; }
+.smap a span {
+  opacity: 0; transform: translateX(-4px); white-space: nowrap;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.smap a.on b, .smap a:hover b { color: var(--sig); }
+.smap a.on::before { background: var(--sig); width: 12px; box-shadow: 0 0 6px rgba(73, 214, 232, 0.7); }
+.smap a.on span, .smap a:hover span { opacity: 1; transform: none; color: var(--hi); }
+@media (max-width: 1439px), (hover: none) { .smap { display: none; } }   /* needs the side margin to clear the content */
+
+/* About icons settle in as the section arrives; the footer rule draws
+   across as you reach the very end of the page. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Read-along: the intro line brightens word by word as you scroll to
+       it, fully lit well before it leaves the lower part of the screen — even
+       Contact, which can't scroll past the middle at the end of the page. An
+       inline span's background runs line by line, so the fill follows
+       reading order across wrapped lines. */
+    .scrub {
+      /* Glyphs show only the background: bright up to the scroll point,
+         dim after it. */
+      background:
+        linear-gradient(var(--read), var(--read)) 0 0 / var(--scrub, 0%) 100% no-repeat,
+        linear-gradient(rgba(180, 189, 201, 0.32), rgba(180, 189, 201, 0.32));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: scrubText linear both; animation-timeline: view(); animation-range: entry 0% cover 30%;
+    }
+    .about-grid .ct-v i { animation: iconSettle linear both; animation-timeline: view(); animation-range: entry 0% cover 35%; }
+    .footer { view-timeline: --foot block; }
+    .footer::before { transform-origin: center; animation: footRule linear both; animation-timeline: --foot; animation-range: entry 0% entry 100%; }
+  }
+}
+@property --scrub { syntax: '<percentage>'; inherits: false; initial-value: 0%; }
+@keyframes scrubText  { to { --scrub: 100%; } }
+@keyframes iconSettle { from { transform: translateY(10px) rotate(-12deg) scale(0.7); opacity: 0.3; } to { transform: none; opacity: 1; } }
+@keyframes footRule   { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .smap, .smap a span, .smap a::before { transition: none; } }
+
+/* ══ 16. Background: grid lens and depth ══════════ */
+/* Where the pointer goes, the graph paper answers: inside a soft circle
+   the grid lines brighten to cyan and its intersections light as points,
+   with a faint violet bloom at the centre — a flashlight on the
+   instrument. The mask lives on the still outer layer so it tracks the
+   pointer exactly; the pattern inside pans in step with the grid. */
+.bg-lens {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0; transition: opacity 0.8s var(--ease);
+  -webkit-mask: radial-gradient(240px circle at var(--lx, 50%) var(--ly, 50%), #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%);
+          mask: radial-gradient(240px circle at var(--lx, 50%) var(--ly, 50%), #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%);
+}
+.bg-lens.on { opacity: 1; }
+.bg-lens i {
+  position: absolute; inset: -60px;
+  background-image:
+    radial-gradient(circle at 0.5px 0.5px, rgba(139, 231, 242, 0.75) 1.2px, transparent 2.2px),
+    linear-gradient(90deg, rgba(73, 214, 232, 0.16) 1px, transparent 1px),
+    linear-gradient(0deg,  rgba(73, 214, 232, 0.16) 1px, transparent 1px);
+  background-size: 52px 52px;
+  animation: gridPan 60s linear infinite;
+}
+.bg-lens::after {   /* the bloom at the centre */
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(220px circle at var(--lx, 50%) var(--ly, 50%), rgba(167, 150, 255, 0.07), rgba(73, 214, 232, 0.03) 50%, transparent 75%);
+}
+/* Depth: the section glows drift a little with scroll (--sp is set on
+   .bg-fx by js/site.js), so the light layer moves at its own pace. */
+.bg-zone { transform: translate3d(0, calc(var(--sp, 0) * -8vh), 0); }
+@media (hover: none), (prefers-reduced-motion: reduce) { .bg-lens { display: none; } .bg-zone { transform: none; } }
+
+/* ══ 17. Touch and small screens ══════════════════ */
 @media (max-width: 1000px) {
   .nav-toggle { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; }
   .nav-links a { padding: 0.8rem 0; }
@@ -294,7 +725,6 @@ html.js .reveal.visible .wi { animation-duration: 0.7s; }
 }
 @media (max-width: 480px) {
   .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
-  .contact-actions .btn { flex: 1 1 auto; justify-content: center; }
 }
 
 /* ══ Reduced motion ═══════════════════════════════ */
@@ -306,5 +736,4 @@ html.js .reveal.visible .wi { animation-duration: 0.7s; }
   .btn:focus-visible, .nav-cta:hover, .nav-cta:focus-visible { transform: none; }
   .mission:hover .schematic .vf-wrap { transform: none; }
   .quest-card:not(.pinned):hover .peek i, .mission:not(.pinned):hover .peek i { animation: none; }
-  .hero-socials a:hover i, .hero-socials a:focus-visible i { transform: none; }
 }
