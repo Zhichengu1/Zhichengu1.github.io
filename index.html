@@ -54,6 +54,9 @@
   <div class="bg-fx" aria-hidden="true">
     <span class="bg-grid"></span>
     <span class="bg-grid-major"></span>
+    <!-- Lens: the grid lit up around the pointer (js/site.js moves it). The
+         mask stays put on .bg-lens; the pattern inside pans with the grid. -->
+    <span class="bg-lens" id="bg-lens"><i></i></span>
     <div class="aurora-field">
       <span class="aurora aurora-1"></span>
       <span class="aurora aurora-2"></span>
@@ -96,12 +99,24 @@
     <span class="bg-zone" data-zone="top"></span>
     <span class="bg-zone" data-zone="experience"></span>
     <span class="bg-zone" data-zone="projects"></span>
-    <span class="bg-zone" data-zone="contact-section"></span>
+    <span class="bg-zone" data-zone="about"></span>
+    <span class="bg-zone" data-zone="contact"></span>
     <span class="bg-vignette"></span>
     <span class="bg-noise"></span>
   </div>
 
   <div id="xp"></div>
+
+  <!-- Section map: a fixed scale on the right edge that fills as you scroll
+       and marks the section you are in (js/site.js). A mouse shortcut only —
+       the top nav carries the same links for keyboard and screen readers. -->
+  <nav class="smap" id="smap" aria-hidden="true">
+    <span class="smap-track"><span class="smap-fill" id="smap-fill"></span></span>
+    <a href="#experience" tabindex="-1" data-sec="experience"><b>01</b><span>Experience</span></a>
+    <a href="#projects" tabindex="-1" data-sec="projects"><b>02</b><span>Projects</span></a>
+    <a href="#about" tabindex="-1" data-sec="about"><b>03</b><span>About</span></a>
+    <a href="#contact" tabindex="-1" data-sec="contact"><b>04</b><span>Contact</span></a>
+  </nav>
 
   <div class="reticle" id="reticle" aria-hidden="true">
     <span class="ring"></span>
@@ -126,6 +141,7 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
       </ul>
       <div class="nav-right">
         <a href="#contact" class="nav-cta">Get in touch</a>
@@ -160,11 +176,6 @@
           <div class="hero-cta reveal" style="--d:.36s;">
             <a href="#experience" class="btn btn-solid">View experience<i class="fas fa-arrow-right"></i></a>
             <a href="#projects" class="btn btn-line">Projects</a>
-            <span class="hero-socials">
-              <a href="https://github.com/Zhichengu1" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
-              <a href="https://www.linkedin.com/in/zhichengyu369" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-              <a href="mailto:yuzhicheng369@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
-            </span>
           </div>
         </div>
 
@@ -185,6 +196,11 @@
       <div class="key-results reveal" style="--d:.55s;">
         <p class="kr-label">Key results</p>
         <ol class="kr-grid">
+        <li><a class="imp" href="#role-sas" style="--d:.0s;">
+          <span class="imp-num">API</span>
+          <span class="imp-what">stress testing under load with pytest &amp; Locust</span>
+          <span class="imp-src">SAS · Internship<i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+        </a></li>
         <li><a class="imp" href="#role-cuny" style="--d:.0s;">
           <span class="imp-num" data-count="500" data-suffix="+">500+</span>
           <span class="imp-what">users on my Brightspace LMS certificate widget</span>
@@ -247,7 +263,7 @@
         </div>
         <ol class="tl-rows">
           <li><a class="tl-row" href="#role-sas"><span class="tl-name">SAS Institute</span><span class="tl-track"><span class="tl-bar intern" style="--s:86.667; --e:100;"></span></span><span class="tl-dur">4 mo</span></a></li>
-          <li><a class="tl-row" href="#role-cuny"><span class="tl-name">CUNY</span><span class="tl-track"><span class="tl-bar intern" style="--s:33.333; --e:90;"></span></span><span class="tl-dur">17 mo</span></a></li>
+          <li><a class="tl-row" href="#role-cuny"><span class="tl-name">CUNY</span><span class="tl-track"><span class="tl-bar intern" style="--s:56.667; --e:90;"></span></span><span class="tl-dur">10 mo</span></a></li>
           <li><a class="tl-row" href="#role-ebay"><span class="tl-name">eBay</span><span class="tl-track"><span class="tl-bar fellow" style="--s:46.667; --e:60;"></span></span><span class="tl-dur">4 mo</span></a></li>
           <li><a class="tl-row" href="#role-google"><span class="tl-name">Google</span><span class="tl-track"><span class="tl-bar fellow" style="--s:23.333; --e:36.667;"></span></span><span class="tl-dur">4 mo</span></a></li>
           <li><a class="tl-row" href="#role-sbu"><span class="tl-name">Stony Brook</span><span class="tl-track"><span class="tl-bar teach" style="--s:0; --e:10;"></span></span><span class="tl-dur">3 mo</span></a></li>
@@ -320,7 +336,7 @@
         <!-- CUNY -->
         <article class="quest reveal" data-fx="tiltup" id="role-cuny" data-short="CUNY">
           <div class="quest-side">
-            <span class="quest-date">2025.01 — 2026.05</span>
+            <span class="quest-date">2025.08 — 2026.05</span>
             <span class="quest-type">Internship</span>
           </div>
           <div class="quest-card panel">
@@ -598,29 +614,89 @@
     </div>
   </section>
 
-  <!-- ═══ 03 · Contact ═════════════════════════════════ -->
-  <section class="section tint" id="contact-section">
+  <!-- ═══ 03 · About ═══════════════════════════════════ -->
+  <!-- Off the clock. Only what Zhicheng has said: games (League of Legends
+       among them), LeetCode, the outdoors and mountains, and travel. Same
+       open scale as the key results, read-only. -->
+  <section class="section" id="about">
     <div class="wrap">
-      <div class="contact-block panel reveal" id="contact">
+      <div class="section-head reveal" data-idx="03">
+        <div class="sec-rule">
+          <span class="idx">03</span>
+          <span class="name">About</span>
+          <span class="line" aria-hidden="true"></span>
+          <span class="count">Off the clock</span>
+        </div>
+        <h2 class="section-title"><span class="w"><span class="wi">Outside of <span class="accent serif">work</span></span></span></h2>
+        <p class="section-sub"><span class="scrub">I play games (League of Legends is one of them), work through LeetCode, and get outdoors — mountains and travel.</span></p>
+      </div>
+      <ul class="ct-grid about-grid reveal" style="--d:.12s;">
+        <li>
+          <div class="ct">
+            <span class="ct-v"><i class="fas fa-gamepad" aria-hidden="true"></i>Gaming</span>
+            <span class="ct-go">League of Legends is one of them</span>
+          </div>
+        </li>
+        <li>
+          <div class="ct">
+            <span class="ct-v"><i class="fas fa-code" aria-hidden="true"></i>LeetCode</span>
+            <span class="ct-go">Problem solving, for fun</span>
+          </div>
+        </li>
+        <li>
+          <div class="ct">
+            <span class="ct-v"><i class="fas fa-mountain-sun" aria-hidden="true"></i>Mountains</span>
+            <span class="ct-go">Getting outdoors</span>
+          </div>
+        </li>
+        <li>
+          <div class="ct">
+            <span class="ct-v"><i class="fas fa-plane" aria-hidden="true"></i>Traveling</span>
+            <span class="ct-go">Seeing new places</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 04 · Contact ═════════════════════════════════ -->
+  <!-- Same anatomy as the sections above: labelled ruler, heading, then the
+       channels as an open readout (the key results' scale), not buttons. -->
+  <section class="section tint" id="contact">
+    <div class="wrap">
+      <div class="section-head reveal" data-idx="04">
+        <div class="sec-rule">
+          <span class="idx">04</span>
+          <span class="name">Contact</span>
+          <span class="line" aria-hidden="true"></span>
+          <span class="count"><span class="live"><span class="led" aria-hidden="true"></span>Open to work</span></span>
+        </div>
+        <h2 class="section-title"><span class="w"><span class="wi">Let's work <span class="accent serif">together</span></span></span></h2>
+        <p class="section-sub"><span class="scrub">Open to full-time software engineering roles — happy to talk.</span></p>
+      </div>
+
+      <div class="contact-block reveal" style="--d:.12s;">
         <span class="rings" aria-hidden="true"><i></i><i></i><i></i></span>
-        <div class="cb-copy">
-          <h2 class="contact-title"><span class="w"><span class="wi">Let's work <span class="accent serif">together</span></span></span></h2>
-          <p class="contact-sub">Open to full-time software engineering roles — happy to talk.</p>
-        </div>
-        <div class="cb-actions">
-          <div class="contact-actions">
-            <a href="mailto:yuzhicheng369@gmail.com" class="btn btn-solid"><i class="fas fa-envelope"></i>Email me</a>
-            <button type="button" class="btn btn-line copy-mail" id="copy-mail"
-                    data-mail="yuzhicheng369@gmail.com">
-              <i class="fas fa-copy" aria-hidden="true"></i><span>Copy address</span>
-            </button>
-          </div>
-          <p class="sr-only" aria-live="polite" id="copy-status"></p>
-          <div class="contact-socials">
-            <a href="https://github.com/Zhichengu1" target="_blank" rel="noopener" class="social-pill"><i class="fab fa-github"></i>GitHub</a>
-            <a href="https://www.linkedin.com/in/zhichengyu369" target="_blank" rel="noopener" class="social-pill"><i class="fab fa-linkedin-in"></i>LinkedIn</a>
-          </div>
-        </div>
+        <ul class="ct-grid">
+          <li>
+            <a class="ct" href="mailto:yuzhicheng369@gmail.com">
+              <span class="ct-v"><i class="fas fa-envelope" aria-hidden="true"></i>Email</span>
+              <span class="ct-go">Send a message<i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="ct" href="https://www.linkedin.com/in/zhichengyu369" target="_blank" rel="noopener">
+              <span class="ct-v"><i class="fab fa-linkedin-in" aria-hidden="true"></i>LinkedIn</span>
+              <span class="ct-go">Connect<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+            </a>
+          </li>
+          <li>
+            <a class="ct" href="https://github.com/Zhichengu1" target="_blank" rel="noopener">
+              <span class="ct-v"><i class="fab fa-github" aria-hidden="true"></i>GitHub</span>
+              <span class="ct-go">See the code<i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
