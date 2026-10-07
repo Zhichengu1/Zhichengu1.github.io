@@ -1,0 +1,310 @@
+/* Polish
+   ──────
+   A refinement layer over the component files: readability, hierarchy,
+   hover / focus feedback and motion timing. It adjusts the existing
+   design rather than restating it, so it is loaded after every component
+   stylesheet (only print.css comes later). Remove its <link> and the page
+   falls back to the previous look exactly.
+
+   The second accent, --violet, is used sparingly: mixed into the pointer
+   glow on cards, the section numbers on hover and one background source.
+   Cyan still means live, measured or actionable. */
+
+:root {
+  --violet:      #a796ff;
+  --violet-soft: rgba(167, 150, 255, 0.08);
+  --read:        #b4bdc9;   /* body copy on cards: a step brighter than --text */
+  --lift-card:   -2px;
+  --glow-card:   0 20px 40px -24px rgba(0, 0, 0, 0.9),
+                 0 0 0 1px rgba(73, 214, 232, 0.08),
+                 0 12px 42px -20px rgba(73, 214, 232, 0.24);
+}
+
+/* ══ 1. Readability and hierarchy ═════════════════ */
+.section-head { margin-bottom: 3rem; }
+.section-sub { max-width: 60ch; font-size: 1.05rem; line-height: 1.65; color: var(--read); }
+.hero-pitch { color: var(--read); }
+
+/* Roles: title → company → headline result → bullets, each a clear step. */
+.quest-title { font-size: 1.36rem; letter-spacing: -0.028em; }
+.quest-giver { color: #c6ccd5; font-weight: 500; }
+.quest-giver span { font-weight: 400; }
+.quest-brief strong { font-size: 1rem; }
+.objectives { gap: 0.7rem; }
+.objectives li { font-size: 1rem; line-height: 1.7; color: var(--read); }
+.obj-label, .reward-label { letter-spacing: 0.16em; }
+
+/* Projects: name → tagline → measured result → description → stack. */
+.mission-title { font-size: 1.45rem; }
+.mission-tagline { font-size: 0.98rem; color: var(--read); }
+.mission-desc { max-width: 62ch; margin-bottom: 0.4rem; font-size: 0.96rem; line-height: 1.7; }
+.unlock strong { font-size: 0.92rem; }
+/* Feature lines: what was built, as a scannable list rather than a sentence. */
+.mission-desc.feats { font-size: 0.9rem; line-height: 1.6; color: var(--text); }
+.mission-desc.feats code { font-family: var(--mono); font-size: 0.82em; color: var(--read); }
+.sq-desc { color: var(--read); }
+.imp-what { font-size: 0.92rem; line-height: 1.55; }
+
+/* ══ 2. Technology tags ═══════════════════════════ */
+/* Compact and quiet at rest, lit on approach. */
+.tag {
+  display: inline-flex; align-items: center;
+  padding: 0.26rem 0.6rem;
+  font-size: 0.7rem; line-height: 1.4; letter-spacing: 0.07em;
+  color: #aab3bf; background: rgba(232, 236, 241, 0.025);
+  border-color: rgba(232, 236, 241, 0.1); border-radius: 2px;
+  transition: border-color var(--t-out), color var(--t-out), background var(--t-out),
+              translate var(--t-out) var(--ease);
+}
+.tag:hover, .tag:focus-visible {
+  color: var(--sig-hi); background: var(--sig-soft); border-color: var(--sig-line);
+  translate: 0 -1px; transition-duration: var(--t-in);
+}
+.rewards, .mission-tags, .sq-tags { gap: 0.4rem; }
+
+/* ══ 3. Cards ═════════════════════════════════════ */
+/* Two effects only: the card lifts with a soft cyan shadow, and a
+   cyan-to-violet glow follows the pointer inside it. The top-edge
+   hairline is retired — it competed with the pointer-lit border.
+   `translate` (not transform) so the lift composes with the entrance
+   animations, which own `transform`. */
+.mission > .edge, .quest-card > .edge { display: none; }
+
+.quest-card, .pane-mode .quest-card, .mission, .sidequest {
+  transition: opacity var(--t-out), border-color var(--t-out), background-color var(--t-out),
+              box-shadow var(--t-out) var(--ease), translate var(--t-out) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .quest-card:hover, .mission:hover, .sidequest:hover {
+    translate: 0 var(--lift-card); box-shadow: var(--glow-card);
+    transition-duration: var(--t-in);
+  }
+  /* The selected row stays put: the pane is reading from it. */
+  .pane-mode .quest-card.is-active:hover { translate: none; }
+}
+.quest-card:focus-within, .mission:focus-within, .sidequest:focus-within { box-shadow: var(--glow-card); }
+
+.mission > .scan, .quest-card > .scan, .stat-panel > .scan {
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(73, 214, 232, 0.075), rgba(167, 150, 255, 0.045) 40%, transparent 70%);
+  transition: opacity 0.5s var(--ease);
+}
+.mission > .spot, .quest-card > .spot, .sidequest > .spot, .stat-panel > .spot {
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%),
+              rgba(139, 231, 242, 0.6), rgba(167, 150, 255, 0.22) 45%, transparent 72%);
+}
+
+/* The headline result plate warms with its card. */
+.quest-brief, .unlock { transition: background var(--t-out), border-color var(--t-out); }
+.quest-card:hover .quest-brief { background: rgba(73, 214, 232, 0.1); }
+.mission:hover .unlock { background: rgba(73, 214, 232, 0.05); border-color: var(--line-2); border-left-color: var(--sig); }
+
+/* ══ 4. Buttons ═══════════════════════════════════ */
+.btn {
+  transition: background var(--t-out), color var(--t-out), border-color var(--t-out),
+              box-shadow var(--t-out), transform var(--t-out) var(--ease);
+}
+.btn-solid:hover, .btn-solid:focus-visible {
+  background: var(--sig-hi); border-color: var(--sig-hi);
+  box-shadow: 0 10px 26px -12px rgba(73, 214, 232, 0.7);
+}
+.btn-line:hover, .btn-line:focus-visible {
+  color: var(--sig); border-color: var(--sig-line); background: var(--sig-soft);
+  box-shadow: 0 10px 26px -16px rgba(73, 214, 232, 0.55);
+}
+/* Keyboard focus gets the full hover response, not just an outline. */
+.btn:focus-visible { transform: translateY(var(--lift-md)); outline-offset: 4px; }
+.btn:focus-visible i { transform: translateX(3px); }
+.btn:active { transform: translateY(0) scale(0.97); box-shadow: none; }
+
+.nav-cta { transition: background var(--t-out), box-shadow var(--t-out), transform var(--t-out) var(--ease); }
+.nav-cta:hover, .nav-cta:focus-visible {
+  background: var(--sig-hi); transform: translateY(-1px);
+  box-shadow: 0 8px 22px -10px rgba(73, 214, 232, 0.7);
+}
+
+/* ══ 5. Links ═════════════════════════════════════ */
+/* Role titles link out: an underline draws in and the external mark
+   steps up and to the right, the direction it will take you. */
+.quest-title a {
+  background-image: linear-gradient(var(--sig), var(--sig));
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0 1px;
+  transition: color var(--t-out), background-size 0.35s var(--ease);
+}
+.quest-title a:hover, .quest-title a:focus-visible { color: var(--sig); background-size: 100% 1px; }
+.quest-title .ext { display: inline-block; transition: transform var(--t-out) var(--ease), color var(--t-out); }
+.quest-title a:hover .ext, .quest-title a:focus-visible .ext { transform: translate(2px, -2px); color: var(--sig); }
+
+/* Project links: external icons move diagonally; internal "Case study"
+   links get an arrow that slides forward. */
+.mlink { min-height: 48px; transition: background var(--t-out), color var(--t-out), box-shadow var(--t-out); }
+.mlink:hover .fa-arrow-up-right-from-square,
+.mlink:focus-visible .fa-arrow-up-right-from-square { transform: translate(2px, -2px); }
+.mlink:not(:has(i))::after {
+  content: '→'; font-family: var(--sans); font-weight: 400; letter-spacing: 0;
+  transition: transform var(--t-out) var(--ease);
+}
+.mlink:not(:has(i)):hover::after, .mlink:not(:has(i)):focus-visible::after { transform: translateX(3px); }
+.mlink.primary:hover, .mlink.primary:focus-visible { box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.12); }
+
+/* Footer links underline from the left. */
+.footer a:not(.to-top) {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0 1px;
+  transition: color var(--t-out), background-size 0.35s var(--ease);
+}
+.footer a:not(.to-top):hover, .footer a:not(.to-top):focus-visible { background-size: 100% 1px; }
+
+/* Social icons: a small scale and glow. */
+.hero-socials a i { transition: transform var(--t-out) var(--ease); }
+.hero-socials a:hover, .hero-socials a:focus-visible { box-shadow: 0 0 20px -6px rgba(73, 214, 232, 0.6); }
+.hero-socials a:hover i, .hero-socials a:focus-visible i { transform: scale(1.12); }
+.social-pill:hover, .social-pill:focus-visible { box-shadow: 0 10px 24px -16px rgba(73, 214, 232, 0.6); }
+
+/* ══ 6. Navigation ════════════════════════════════ */
+/* Opaque at the top of the page; once scrolled, a light blur lets the
+   page move faintly underneath. */
+.nav { transition: border-color 0.35s, background 0.35s, transform 0.52s var(--ease), opacity 0.44s var(--ease); }
+.nav.scrolled {
+  background: rgba(8, 9, 11, 0.82);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+          backdrop-filter: blur(12px) saturate(140%);
+}
+.nav-links a { transition: color var(--t-out), background var(--t-out); }
+.nav-links a:hover, .nav-links a:focus-visible { background: rgba(232, 236, 241, 0.04); transition-duration: var(--t-in); }
+.nav-links a:focus-visible { outline-offset: 2px; }
+
+/* ══ 7. Section headers ═══════════════════════════ */
+.sec-rule .idx { transition: color 0.4s var(--ease); }
+.section-head:hover .sec-rule .idx { color: var(--violet); }
+
+/* ══ 8. Experience ════════════════════════════════ */
+/* The disclosure reads as a control: it names what it opens (set by
+   js/cards.js) and its chevron nods when the card is approached. */
+@media (hover: hover) and (pointer: fine) {
+  .peek { border-radius: 2px; color: var(--text); letter-spacing: 0.14em; }
+  .peek:hover, .peek:focus-visible { background: var(--sig-soft); }
+  .quest-card:not(.pinned):hover .peek i,
+  .mission:not(.pinned):hover .peek i { animation: chevNod 0.9s var(--ease) 1; }
+}
+@keyframes chevNod { 0%, 100% { translate: 0 0; } 40% { translate: 0 2px; } }
+
+/* Pane mode: the selected row is unmistakable — a lit edge, a wash that
+   fades towards the pane, and the row prompt in cyan. */
+.pane-mode .quest-card.is-active {
+  background-image: linear-gradient(90deg, rgba(73, 214, 232, 0.08), transparent 60%);
+}
+.pane-mode .quest-card:hover:not(.is-active) { border-color: var(--line-2); }
+.qc-cta .h { color: var(--sig); }
+
+/* The pane now carries the role's bullets and stack, not only its diagram. */
+.qp-title { margin-bottom: 0.15rem; font-size: 1.12rem; }
+.qp-org { margin-bottom: 1.1rem; font-size: 0.88rem; color: var(--text); }
+.quest-pane .objectives { margin-bottom: 1.3rem; }
+.quest-pane .objectives li { font-size: 0.93rem; line-height: 1.6; }
+html.js .quest-pane .objectives li::after { opacity: 1; transform: none; animation: none; }
+.quest-pane .qp-flow-label { margin-top: 0.2rem; }
+.quest-pane .reward-label { margin-top: 1.2rem; }
+.qp-body.swap-in .objectives li { animation: riseIn 0.45s var(--ease) backwards; }
+.qp-body.swap-in .objectives li:nth-child(2) { animation-delay: 0.05s; }
+.qp-body.swap-in .objectives li:nth-child(3) { animation-delay: 0.10s; }
+.qp-body.swap-in .objectives li:nth-child(4) { animation-delay: 0.15s; }
+
+/* Timeline rows answer the cursor a little more clearly. */
+.tl-row:hover .tl-name, .tl-row:focus-visible .tl-name { color: var(--sig-hi); }
+
+/* ══ 9. Projects ══════════════════════════════════ */
+/* The featured diagram leans in a touch; the record ID shifts accent. */
+.schematic .vf-wrap { transition: transform 0.6s var(--ease); }
+.mission:hover .schematic .vf-wrap { transform: scale(1.015); }
+.mission-id { transition: color 0.4s var(--ease); }
+.mission:hover .mission-id { color: var(--violet); }
+
+/* ══ 10. Scroll reveal ════════════════════════════ */
+/* Quicker and shorter: content is readable almost at once, with only a
+   hint of rise. Delays set inline (--d) still stagger cards. */
+html.js .reveal {
+  transform: translateY(14px);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+  transition-delay: var(--d, 0s);
+}
+html.js .reveal[data-fx="left"]   { transform: translateX(-18px); }
+html.js .reveal[data-fx="right"]  { transform: translateX(18px); }
+html.js .reveal[data-fx="zoom"]   { transform: translateY(12px); }
+html.js .reveal[data-fx="tiltup"] { transform: translateY(16px); }
+html.js .reveal.visible { opacity: 1; transform: none; }
+html.js .reveal.visible .wi { animation-duration: 0.7s; }
+
+/* ══ 11. Background ═══════════════════════════════ */
+/* Two of the five glow sources take a faint violet, for depth. */
+.aurora-2 { background: radial-gradient(circle, rgba(140, 120, 255, 0.04), transparent 62%); }
+.aurora-4 { background: radial-gradient(circle, rgba(140, 120, 255, 0.03), transparent 62%); }
+
+/* ══ 12. Section continuity ═══════════════════════ */
+/* The tinted bands are now smoked glass with long fades, so the fixed
+   grid and glow run unbroken from the hero to the footer — no section
+   starts or stops the background. */
+.section.tint {
+  --fade: 12rem;
+  background: linear-gradient(180deg,
+    transparent, rgba(12, 14, 17, 0.45) var(--fade),
+    rgba(12, 14, 17, 0.45) calc(100% - var(--fade)), transparent);
+}
+/* Section mood: each section owns a soft light in the fixed background.
+   As a new section reaches the middle of the screen its light fades up
+   over 1.6s while the last one fades out, so the page shifts tone
+   instead of switching blocks. js/site.js sets .on; opacity only. */
+.bg-zone {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0; transition: opacity 1.6s var(--ease);
+}
+.bg-zone.on { opacity: 1; }
+.bg-zone[data-zone="top"] {
+  background: radial-gradient(60% 55% at 78% 22%, rgba(73, 214, 232, 0.07), transparent 70%);
+}
+.bg-zone[data-zone="experience"] {
+  background:
+    radial-gradient(55% 60% at 10% 40%, rgba(73, 214, 232, 0.06), transparent 70%),
+    radial-gradient(45% 50% at 92% 85%, rgba(167, 150, 255, 0.045), transparent 70%);
+}
+.bg-zone[data-zone="projects"] {
+  background:
+    radial-gradient(55% 60% at 88% 35%, rgba(167, 150, 255, 0.06), transparent 70%),
+    radial-gradient(45% 50% at 10% 90%, rgba(73, 214, 232, 0.045), transparent 70%);
+}
+.bg-zone[data-zone="contact-section"] {
+  background: radial-gradient(70% 60% at 50% 88%, rgba(73, 214, 232, 0.07), transparent 70%);
+}
+/* The footer rule fades at both ends instead of cutting edge to edge. */
+.footer { border-top-color: transparent; }
+.footer::before {
+  content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-2) 20%, var(--line-2) 80%, transparent);
+}
+
+/* ══ 13. Touch and small screens ══════════════════ */
+@media (max-width: 1000px) {
+  .nav-toggle { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; }
+  .nav-links a { padding: 0.8rem 0; }
+}
+@media (max-width: 640px) {
+  .section-sub { font-size: 1rem; }
+  .quest-title { font-size: 1.22rem; }
+  .objectives li { font-size: 0.97rem; }
+}
+@media (max-width: 480px) {
+  .hero-cta .btn { flex: 1 1 auto; justify-content: center; }
+  .contact-actions .btn { flex: 1 1 auto; justify-content: center; }
+}
+
+/* ══ Reduced motion ═══════════════════════════════ */
+/* Repeated here because this file loads after the components' own
+   reduced-motion blocks and would otherwise out-rank them. */
+@media (prefers-reduced-motion: reduce) {
+  html.js .reveal, html.js .reveal[data-fx] { opacity: 1; transform: none; transition: none; }
+  .quest-card:hover, .mission:hover, .sidequest:hover, .tag:hover, .tag:focus-visible { translate: none; }
+  .btn:focus-visible, .nav-cta:hover, .nav-cta:focus-visible { transform: none; }
+  .mission:hover .schematic .vf-wrap { transform: none; }
+  .quest-card:not(.pinned):hover .peek i, .mission:not(.pinned):hover .peek i { animation: none; }
+  .hero-socials a:hover i, .hero-socials a:focus-visible i { transform: none; }
+}

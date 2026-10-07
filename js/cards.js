@@ -22,20 +22,27 @@
      way, because :focus-within opens the card the moment focus lands
      inside it. */
   const peeks = [...document.querySelectorAll('.peek')];
+  /* The button names what it opens ("Tech stack", "Data flow") rather than
+     a generic "Details", so the reader knows what is behind it. */
+  function peekName(btn) {
+    const lbl = btn._card.querySelector('.reward-label');
+    return btn.dataset.label || (lbl && lbl.textContent.trim()) || 'Details';
+  }
   function peekLabel(btn) {
     const card = btn._card;
     const pinned = card.classList.contains('pinned');
+    const name = peekName(btn);
     const txt = btn.querySelector('span');
     const icon = btn.querySelector('i');
-    if (txt) txt.textContent = pinned ? 'Pinned' : 'Details';
+    if (txt) txt.textContent = pinned ? name + ' · pinned' : name;
     if (icon) icon.className = pinned ? 'fas fa-thumbtack' : 'fas fa-chevron-down';
     btn.setAttribute('aria-pressed', pinned ? 'true' : 'false');
     /* The accessible name has to start with the visible label, or
        speech-input users saying what they can read on the button won't
        hit it (WCAG 2.5.3). */
     btn.setAttribute('aria-label', pinned
-      ? 'Pinned — click to release details'
-      : 'Details — click to keep open');
+      ? name + ' pinned open — click to release'
+      : name + ' — click to keep open');
   }
   peeks.forEach((btn, i) => {
     const card = btn.closest('.quest-card, .mission');

@@ -78,7 +78,7 @@
   };
 
   /* Geometry, in viewBox units (the SVG scales to its container). */
-  var NODE_W = 284, NODE_H = 46, GAP = 26, LEFT = 14, WIRE_X = 34;
+  var NODE_W = 284, NODE_H = 36, GAP = 22, LEFT = 14, WIRE_X = 34;
 
   function esc(s) {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -95,7 +95,7 @@
     var height = ys[ys.length - 1] + NODE_H + 12;
     var wires = [], packets = [], out = [];
 
-    spec.edges.forEach(function (e, n) {
+    spec.edges.forEach(function (e) {
       var a = e[0], b = e[1], dash = e[2] === 'dash';
       var ya = ys[a - 1], yb = ys[b - 1], d;
       if (Math.abs(a - b) === 1) {
@@ -107,8 +107,7 @@
       }
       wires.push('<path class="' + (dash ? 'fe dash' : 'fe') + '" data-step="' + b + '" d="' + d + '"/>');
       if (!dash) {
-        packets.push('<path class="ff" data-step="' + b + '" d="' + d + '" pathLength="100" style="animation-delay:' +
-                     (n * 0.5).toFixed(1) + 's"/>');
+        packets.push('<path class="ff" data-step="' + b + '" d="' + d + '" pathLength="100"/>');
       }
     });
     out = out.concat(wires, packets);
@@ -120,45 +119,115 @@
 
     spec.nodes.forEach(function (node, i) {
       var y = ys[i], num = (i < 9 ? '0' : '') + (i + 1);
+      /* Nodes carry only the value; the kicker moves to the readout,
+         shown when the reader rests on the node. */
       out.push('<g class="fn" data-step="' + (i + 1) + '">' +
         '<rect x="' + LEFT + '" y="' + y + '" width="' + NODE_W + '" height="' + NODE_H + '"/>' +
         '<rect class="no" x="' + LEFT + '" y="' + y + '" width="26" height="' + NODE_H + '"/>' +
         '<text class="nn" x="' + (LEFT + 13) + '" y="' + r0(y + NODE_H / 2 + 3.5) + '" text-anchor="middle">' + num + '</text>' +
-        '<text class="k" x="' + (LEFT + 38) + '" y="' + (y + 18) + '">' + esc(node[0]) + '</text>' +
-        '<text class="v" x="' + (LEFT + 38) + '" y="' + (y + 36) + '">' + esc(node[1]) + '</text></g>');
+        '<text class="v" x="' + (LEFT + 38) + '" y="' + r0(y + NODE_H / 2 + 4.5) + '">' + esc(node[1]) + '</text></g>');
     });
 
     return '<svg class="vf" viewBox="0 0 340 ' + height + '" role="img" aria-label="' + esc(spec.label) +
            '" focusable="false">' + out.join('') + '</svg>';
   }
 
+  /* The readout replaces the paragraph list: one word per step, and a
+     single line of detail only for the step being looked at. Words come
+     from the role's numbered steps when it has them, else the node. */
+  function readout(el, spec) {
+    var qflow = el.closest('.qflow');
+    var steps = qflow ? [].slice.call(qflow.querySelectorAll('.qf-step')) : [];
+    if (steps.length) qflow.classList.add('has-readout');
+    var chips = spec.nodes.map(function (node, i) {
+      var li = steps[i], b = li && li.querySelector('b');
+      var word = b ? b.textContent.trim() : node[1];
+      var detail = li ? li.textContent.replace(/^\s*\d+/, '').replace(word, '').replace(/\s+/g, ' ').trim() : '';
+      return '<span class="qf-chip" data-step="' + (i + 1) + '" data-k="' + esc(node[0]) + '" data-d="' +
+             esc(detail || node[1]) + '">' + esc(word) + '</span>';
+    });
+    /* Without step words the chips would only repeat the node labels, so
+       they stay in the DOM (trace() reads the detail from them) but hidden. */
+    return '<div class="qf-read" aria-hidden="true"><div class="qf-chips' + (steps.length ? '' : ' bare') + '">' +
+           chips.join('') + '</div><p class="qf-detail"><span class="hint">' + HINT + '</span></p></div>';
+  }
+  var HINT = Site.finePointer ? 'Hover a step' : 'Tap a step';
+
   document.querySelectorAll('[data-flow]').forEach(function (el) {
     var spec = FLOWS[el.getAttribute('data-flow')];
-    if (spec) el.innerHTML = render(spec);
+    if (spec) el.innerHTML = render(spec) + readout(el, spec);
   });
+
+  /* ── Pulse ────────────────────────────────────────
+     A packet runs the chain in order; each node lights as it arrives and
+     stays lit until the run completes, then the chain clears and starts
+     again. One timer drives every diagram on screen; a diagram being
+     looked at is held, and when the cursor leaves it restarts from 01. */
+  var TICK = 850;
+  function stepOf(wrap) { return wrap._step || 0; }
+  function paint(wrap, k) {
+    wrap._step = k;
+    var n = wrap.querySelectorAll('.fn').length;
+    [].forEach.call(wrap.querySelectorAll('.vf [data-step], .qf-chip'), function (el) {
+      var s = +el.getAttribute('data-step');
+      el.classList.toggle('hot', s === k);
+      el.classList.toggle('seen', k > 0 && s < k);
+    });
+    wrap.classList.toggle('done', k > n);
+  }
+  function inView(el) {
+    if (!el.offsetParent) return false;
+    var r = el.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight;
+  }
+  if (!Site.reduceMotion) {
+    setInterval(function () {
+      document.querySelectorAll('.vf-wrap').forEach(function (wrap) {
+        if (wrap._hold || !inView(wrap)) return;
+        var n = wrap.querySelectorAll('.fn').length;
+        var k = stepOf(wrap) + 1;
+        paint(wrap, k > n + 2 ? 0 : k);          /* two beats fully lit, then clear */
+      });
+    }, TICK);
+  }
 
   /* ── Step tracing ─────────────────────────────────
      Delegated, because the pane's copy of a flow is rebuilt on every
-     selection. Resting on a step (or a node) lights that node and the
-     wire into it; everything else recedes. */
-  function trace(flow, n) {
-    var svg = flow.querySelector('.vf'); if (!svg) return;
+     selection. Resting on a node or a step word lights that node and
+     the wire into it, and prints its one line of detail. */
+  function trace(wrap, n) {
+    var svg = wrap.querySelector('.vf'); if (!svg) return;
     svg.classList.toggle('tracing', n !== null);
-    [].forEach.call(svg.querySelectorAll('[data-step]'), function (el) {
+    [].forEach.call(wrap.querySelectorAll('.vf [data-step], .qf-chip'), function (el) {
       el.classList.toggle('on', n !== null && el.getAttribute('data-step') === n);
     });
-    [].forEach.call(flow.querySelectorAll('.qf-step'), function (li) {
-      li.classList.toggle('on', n !== null && li.getAttribute('data-step') === n);
-    });
+    var out = wrap.querySelector('.qf-detail'); if (!out) return;
+    var chip = n !== null && wrap.querySelector('.qf-chip[data-step="' + n + '"]');
+    out.innerHTML = chip
+      ? '<span class="k">' + esc(chip.getAttribute('data-k')) + '</span>' + esc(chip.getAttribute('data-d'))
+      : '<span class="hint">' + HINT + '</span>';
   }
-  var SEL = '.qflow .qf-step, .qflow .fn';
+  var SEL = '.vf-wrap .fn, .vf-wrap .qf-chip';
   document.addEventListener('mouseover', function (e) {
     var hit = e.target.closest && e.target.closest(SEL);
-    if (hit) trace(hit.closest('.qflow'), hit.getAttribute('data-step'));
+    if (!hit) return;
+    var wrap = hit.closest('.vf-wrap');
+    wrap._hold = true;
+    paint(wrap, 0);
+    trace(wrap, hit.getAttribute('data-step'));
   });
+  /* Leaving the diagram altogether puts it back where it began: nothing
+     traced, the pulse starting over from the first node. */
   document.addEventListener('mouseout', function (e) {
-    var hit = e.target.closest && e.target.closest(SEL);
-    if (!hit || (e.relatedTarget && hit.contains(e.relatedTarget))) return;
-    trace(hit.closest('.qflow'), null);
+    var wrap = e.target.closest && e.target.closest('.vf-wrap');
+    if (!wrap) return;
+    var to = e.relatedTarget;
+    if (to && wrap.contains(to)) {
+      if (!to.closest(SEL)) trace(wrap, null);
+      return;
+    }
+    trace(wrap, null);
+    wrap._hold = false;
+    paint(wrap, 0);
   });
 })();
