@@ -27,13 +27,16 @@ css/                  Home page styles, loaded in this order:
   experience.css        timeline, role list, data-flow side pane
   flows.css             data-flow diagram styling
   projects.css          project grid and cards
-  skills-contact.css    skills table and contact block
+  skills-contact.css    contact block (the skills-table rules are unused since
+                        that section was removed)
+  polish.css            refinement layer: readability, hover/focus states,
+                        motion timing (remove its <link> to roll it back)
   print.css             print / save-as-PDF layout (always last)
 js/                   Home page behaviour, loaded in this order:
   site.js               shared flags (window.Site), nav, scroll, reveal, clock
   cursor.js             cursor reticle
   cards.js              card hover layers, "Details" pins, expand-all
-  skills.js             skill filter + evidence table (exposes Site.skills)
+  skills.js             tag skill filter (exposes Site.skills)
   flows.js              data-flow diagram DATA and renderer
   experience.js         rail, side pane, timeline popover (needs Site.skills)
   hero-field.js         hero dot-field canvas
@@ -55,7 +58,7 @@ straight from disk. Order matters only in that `site.js` comes first and
 
 **Add or change a role** — in `index.html`, each role is an
 `<article class="quest" id="role-…" data-short="…">` inside `#quest-list`.
-Copy an existing one. `data-short` is the short name the skills table shows.
+Copy an existing one. `data-short` is the role's short name.
 Then add a matching row to the timeline (`figure.tline`): `--s` and `--e` are
 the bar's start and end as a percentage of Mar 2024 – Aug 2026 (30 months,
 so one month ≈ 3.333%). If the axis needs to grow, change the year markers
@@ -63,18 +66,14 @@ so one month ≈ 3.333%). If the axis needs to grow, change the year markers
 
 **Add or change a project** — `index.html`, `<article class="mission" id="proj-…" data-short="…">`
 inside `.missions-grid`. Add `feature` to the class to make a card full width.
+The home page currently shows only Summa; every project is listed on
+`project.html`.
 
 **Edit a data-flow diagram** — never edit SVG. Diagrams are data in
 `js/flows.js` (`FLOWS`), drawn into any element with `data-flow="<key>"`.
 Each node is `[label, value]`; edges join nodes by their 1-based position
 (`[from, to]`, or `[from, to, 'dash']` for a dashed check/loop). The numbered
 "How the data flows" steps beside a diagram are plain HTML next to it.
-
-**Add a skill** — add an `<li class="sk" data-keys="…">` to a group in the
-skills section. `data-keys` is the tag text it should match on the role and
-project cards (several alternatives separated by `|`). The "where used" line
-and the pips are computed from those tags, so a skill can't claim experience
-the page doesn't show — add the tag to the right card first.
 
 **Change a colour, font or timing** — `css/tokens.css` only. The page has
 exactly one accent colour, `--sig`; it means *live, measured or actionable*.

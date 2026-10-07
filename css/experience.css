@@ -420,6 +420,7 @@ html.js .reveal.visible .objectives li:nth-child(6) { animation-delay: 0.72s; }
 .qp-body.swap-in .vf .fn[data-step="4"], .qp-body.swap-in .qf-step:nth-child(4) { animation-delay: 0.28s; }
 .qp-body.swap-in .vf .fn[data-step="5"], .qp-body.swap-in .qf-step:nth-child(5) { animation-delay: 0.34s; }
 .qp-body.swap-in .vf .fn[data-step="6"], .qp-body.swap-in .qf-step:nth-child(6) { animation-delay: 0.40s; }
+.qp-body.swap-in .qf-read { animation: riseIn 0.5s var(--ease) 0.45s backwards; }
 .qp-body.swap-in .vf .fe, .qp-body.swap-in .vf .vb { animation: fadeIn 0.6s var(--ease) 0.2s backwards; }
 
 /* ── Keyframes ─────────────────────────────────── */

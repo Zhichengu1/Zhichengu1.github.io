@@ -4,9 +4,12 @@
    (class .vf), and the numbered step list beside it (.qf-steps). The
    diagram *content* lives in js/flows.js — never edit SVG by hand.
 
-   SVG parts: .fn node (rect, .no number tab, .nn number, .k kicker,
-   .v value) · .fe wire (.dash for checks / loops) · .ff moving packet
-   on a wire · .vb badge text beside a wire. */
+   SVG parts: .fn node (rect, .no number tab, .nn number, .v value) · .fe wire (.dash for checks / loops) · .ff moving packet
+   on a wire · .vb badge text beside a wire. Below the SVG, .qf-read:
+   one word per step (.qf-chip) and a single line of detail (.qf-detail).
+
+   States, set by js/flows.js: .hot = the pulse is here, .seen = the
+   pulse has passed, .on = the reader is resting on it. */
 
 .qflow { margin: 0.2rem 0 1.25rem; }
 .vf-wrap { max-width: 400px; }
@@ -21,9 +24,11 @@
 /* A short dash travelling the wire's whole length (pathLength = 100). */
 .ff {
   fill: none; stroke: var(--sig); stroke-width: 1.8; stroke-linecap: square;
-  stroke-dasharray: 12 88; animation: schFlow 2.6s linear infinite;
+  stroke-dasharray: 12 88; stroke-dashoffset: 100; opacity: 0;
   transition: opacity 0.25s;
 }
+.ff.hot, .ff.on { opacity: 1; animation: schFlow 0.85s var(--ease) forwards; }
+.ff.on { animation: schFlow 1.2s linear infinite; }
 @keyframes schFlow { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 .fn { cursor: default; transition: opacity 0.25s; }
 .fn rect { fill: #0f1216; stroke: rgba(232, 236, 241, 0.2); stroke-width: 1; transition: stroke 0.25s, fill 0.25s; }
@@ -31,7 +36,6 @@
 .fn:hover rect:not(.no) { stroke: #49d6e8; }
 .fn text { font-family: var(--mono); }
 .fn .nn { font-size: 10px; font-weight: 700; fill: #49d6e8; }
-.fn .k { font-size: 9px; letter-spacing: 0.12em; fill: #98a2b0; }
 .fn .v { font-size: 13px; fill: #e8ecf1; }
 .vb { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.04em; fill: #8be7f2; }
 
@@ -46,7 +50,62 @@
 .fn.on rect.no { fill: #49d6e8; }
 .fn.on .nn { fill: #08090b; }
 .fe.on { stroke: rgba(73, 214, 232, 0.6); }
-.ff.on { animation-duration: 1.2s; }
+
+/* ── Pulse ─────────────────────────────────────── */
+/* The node the packet reaches flares; passed nodes keep a low glow, so
+   the chain fills up like a progress bar before it clears. */
+.fn rect, .fn .nn, .fe { transition: stroke 0.35s, fill 0.35s, opacity 0.25s; }
+.fn.seen rect:not(.no) { stroke: rgba(73, 214, 232, 0.4); }
+.fn.seen rect.no { fill: rgba(73, 214, 232, 0.28); }
+.fe.seen, .fe.hot { stroke: rgba(73, 214, 232, 0.5); }
+.fn.hot rect:not(.no) { stroke: #49d6e8; fill: #11202a; }
+.fn.hot rect.no { fill: #49d6e8; }
+.fn.hot .nn { fill: #08090b; }
+.fn.hot { animation: nodeFlare 0.85s var(--ease); transform-box: fill-box; transform-origin: center; }
+@keyframes nodeFlare { 0% { transform: scale(1); } 30% { transform: scale(1.035); } 100% { transform: scale(1); } }
+/* Run complete: the whole chain holds lit for a beat. */
+.done .fn rect:not(.no) { stroke: rgba(73, 214, 232, 0.7); }
+.done .fn rect.no { fill: rgba(73, 214, 232, 0.45); }
+.done .fe { stroke: rgba(73, 214, 232, 0.6); }
+.vf.tracing .fn, .vf.tracing .fe { animation: none; }
+
+/* ── Readout ───────────────────────────────────── */
+.qf-read { margin-top: 0.9rem; }
+.qf-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0; }
+.qf-chip {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); padding: 0.2rem 0.45rem; border: 1px solid transparent; cursor: default;
+  transition: color 0.3s, border-color 0.3s, background 0.3s;
+}
+/* The separator trails each word, so a wrapped row ends on "›" instead
+   of starting the next line with one. */
+.qf-chip { position: relative; margin-right: 0.85rem; }
+.qf-chip:last-child { margin-right: 0; }
+.qf-chip:not(:last-child)::after {
+  content: '›'; position: absolute; right: -0.72rem; top: 50%; transform: translateY(-50%);
+  color: var(--line-2); pointer-events: none;
+}
+.qf-chips.bare { display: none; }
+.qf-chip.seen { color: var(--text); }
+.qf-chip.hot { color: var(--sig); }
+.qf-chip.on { color: #08090b; background: var(--sig); border-color: var(--sig); }
+.qf-detail {
+  min-height: 2.9em; margin-top: 0.55rem; padding-left: 0.6rem;
+  border-left: 2px solid var(--sig);
+  font-size: 0.86rem; line-height: 1.45; color: var(--text);
+}
+.qf-detail .k {
+  display: block; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em; color: var(--sig);
+}
+.qf-detail .hint { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+/* The readout stands in for the numbered list; the list stays for
+   screen readers (the readout is aria-hidden). */
+.has-readout .qf-label { display: none; }
+.has-readout .qf-steps {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
 
 /* ── Step list ─────────────────────────────────── */
 .qf-label { margin-top: 1rem; }
@@ -62,5 +121,6 @@
 .qf-step:hover, .qf-step.on { background: var(--sig-soft); box-shadow: inset 2px 0 0 var(--sig); transition-duration: var(--t-in); }
 
 @media (prefers-reduced-motion: reduce) {
-  .ff { animation: none; opacity: 0; }
+  .ff, .ff.on { animation: none; opacity: 0; }
+  .fn.hot { animation: none; }
 }
