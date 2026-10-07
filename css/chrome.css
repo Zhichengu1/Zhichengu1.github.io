@@ -219,7 +219,7 @@ body.ret-on .reticle { opacity: 1; }
 @media (max-width: 640px) { .skillbar { bottom: 5rem; } }
 
 /* ── Footer ────────────────────────────────────── */
-.footer { position: relative; z-index: 1; border-top: 1px solid var(--line); background: var(--bg-2); }
+.footer { position: relative; z-index: 1; border-top: 1px solid var(--line); }
 .footer-inner {
   display: flex; align-items: center; justify-content: space-between;
   gap: 1.2rem; flex-wrap: wrap;

@@ -47,7 +47,7 @@ html.js .sk-group.reveal.visible .sk:nth-child(5) { animation-delay: 0.20s; }
   position: relative; overflow: hidden;
   display: grid; grid-template-columns: minmax(0, 1fr) auto;
   gap: 1.6rem 2.5rem; align-items: center;
-  margin-top: 2.8rem; padding: 2.4rem 2.5rem;
+  padding: 2.4rem 2.5rem;
   background-image: radial-gradient(ellipse 60% 120% at 85% 50%, rgba(73, 214, 232, 0.07), transparent 70%);
 }
 .contact-block > *:not(.rings) { position: relative; z-index: 1; }

@@ -65,21 +65,37 @@
     function build(i) {
       var card = rows[i].querySelector('.quest-card');
       var frag = document.createDocumentFragment();
-      /* The pane is the data-flow view only. The role's description is
-         already on the row and in the timeline popover, so repeating it
-         here put the same paragraph on screen three times. Roles with no
-         system to draw get an honest empty state plus their focus areas,
-         which are otherwise clipped out of the compact rows. */
+      /* The pane is the selected role's detail: what was done, how its
+         data flows, and the stack. The headline result stays on the row. */
       var h = document.createElement('h3'); h.className = 'qp-title';
-      var fl = card.querySelector('.qflow');
-      h.textContent = (fl && fl.dataset.title) || ('Data flow · ' + (rows[i].dataset.short || ''));
+      var t = card.querySelector('.quest-title'), g = card.querySelector('.quest-giver');
+      h.textContent = t ? t.textContent.trim() : (rows[i].dataset.short || '');
       frag.appendChild(h);
+      if (g) {
+        var org = document.createElement('p'); org.className = 'qp-org';
+        org.textContent = g.textContent.replace(/\s+/g, ' ').trim();
+        frag.appendChild(org);
+      }
       var flow = card.querySelector('.qflow');
       if (flow) {
+        /* The compact row clips the bullets, so the pane carries them —
+           otherwise the role's actual work is only reachable by hovering
+           the timeline. Then the diagram, then the stack. */
+        ['.obj-label', '.objectives'].forEach(function (sel) {
+          var el = card.querySelector(sel);
+          if (el) frag.appendChild(el.cloneNode(true));
+        });
         var f = flow.cloneNode(true);
         var lbl = f.querySelector('.obj-label:not(.qf-label)');
-        if (lbl) lbl.remove();
+        if (lbl) {
+          lbl.className = 'obj-label qp-flow-label';
+          if (flow.dataset.title) lbl.textContent = flow.dataset.title;
+        }
         frag.appendChild(f);
+        ['.reward-label', '.rewards'].forEach(function (sel) {
+          var el = card.querySelector(sel);
+          if (el) frag.appendChild(el.cloneNode(true));
+        });
       } else {
         var type = (rows[i].querySelector('.quest-type') || {}).textContent || 'This role';
         var note = document.createElement('p'); note.className = 'qp-none';
@@ -175,7 +191,7 @@
     function empty() {
       idxEl.textContent = '— / ' + (rows.length < 10 ? '0' : '') + rows.length;
       dateEl.textContent = '';
-      body.innerHTML = '<p class="qp-empty"><span class="arrow" aria-hidden="true">←</span>Select a role to see how its data flows.</p>';
+      body.innerHTML = '<p class="qp-empty"><span class="arrow" aria-hidden="true">←</span>Select a role to see what I did and how its data flows.</p>';
       pane.classList.add('is-empty');
     }
 
@@ -186,7 +202,7 @@
       var card = q.querySelector('.quest-card');
       var cta = document.createElement('span');
       cta.className = 'qc-cta'; cta.setAttribute('aria-hidden', 'true');
-      cta.innerHTML = '<b class="v">Viewing</b><b class="h">' + (card.querySelector('.qflow[data-title]') ? 'View flow' : 'View data flow') + ' →</b>';
+      cta.innerHTML = '<b class="v">Viewing</b><b class="h">View details →</b>';
       card.appendChild(cta);
       card.addEventListener('click', function (e) {
         if (!inMode() || e.target.closest('a, button, .tag')) return;
