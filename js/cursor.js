@@ -35,7 +35,7 @@
     document.addEventListener('mouseleave', () => document.body.classList.remove('ret-on'));
     document.addEventListener('mouseover', e => {
       reticle.classList.toggle('lock',
-        !!e.target.closest('a, button, .imp, .tl-row, .sk[role=button], .qf-step, .fn, .brief-row, .tag, .quest-card, .mission, .sidequest'));
+        !!e.target.closest('a, button, .imp, .tl-row, .sk[role=button], .qf-step, .qf-chip, .fn, .brief-row, .tag, .quest-card, .mission, .sidequest'));
     }, { passive: true });
   }
 })();

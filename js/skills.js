@@ -1,4 +1,4 @@
-/* Skill filter + the evidence-linked skills table.
+/* Skill filter: click a tag to highlight it across the page.
 
    Public API (Site.skills): norm(el), apply(key), clear(), active(),
    onChange(fn). The experience pane uses it to keep its cloned tags in
@@ -15,7 +15,7 @@
      file they are still just labels, and nothing advertises an
      affordance that would not work. */
   var tags = [].slice.call(document.querySelectorAll('.tag'));
-  /* Match on a folded key, not the literal label: the skills table says
+  /* Match on a folded key, not the literal label: a label may say
      "REST APIs" and "System design" while the tags say "REST API" and
      "System Design", and a reviewer clicking one plainly means both.
      Punctuation and spacing go, a trailing plural goes, and + / # stay
@@ -92,59 +92,6 @@
     var typing = el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
     if (e.key === 'Escape' && activeSkill && !typing) clearSkill();
   });
-
-  /* ══ Skills with receipts ═════════════════════════
-     The evidence is computed from the page, not typed in: for each
-     skill, find every role or project card carrying a matching tag and
-     list it. Add a tag to a card and the table updates itself; nothing
-     here can claim a skill the rest of the page doesn't back up. */
-  (function () {
-    var items = [].slice.call(document.querySelectorAll('.sk[data-keys]'));
-    if (!items.length) return;
-    var foldText = function (s) {
-      return s.trim().toLowerCase().replace(/[^a-z0-9+#]+/g, '').replace(/s$/, '');
-    };
-    var cardTags = [].slice.call(document.querySelectorAll('.quest-card .tag, .mission .tag, .sidequest .tag'));
-    items.forEach(function (li) {
-      var keys = li.dataset.keys.split('|').map(foldText);
-      var hosts = [], names = [];
-      cardTags.forEach(function (t) {
-        if (keys.indexOf(norm(t)) === -1) return;
-        var host = t.closest('[data-short]');
-        if (!host || hosts.indexOf(host) !== -1) return;
-        hosts.push(host); names.push(host.dataset.short);
-      });
-      li._keys = keys;
-      var label = li.querySelector('.sk-name').textContent;
-      li.querySelector('.sk-where').textContent = names.length ? names.join(' · ') : '';
-      var pips = li.querySelector('.sk-pips');
-      for (var i = 0; i < 5; i++) {
-        var d = document.createElement('i');
-        if (i < names.length) d.className = 'on';
-        pips.appendChild(d);
-      }
-      if (!names.length) return;
-      /* Filter by whichever key actually occurs on a card. */
-      var key = keys.filter(function (k) {
-        return cardTags.some(function (t) { return norm(t) === k; });
-      })[0];
-      li.setAttribute('role', 'button');
-      li.tabIndex = 0;
-      li.setAttribute('aria-pressed', 'false');
-      li.setAttribute('aria-label', label + ' — used at ' + names.join(', ') + '. Highlight on page');
-      li.addEventListener('click', function () { applySkill(key); });
-      li.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); applySkill(key); }
-      });
-    });
-    onChange(function () {
-      items.forEach(function (li) {
-        var on = activeSkill !== null && li._keys.indexOf(activeSkill) !== -1;
-        li.classList.toggle('skill-on', on);
-        if (li.hasAttribute('role')) li.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-    });
-  })();
 
   Site.skills = {
     norm: norm,

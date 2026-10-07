@@ -128,6 +128,24 @@
     if (navLinks.classList.contains('open') && !e.target.closest('.nav-inner')) setMenu(false);
   });
 
+  /* Section mood: whichever section crosses the middle of the screen
+     lights its own soft glow in the fixed background, and the previous
+     one fades out (css/polish.css). Only opacity changes, once per
+     section, so it costs nothing while scrolling. */
+  (function () {
+    const zones = [...document.querySelectorAll('.bg-zone')];
+    if (!zones.length || !('IntersectionObserver' in window)) return;
+    const show = id => zones.forEach(z => z.classList.toggle('on', z.dataset.zone === id));
+    const zoneObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) show(e.target.id); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    zones.forEach(z => {
+      const el = document.getElementById(z.dataset.zone);
+      if (el) zoneObs.observe(el);
+    });
+    show('top');
+  })();
+
   /* Scrollspy */
   const spyTargets = [...navLinks.querySelectorAll('a[href^="#"]')]
     .map(a => ({ link: a, el: document.querySelector(a.getAttribute('href')) }))
